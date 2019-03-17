@@ -21,7 +21,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="User Only" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionUserOnly" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="User Only" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
