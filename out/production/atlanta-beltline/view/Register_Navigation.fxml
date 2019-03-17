@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="399.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StaffFunc">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="399.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterNavigation">
    <top>
-      <Label text="Staff Functionality" BorderPane.alignment="CENTER">
+      <Label text="Register Navigation" BorderPane.alignment="CENTER">
          <font>
-            <Font name="Arial" size="45.0" />
+            <Font name="Calibri Bold" size="45.0" />
          </font>
          <BorderPane.margin>
             <Insets bottom="10.0" />
@@ -21,7 +21,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Manage Profile" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionUserOnly" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="User Only" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
@@ -29,7 +29,7 @@
                   <Insets left="80.0" right="80.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="View Schedule" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Visitor Only" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
@@ -37,7 +37,7 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Take Transit" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Employee Only" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
@@ -45,9 +45,9 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="View Transit History" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Employee-Visitor" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font name="Arial" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets left="80.0" right="80.0" top="10.0" />
