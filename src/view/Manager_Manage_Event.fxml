@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="532.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageTransit">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="532.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerManageEvent">
     <top>
         <Label contentDisplay="BOTTOM" text="Manage Event" BorderPane.alignment="CENTER">
             <font>
@@ -375,9 +375,9 @@
                                 <Insets left="15.0" right="6.0" />
                             </GridPane.margin>
                         </Label>
-                  <Label prefHeight="66.0" prefWidth="90.0" text="Total Revenue($)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="8">
+                  <Label prefHeight="49.0" prefWidth="65.0" text="Total Revenue($)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="8">
                      <font>
-                        <Font size="11.0" />
+                        <Font size="10.0" />
                      </font></Label>
                   <Label contentDisplay="BOTTOM" prefHeight="15.0" prefWidth="96.0" text="Name" textAlignment="CENTER">
                      <font>
