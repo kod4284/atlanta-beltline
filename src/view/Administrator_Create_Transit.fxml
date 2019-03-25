@@ -17,7 +17,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="476.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminCreateTransit">
     <top>
-        <Label contentDisplay="BOTTOM" text="Edit Transit" BorderPane.alignment="CENTER">
+        <Label contentDisplay="BOTTOM" text="Create Transit" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Calibri Bold" size="41.0" />
             </font>
