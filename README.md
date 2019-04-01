@@ -9,8 +9,8 @@ Using latest version v8.0 is recommended.
 
 Also, you should have JDK.
 If you currently use JDK11 or more, you should download JavaFX library additionally.
-The download links are provided below.
-[JDK11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
+The download links are provided here:
+[JDK11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html), 
 [JavaFX](https://gluonhq.com/products/javafx/)
 
 Additional information
