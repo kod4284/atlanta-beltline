@@ -29,7 +29,7 @@ Information Flow Diagram(IFD)
 
 EER Diagram
 -----------
-![EERD](pictures/EERD.png)
+![EERD](pictures/EER.png)
 
 Additional information
 ----------------------
