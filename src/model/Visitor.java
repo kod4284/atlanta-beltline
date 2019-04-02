@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Visitor extends User {
-    
+
     private int myEventVisit;
     private int mySiteVisit;
 

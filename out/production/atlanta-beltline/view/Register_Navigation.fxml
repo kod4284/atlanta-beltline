@@ -29,7 +29,7 @@
                   <Insets left="80.0" right="80.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Visitor Only" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionVisitorOnly" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Visitor Only" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
@@ -37,7 +37,7 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Employee Only" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionEmployeeOnly" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Employee Only" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
@@ -45,15 +45,15 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Employee-Visitor" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionEmployeeVisitorOnly" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Employee-Visitor" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Arial" size="24.0" />
+                  <Font name="Arial" size="23.0" />
                </font>
                <VBox.margin>
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Back" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionBack" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Back" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>

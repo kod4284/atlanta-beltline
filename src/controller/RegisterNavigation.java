@@ -33,7 +33,61 @@ public class RegisterNavigation implements Initializable {
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Cannot load Register_User_Only.xml");
+            System.out.println("Cannot load Register_User_Only.fxml");
+        }
+    }
+
+    public void btnActionVisitorOnly(Event event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Register_Visitor_Only.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Register_Visitor_Only.fxml");
+        }
+    }
+
+    public void btnActionEmployeeOnly(Event event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Register_Employee_Only.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Register_Employee_Only.fxml");
+        }
+    }
+
+    public void btnActionEmployeeVisitorOnly(Event event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Register_Employee_Visitor" +
+                            ".fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Register_Employee_Visitor" +
+                    ".fxml");
+        }
+    }
+    public void btnActionBack(Event event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Login.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Register_Employee_Visitor_" +
+                    "Only.xml");
         }
     }
 }
