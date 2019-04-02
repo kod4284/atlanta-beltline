@@ -27,6 +27,10 @@ Information Flow Diagram(IFD)
 -----------------------------
 ![IFD](pictures/IFD.png)
 
+EER Diagram
+-----------
+![EERD](pictures/EERD.png)
+
 Additional information
 ----------------------
 To setting environment in IntelliJ: [Setting](https://stackoverflow.com/questions/52682195/how-to-get-javafx-and-java-11-working-in-intellij-idea)
