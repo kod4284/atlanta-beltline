@@ -1,4 +1,14 @@
 package model;
 
-public class Admin {
+import java.util.ArrayList;
+
+public class Admin extends Employee {
+
+    public Admin(String firstName, String lastName, String password,
+                 ArrayList<String> email, String status, int emailCount,
+                 String address, String city, String state, int zipcode,
+                 int employee, String phone) {
+        super(firstName, lastName, password, email, status, emailCount, address,
+                city, state, zipcode, employee, phone);
+    }
 }

@@ -1,15 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+
 public class User {
     private String firstName;
     private String lastName;
     private String password;
-    private String email;
+    private ArrayList<String> email;
     private String status;
     private int emailCount;
 
     public User(String firstName, String lastName, String password,
-                String email, String status, int emailCount) {
+                ArrayList<String> email, String status, int emailCount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -42,12 +44,15 @@ public class User {
         this.password = password;
     }
 
-    public String getEmail() {
+    public ArrayList<String> getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void addEmail(String email) {
+        this.email.add(email);
+    }
+    public boolean removeEmail(String email) {
+        return this.email.remove(email);
     }
 
     public String getStatus() {
