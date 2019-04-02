@@ -23,6 +23,9 @@ Run
 ```shell
 java --module-path javafx-sdk-11.0.2/lib --add-modules=javafx.controls main.java
 ```
+Information Flow Diagram(IFD)
+-----------------------------
+![IFD](pictures/IFD.png)
 
 Additional information
 ----------------------
