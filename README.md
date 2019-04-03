@@ -92,4 +92,4 @@ To setting environment in IntelliJ: [Setting](https://stackoverflow.com/question
 
 Authors
 -------
-Team Eleven (Daewoong Ko, Woongrae Cho, Hee Jun Park, Jaemo Koo, Heeseon Kim)
+ Team Eleven (Daewoong Ko, Woongrae Cho, Hee Jun Park, Jaemo Koo, Heeseon Kim)
