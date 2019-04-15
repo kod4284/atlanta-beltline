@@ -16,9 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="440.0" prefWidth="482.0"
-            style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerManageStaff">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="482.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerManageStaff">
     <top>
         <Label contentDisplay="BOTTOM" text="Manage Staff" BorderPane.alignment="CENTER">
             <font>
@@ -82,58 +80,14 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </GridPane>
-            <GridPane prefHeight="36.0" prefWidth="476.0">
+            <GridPane prefHeight="0.0" prefWidth="476.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="86.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="8.0" prefWidth="11.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="0.0" prefWidth="67.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="0.0" prefWidth="76.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="3.0" prefWidth="40.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="90.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="107.0" />
                </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label contentDisplay="BOTTOM" text="Price">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField GridPane.columnIndex="2">
-                     <GridPane.margin>
-                        <Insets right="30.0" />
-                     </GridPane.margin></TextField>
-                  <Label contentDisplay="BOTTOM" text="Capacity" GridPane.columnIndex="3">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets left="20.0" right="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="\$" GridPane.columnIndex="1" />
-                  <Label prefHeight="74.0" prefWidth="127.0" text="Minimum Staff Required" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="5">
-                     <font>
-                        <Font size="11.0" />
-                     </font></Label>
-                  <TextField GridPane.columnIndex="4" />
-                  <TextField GridPane.columnIndex="6">
-                     <GridPane.margin>
-                        <Insets right="20.0" />
-                     </GridPane.margin>
-                  </TextField>
-               </children>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -147,9 +101,10 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label contentDisplay="BOTTOM" text="Start Date">
+                  <Label contentDisplay="BOTTOM" text="Start Date" GridPane.rowIndex="1">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>
@@ -160,7 +115,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label contentDisplay="BOTTOM" text="End Date" GridPane.columnIndex="2">
+                  <Label contentDisplay="BOTTOM" text="End Date" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>
@@ -171,11 +126,12 @@
                         <Insets left="20.0" right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="3">
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin></TextField>
+                  <TextField />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
