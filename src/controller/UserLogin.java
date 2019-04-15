@@ -14,10 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Session;
-
+import model.DB;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
+
+import static model.DB.*;
 
 public class UserLogin implements Initializable {
 
@@ -28,14 +31,39 @@ public class UserLogin implements Initializable {
         Session.makeUserDummyData();
         System.out.println(Session.user.getEmail());
         System.out.println(Session.user.getPassword());
+
     }
 
     /**
      * This is a method to get an action from Login button
      * @param event Action from Login button
      */
-    public void btnActionLogin(ActionEvent event) {
+    public void btnActionLogin(ActionEvent event) throws Exception,
+            SQLException {
         //query
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = null;
+        try {
+            // db parameters
+
+
+            // create a connection to the database
+            conn = DriverManager.getConnection(DB.url, DB.user, DB.password);
+            // more processing here
+            // ...
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try{
+                if(conn != null) {
+                    System.out.println("success!");
+                    conn.close();
+                }
+
+            }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
         //Temp statement assuming User login
         Session.makeUserDummyData();
         if (Session.user.getEmail().contains(email_field.getText()) && Session
