@@ -15,9 +15,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Session;
 import model.DB;
+import model.User;
+import model.UserStatus;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static model.DB.*;
@@ -28,9 +33,6 @@ public class UserLogin implements Initializable {
     @FXML private PasswordField password_field;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Session.makeUserDummyData();
-        System.out.println(Session.user.getEmail());
-        System.out.println(Session.user.getPassword());
 
     }
 
@@ -38,69 +40,87 @@ public class UserLogin implements Initializable {
      * This is a method to get an action from Login button
      * @param event Action from Login button
      */
-    public void btnActionLogin(ActionEvent event) throws Exception,
-            SQLException {
+    public void btnActionLogin(ActionEvent event) throws Exception {
+        //List of Users
+        List<User> userInfos = new ArrayList<User>();
         //query
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = null;
+        // create a connection to the database
+        Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                .password);
         try {
             // db parameters
+            Statement st = conn.createStatement();
+            String sql = ("SELECT username, password, status, user_type FROM user;");
+            ResultSet rs = st.executeQuery(sql);
+            while (!rs.isLast()) {
+                rs.next();
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String status = rs.getString("status");
+                String userType = rs.getString("user_type");
+                userInfos.add(new User(username, password, status, userType));
+            }
+            User tempUser = getUser(userInfos, email_field.getText());
+            if (tempUser != null) {
+                if (!tempUser.getPassword().equals(password_field.getText())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Password input Warning");
+                    alert.setContentText("The password doesn't match, try it again!");
+                    alert.showAndWait();
+                    System.out.println(email_field.getText());
+                } else if (tempUser.getPassword().equals(password_field
+                        .getText()) && tempUser.getStatus().equals(UserStatus
+                        .DECLINED.toString())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Your Account is declined");
+                    alert.setContentText("Inquire this problem to admin!");
+                    alert.showAndWait();
+                    System.out.println(email_field.getText());
+                } else if (tempUser.getPassword().equals(password_field
+                        .getText()) && tempUser.getStatus().equals(UserStatus
+                        .PENDING.toString())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Your Account is Pending");
+                    alert.setContentText("Wait for the account approved!");
+                    alert.showAndWait();
+                    System.out.println(email_field.getText());
+                } else {
+                    try {
+                        // should add the function that works depending on
+                        // usertype.
+                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                .getWindow();
+                        Parent root = FXMLLoader.load(getClass()
+                                .getResource("../view/Register_Navigation.fxml"));
+                        primaryStage.setScene(new Scene(root));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("Cannot load User_Login.fxml");
+                    }
+                }
 
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Email input Warning");
+                alert.setContentText("The email doesn't exist, try it again!");
+                alert.showAndWait();
+                System.out.println(email_field.getText());
 
-            // create a connection to the database
-            conn = DriverManager.getConnection(DB.url, DB.user, DB.password);
-            // more processing here
-            // ...
+            }
+
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            try{
-                if(conn != null) {
-                    System.out.println("success!");
-                    conn.close();
-                }
-
-            }catch(SQLException ex){
-                System.out.println(ex.getMessage());
+            if(conn != null) {
+                System.out.println(userInfos);
+                System.out.println("Loading success!");
+                conn.close();
             }
-        }
-        //Temp statement assuming User login
-        Session.makeUserDummyData();
-        if (Session.user.getEmail().contains(email_field.getText()) && Session
-                .user.getPassword().equals(password_field.getText())) {
-            //if (user is User)
-
-
-            try {
-                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                        .getWindow();
-                Parent root = FXMLLoader.load(getClass()
-                        .getResource("../view/Register_Navigation.fxml"));
-                primaryStage.setScene(new Scene(root));
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Cannot load User_Login.fxml");
-            }
-
-            //else if (user is Manager)....
-
-        } else if (Session.user.getEmail().contains(email_field.getText()) &&
-                !Session.user.getPassword().equals(password_field.getText())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Password input Warning");
-            alert.setContentText("The password doesn't match, try it again!");
-            alert.showAndWait();
-            System.out.println(email_field.getText());
-
-        } else if (!Session.user.getEmail().contains(email_field.getText())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Email input Warning");
-            alert.setContentText("The email doesn't exist, try it again!");
-            alert.showAndWait();
-            System.out.println(email_field.getText());
-
         }
     }
 
@@ -123,5 +143,12 @@ public class UserLogin implements Initializable {
 
     }
 
-
+    private User getUser(List<User> users, String username) {
+        for (User u: users) {
+            if (u.getUsername().equals(username)) {
+                return u;
+            }
+        }
+        return null;
+    }
 }

@@ -10,11 +10,8 @@ public abstract class Employee extends User {
     private int employee;
     private String phone;
 
-    public Employee(String firstName, String lastName, String password,
-                    ArrayList<String> email, String status, int emailCount,
-                    String address, String city, String state, int zipcode,
-                    int employee, String phone) {
-        super(firstName, lastName, password, email, status, emailCount);
+    public Employee(String username, String firstName, String lastName, String password, String userType, ArrayList<String> email, String status, int emailCount, String address, String city, String state, int zipcode, int employee, String phone) {
+        super(username, firstName, lastName, password, userType, email, status, emailCount);
         this.address = address;
         this.city = city;
         this.state = state;

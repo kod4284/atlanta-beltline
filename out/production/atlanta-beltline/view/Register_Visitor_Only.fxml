@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="613.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterVisitor">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="613.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterVisitor">
     <top>
         <Label contentDisplay="BOTTOM" text="Register Visitor" BorderPane.alignment="CENTER">
             <font>
@@ -27,14 +27,14 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="0.0" prefWidth="607.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" onAction="#btnActionBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionVisitorRegisterBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#btnActionRegisterVisitor" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="10.0" left="30.0" right="20.0" />
                     </HBox.margin></Button>

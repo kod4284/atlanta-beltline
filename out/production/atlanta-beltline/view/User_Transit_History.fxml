@@ -297,7 +297,7 @@
         <Insets bottom="5.0" top="5.0" />
     </padding>
    <bottom>
-      <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE" BorderPane.alignment="CENTER">
+      <Button cache="true" mnemonicParsing="false" onAction="#btnActionUserHistoryBack" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE" BorderPane.alignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
