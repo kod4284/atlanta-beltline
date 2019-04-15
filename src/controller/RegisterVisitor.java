@@ -1,6 +1,8 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -29,4 +31,39 @@ public class RegisterVisitor implements Initializable {
             System.out.println("Cannot load Register_Navigation.fxml");
         }
     }
+
+    /**
+     * This is a method to get an action from Register button
+     * @param event Action from Register button
+     */
+    @FXML
+    public void btnActionRegisterVisitor(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Visitor_Functionality.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+
+    }
+
+    @FXML
+    public void btnActionVisitorRegisterBack(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Register_Navigation.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+
+    }
+
 }
