@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -13,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="613.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterUser">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeManageProfile">
     <top>
-        <Label contentDisplay="BOTTOM" text="Register User" BorderPane.alignment="CENTER">
+        <Label contentDisplay="BOTTOM" text="Manage Profile" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Calibri Bold" size="41.0" />
             </font>
@@ -25,16 +26,16 @@
         </Label>
     </top>
     <bottom>
-        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="607.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="601.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" onAction="#btnActionBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-                <Button mnemonicParsing="false" onAction="#btnActionRegisterUser" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="10.0" left="30.0" right="20.0" />
                     </HBox.margin></Button>
@@ -48,9 +49,9 @@
         <Insets bottom="5.0" top="5.0" />
     </padding>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="260.0" prefWidth="593.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane prefHeight="150.0" prefWidth="328.0">
+            <GridPane prefHeight="147.0" prefWidth="553.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="89.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="10.0" prefWidth="144.0" />
@@ -104,23 +105,71 @@
                         <Insets left="15.0" />
                      </GridPane.margin>
                   </Label>
-                  <PasswordField GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label text="User Type" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
                      <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin></PasswordField>
+                        <Insets left="60.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <PasswordField GridPane.columnIndex="3" GridPane.rowIndex="2" />
                   <TextField GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField prefHeight="29.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
+                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial Bold" size="16.0" />
+                     </font>
                      <GridPane.margin>
                         <Insets left="10.0" />
-                     </GridPane.margin></TextField>
-                  <TextField prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial Bold" size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial Bold" size="16.0" />
+                     </font>
+                  </Label>
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </GridPane>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="116.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="438.0" minWidth="10.0" prefWidth="437.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Address" textAlignment="CENTER">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Arial Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="9.0" />
                </VBox.margin>
             </GridPane>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -169,6 +218,11 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
+            <CheckBox mnemonicParsing="false" text="Visitor Account">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="220.0" right="220.0" />
+               </VBox.margin>
+            </CheckBox>
          </children>
          <BorderPane.margin>
             <Insets top="20.0" />

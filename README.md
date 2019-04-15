@@ -13,6 +13,11 @@ The download links are provided here:
 [JDK11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html), 
 [JavaFX](https://gluonhq.com/products/javafx/)
 
+Java Mysql Connector
+--------------------
+You should download this in order to connect between DB and Java Application.
+[ConnectorJ](https://dev.mysql.com/downloads/file/?id=484819)
+
 Run
 ----
 In order to compile type this commend into your terminal.
