@@ -24,6 +24,12 @@ public class User {
         this.status = status;
         this.emailCount = emailCount;
     }
+    public User(String password, String status, String
+            userType) {
+        this.password = password;
+        this.status = status;
+        this.userType = userType;
+    }
     public User(String username, String password, String status, String
             userType) {
         this.username = username;
@@ -103,7 +109,18 @@ public class User {
         this.emailCount = emailCount;
     }
 
-
+    public boolean isEmployee() {
+        return this.userType.equals(UserType.EMPLOYEE.toString());
+    }
+    public boolean isEmployeeVisitor() {
+        return this.userType.equals(UserType.EMPLOYEE_VISITOR.toString());
+    }
+    public boolean isUser() {
+        return this.userType.equals(UserType.USER.toString());
+    }
+    public boolean isVisitor() {
+        return this.userType.equals(UserType.VISITOR.toString());
+    }
 
     @Override
     public String toString() {
