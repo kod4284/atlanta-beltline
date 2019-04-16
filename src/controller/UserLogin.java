@@ -11,10 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.DB;
-import model.Session;
-import model.User;
-import model.UserStatus;
+import model.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -27,6 +25,7 @@ public class UserLogin implements Initializable {
 
     @FXML private TextField email_field;
     @FXML private PasswordField password_field;
+    private User tempUser;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -56,12 +55,15 @@ public class UserLogin implements Initializable {
             int cnt = rs.findColumn("cnt");
             //if row exists
             if (cnt >= 1) {
+                String username = "";
                 String password = "";
                 String status = "";
                 String userType = "";
                 if (rs.next()) {
-                    String username = rs.getString("username");
-                    sql = ("SELECT password, status, user_type FROM user where " +
+                    username = rs.getString("username");
+                    sql = ("SELECT password, status, user_type FROM" +
+                            " user " +
+                            "where " +
                             "username = ?;");
 
                     pst = conn.prepareStatement(sql);
@@ -89,7 +91,7 @@ public class UserLogin implements Initializable {
                 }
 
 
-                User tempUser = new User(password, status, userType);
+                tempUser = new User(username, password, status, userType);
                 if (!tempUser.getPassword().equals(password_field.getText())) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Warning Dialog");
@@ -117,25 +119,74 @@ public class UserLogin implements Initializable {
                     System.out.println(email_field.getText());
                 } else {
                     try {
-                        // should add the function that works depending on
-                        // usertype.
-                        Session.user = tempUser;
+                        //Check Employee type
+                        Session.user = tempUser; //login
+
+                        System.out.println(Session.user.getUsername());
+                        sql = ("SELECT employee_type FROM employee where " +
+                                "username = ?;");
+                        pst = conn.prepareStatement(sql);
+                        pst.setString(1, Session.user.getUsername());
+                        rs = pst.executeQuery();
+                        rs.next();
+                        String type = rs.getString("employee_type");
+
                         if (Session.user.isEmployee()) {
-                            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                    .getWindow();
-                            Parent root = FXMLLoader.load(getClass()
-                                    .getResource
-                                            ("../view/Staff_Functionality_Only" +
-                                            ".fxml"));
-                            primaryStage.setScene(new Scene(root));
+
+                            if (type.equals(EmployeeType.STAFF.toString())) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Staff_Functionality_Only" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            } else if (type.equals(EmployeeType.MANAGER.toString())) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Manager_Functionality_Only" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            } else {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Administrator_Functionality_Only" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            }
+
                         } else if (Session.user.isEmployeeVisitor()) {
-                            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                    .getWindow();
-                            Parent root = FXMLLoader.load(getClass()
-                                    .getResource
-                                            ("../view/Staff_Visitor_Functionality" +
-                                                    ".fxml"));
-                            primaryStage.setScene(new Scene(root));
+                            if (type.equals(EmployeeType.STAFF.toString())) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Staff_Visitor_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            } else if (type.equals(EmployeeType.MANAGER
+                                    .toString())) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Manager_Visitor_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            } else {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Administrator_Visitor_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            }
+
                         } else if(Session.user.isUser()) {
                             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                                     .getWindow();
