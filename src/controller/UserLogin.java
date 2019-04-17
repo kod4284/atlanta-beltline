@@ -92,7 +92,8 @@ public class UserLogin implements Initializable {
 
 
                 tempUser = new User(username, password, status, userType);
-                if (!tempUser.getPassword().equals(password_field.getText())) {
+                String hashedPW = SHA256.encrypt(password_field.getText());
+                if (!tempUser.getPassword().equals(hashedPW)) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Warning Dialog");
                     alert.setHeaderText("Password input Warning");
