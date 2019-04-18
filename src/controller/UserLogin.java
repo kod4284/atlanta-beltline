@@ -100,8 +100,8 @@ public class UserLogin implements Initializable {
                     alert.setContentText("The password doesn't match, try it again!");
                     alert.showAndWait();
                     System.out.println(email_field.getText());
-                } else if (tempUser.getPassword().equals(password_field
-                        .getText()) && tempUser.getStatus().equals(UserStatus
+                } else if (tempUser.getPassword().equals(hashedPW) && tempUser
+                        .getStatus().equals(UserStatus
                         .DECLINED.toString())) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Warning Dialog");
@@ -109,9 +109,8 @@ public class UserLogin implements Initializable {
                     alert.setContentText("Inquire this problem to admin!");
                     alert.showAndWait();
                     System.out.println(email_field.getText());
-                } else if (tempUser.getPassword().equals(password_field
-                        .getText()) && tempUser.getStatus().equals(UserStatus
-                        .PENDING.toString())) {
+                } else if (tempUser.getPassword().equals(hashedPW) && tempUser
+                        .getStatus().equals(UserStatus.PENDING.toString())) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Warning Dialog");
                     alert.setHeaderText("Your Account is Pending");
