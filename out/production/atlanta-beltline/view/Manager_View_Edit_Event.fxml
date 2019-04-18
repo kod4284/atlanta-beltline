@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="482.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerViewEditEvent">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="482.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerViewEditEvent">
     <top>
         <Label contentDisplay="BOTTOM" text="View/Edit Event" BorderPane.alignment="CENTER">
             <font>
@@ -29,21 +29,13 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="47.0" prefWidth="475.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionBack" prefHeight="28.0" prefWidth="97.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-            <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="30.0" />
-               </HBox.margin>
-            </Button>
             </children>
         </HBox>
     </bottom>
@@ -293,7 +285,7 @@
             </GridPane>
             <HBox alignment="CENTER" prefHeight="47.0" prefWidth="475.0">
                <children>
-                  <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                  <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Filter" textFill="WHITE">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -301,7 +293,7 @@
                         <Insets bottom="10.0" left="20.0" right="120.0" />
                      </HBox.margin>
                   </Button>
-                  <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                  <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Update" textFill="WHITE">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

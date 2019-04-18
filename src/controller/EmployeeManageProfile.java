@@ -17,5 +17,17 @@ public class EmployeeManageProfile implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+    public void btnActionBack(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Manager_Functionality_Only.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Manager_Functionality_Only.fxml");
 
+        }
+    }
 }

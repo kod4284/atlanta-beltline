@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="532.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerManageEvent">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="532.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerManageEvent">
     <top>
-        <Label contentDisplay="BOTTOM" text="Site Report" BorderPane.alignment="CENTER">
+        <Label contentDisplay="BOTTOM" text="View Schedule" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Calibri Bold" size="41.0" />
             </font>
@@ -27,7 +27,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="27.0" prefWidth="475.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" onAction="#btnActionBack" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -49,9 +49,10 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label contentDisplay="BOTTOM" text="Start Date">
+                  <Label contentDisplay="BOTTOM" text="Event Name">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -62,7 +63,7 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="End Date" GridPane.columnIndex="2">
+                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Description Keyword" GridPane.columnIndex="2">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -70,7 +71,7 @@
                         <Insets />
                      </opaqueInsets>
                      <GridPane.margin>
-                        <Insets left="50.0" />
+                        <Insets />
                      </GridPane.margin>
                   </Label>
                   <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1">
@@ -83,125 +84,38 @@
                         <Insets left="10.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
+                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="30.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="Start Date" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="TOP_LEFT" contentDisplay="BOTTOM" text="End Date" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
-               </VBox.margin>
-            </GridPane>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="107.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" percentWidth="0.0" prefWidth="50.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" percentWidth="0.0" prefWidth="50.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" percentWidth="0.0" prefWidth="50.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="20.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="77.0" minWidth="-Infinity" percentWidth="0.0" prefWidth="77.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label contentDisplay="BOTTOM" text="Event Count Range">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label contentDisplay="BOTTOM" text="Staff Count Range" GridPane.columnIndex="4">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField GridPane.columnIndex="5">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </TextField>
-                  <TextField GridPane.columnIndex="7">
-                     <GridPane.margin>
-                        <Insets right="25.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <Label alignment="CENTER" text="--" GridPane.columnIndex="6">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin></Label>
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField prefHeight="27.0" prefWidth="60.0" GridPane.columnIndex="3">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </TextField>
-                  <Label alignment="CENTER" text="--" GridPane.columnIndex="2">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label contentDisplay="BOTTOM" text="Total Visits Range" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label contentDisplay="BOTTOM" text="Total Revenue Range" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets top="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets top="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets top="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="7" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets right="25.0" top="5.0" />
-                     </GridPane.margin></TextField>
-                  <Label alignment="CENTER" text="--" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label alignment="CENTER" text="--" GridPane.columnIndex="6" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets top="26.0" />
                </VBox.margin>
             </GridPane>
             <GridPane>
@@ -229,21 +143,18 @@
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
             </GridPane>
                 <GridPane prefHeight="46.0" prefWidth="490.0">
                     <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="160.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="15.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="49.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="0.0" prefWidth="17.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="74.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="16.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.0" minWidth="10.0" prefWidth="57.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.0" minWidth="7.0" prefWidth="16.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.0" minWidth="0.0" prefWidth="65.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="90.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="23.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="74.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="0.0" prefWidth="21.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="65.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="23.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.0" minWidth="10.0" prefWidth="70.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.0" minWidth="7.0" prefWidth="18.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.0" minWidth="0.0" prefWidth="85.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.0" minWidth="10.0" prefWidth="15.0" />
                     </columnConstraints>
                     <rowConstraints>
@@ -253,7 +164,7 @@
                         <Insets left="20.0" right="22.0" top="20.0" />
                     </VBox.margin>
                     <children>
-                        <Label contentDisplay="BOTTOM" prefHeight="109.0" prefWidth="113.0" text="Event Count" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="2">
+                        <Label contentDisplay="BOTTOM" prefHeight="46.0" prefWidth="68.0" text="Site Name" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="2">
                             <font>
                                 <Font name="Arial Bold" size="11.0" />
                             </font>
@@ -261,10 +172,10 @@
                                 <Insets />
                             </opaqueInsets>
                             <GridPane.margin>
-                                <Insets left="3.0" />
+                                <Insets left="10.0" />
                             </GridPane.margin>
                         </Label>
-                        <GridPane GridPane.columnIndex="3">
+                        <GridPane prefHeight="46.0" prefWidth="30.0" GridPane.columnIndex="3">
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -309,7 +220,7 @@
                                 <ColumnConstraints />
                             </columnConstraints>
                         </GridPane>
-                        <Label contentDisplay="BOTTOM" prefHeight="34.0" prefWidth="89.0" text="Staff Count" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
+                        <Label contentDisplay="BOTTOM" prefHeight="34.0" prefWidth="61.0" text="Start Date" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4">
                             <font>
                                 <Font name="Arial Bold" size="11.0" />
                             </font>
@@ -320,7 +231,7 @@
                                 <Insets left="5.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label contentDisplay="BOTTOM" prefHeight="27.0" prefWidth="107.0" text="Total Visits" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="6">
+                        <Label contentDisplay="BOTTOM" prefHeight="27.0" prefWidth="107.0" text="End Date" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="6">
                             <font>
                                 <Font name="Arial Bold" size="10.0" />
                             </font>
@@ -331,11 +242,14 @@
                                 <Insets left="15.0" right="6.0" />
                             </GridPane.margin>
                         </Label>
-                  <Label prefHeight="49.0" prefWidth="65.0" text="Total Revenue($)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="8">
+                  <Label prefHeight="49.0" prefWidth="65.0" text="Staff Count" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="8">
                      <font>
                         <Font name="Arial Bold" size="10.0" />
-                     </font></Label>
-                  <Label contentDisplay="BOTTOM" prefHeight="15.0" prefWidth="96.0" text="Date" textAlignment="CENTER">
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></Label>
+                  <Label contentDisplay="BOTTOM" prefHeight="15.0" prefWidth="70.0" text="Event Name" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Bold" size="12.0" />
                      </font>
@@ -343,7 +257,7 @@
                         <Insets />
                      </opaqueInsets>
                      <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
                   <GridPane GridPane.columnIndex="9">
@@ -367,7 +281,7 @@
                         <ColumnConstraints />
                      </columnConstraints>
                   </GridPane>
-                  <GridPane GridPane.columnIndex="7">
+                  <GridPane prefHeight="46.0" prefWidth="0.0" GridPane.columnIndex="7">
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

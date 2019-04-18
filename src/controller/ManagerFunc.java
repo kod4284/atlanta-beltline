@@ -18,7 +18,17 @@ public class ManagerFunc implements Initializable {
 
     }
     public void btnActionViewTransitHistory(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Transit_History.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Transit_History.fxml");
 
+        }
     }
     public void btnTakeTransit(ActionEvent event) {
         try {
@@ -47,10 +57,30 @@ public class ManagerFunc implements Initializable {
         }
     }
     public void btnActionViewStaff(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Manager_Manage_Staff.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Manager_Manage_Staff.fxml");
 
+        }
     }
     public void btnActionManageEvent(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Manager_View_Edit_Event.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Manager_View_Edit_Event.fxml");
 
+        }
     }
     public void btnActionManageProfile(ActionEvent event) {
         try {
