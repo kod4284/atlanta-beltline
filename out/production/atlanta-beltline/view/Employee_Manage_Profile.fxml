@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -35,7 +34,7 @@
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#btnActionRegister" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="10.0" left="30.0" right="20.0" />
                     </HBox.margin></Button>
@@ -80,7 +79,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Password" textAlignment="CENTER" GridPane.rowIndex="2">
+                  <Label text="Employee Id" textAlignment="CENTER" GridPane.rowIndex="2">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
@@ -97,15 +96,15 @@
                         <Insets left="60.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Confirm Password" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Label text="Phone" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="15.0" />
+                        <Insets left="85.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="User Type" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Label text="Site Name" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
@@ -113,13 +112,12 @@
                         <Insets left="60.0" />
                      </GridPane.margin>
                   </Label>
-                  <PasswordField GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="firstName" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
-                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="lastName" prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
+                  <Label fx:id="username" text="Context" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Arial Bold" size="16.0" />
                      </font>
@@ -127,7 +125,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="employee_id" text="Context" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Arial Bold" size="16.0" />
                      </font>
@@ -135,11 +133,12 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Label fx:id="siteName" text="Context" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <font>
                         <Font name="Arial Bold" size="16.0" />
                      </font>
                   </Label>
+                  <TextField fx:id="phone" prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -162,7 +161,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Context" textAlignment="CENTER" GridPane.columnIndex="1">
+                  <Label fx:id="address" text="Context" textAlignment="CENTER" GridPane.columnIndex="1">
                      <font>
                         <Font name="Arial Bold" size="16.0" />
                      </font>
@@ -184,7 +183,7 @@
                   </Label>
                   <VBox prefHeight="59.0" prefWidth="374.0">
                      <children>
-                        <GridPane maxHeight="66.0" prefHeight="37.0" prefWidth="374.0">
+                        <GridPane fx:id="emailsPane" maxHeight="66.0" prefHeight="37.0" prefWidth="374.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -197,12 +196,12 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField prefHeight="25.0" prefWidth="143.0">
+                              <TextField fx:id="emailField" prefHeight="25.0" prefWidth="143.0">
                                  <GridPane.margin>
                                     <Insets right="30.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #ffff; -fx-border-color: #bebebe;" text="Add" GridPane.columnIndex="1" />
+                              <Button fx:id="addBtn" mnemonicParsing="false" style="-fx-background-color: #ffff; -fx-border-color: #bebebe;" text="Add" GridPane.columnIndex="1" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -218,7 +217,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <CheckBox mnemonicParsing="false" text="Visitor Account">
+            <CheckBox fx:id="isVisitor" mnemonicParsing="false" text="Visitor Account">
                <VBox.margin>
                   <Insets bottom="20.0" left="220.0" right="220.0" />
                </VBox.margin>

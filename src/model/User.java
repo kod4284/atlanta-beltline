@@ -13,6 +13,12 @@ public class User {
     private String EmployeeType;
     private int emailCount;
     private String siteName;
+    private String employeeId;
+    private String phone;
+    private String employeeAddress;
+    private String city;
+    private String state;
+    private String zipcode;
 
     public User(String username, String firstName, String lastName, String
             password, String userType, ArrayList<String> email, String status,
@@ -26,11 +32,37 @@ public class User {
         this.status = status;
         this.emailCount = emailCount;
     }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
     public User(String password, String status, String
             userType) {
         this.password = password;
         this.status = status;
         this.userType = userType;
+        email = new ArrayList<String>();
     }
     public User(String username, String password, String status, String
             userType) {
@@ -38,6 +70,31 @@ public class User {
         this.password = password;
         this.status = status;
         this.userType = userType;
+        email = new ArrayList<String>();
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmployeeAddress() {
+        return employeeAddress;
+    }
+
+    public void setEmployeeAddress(String employee_address) {
+        this.employeeAddress = employee_address;
     }
 
     public String getEmployeeType() {
