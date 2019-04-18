@@ -6,8 +6,8 @@ public enum EmployeeType {
 
     final String employeeType;
 
-    EmployeeType(String type) {
-        employeeType = type;
+    EmployeeType(String employeeType) {
+        this.employeeType = employeeType;
     }
 
     @Override

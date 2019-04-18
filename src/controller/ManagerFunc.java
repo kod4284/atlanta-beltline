@@ -52,7 +52,7 @@ public class ManagerFunc implements Initializable {
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Cannot load User_Take_Transit.fxml");
+            System.out.println("Cannot load Manager_Site_Report.fxml");
 
         }
     }

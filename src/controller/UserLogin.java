@@ -36,8 +36,7 @@ public class UserLogin implements Initializable {
      * @param event Action from Login button
      */
     public void btnActionLogin(ActionEvent event) throws Exception {
-        //List of Users
-        List<User> userInfos = new ArrayList<User>();
+
         //query
         Class.forName("com.mysql.cj.jdbc.Driver");
         // create a connection to the database
@@ -131,6 +130,7 @@ public class UserLogin implements Initializable {
                         rs.next();
                         String type = rs.getString("employee_type");
 
+                        Session.user.setEmployeeType(type);
                         if (Session.user.isEmployee()) {
 
                             if (type.equals(EmployeeType.STAFF.toString())) {

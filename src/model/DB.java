@@ -40,7 +40,35 @@ public class DB {
         return null;
 
     }
-
-
-
 }
+/* boilerplate
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select count(username) as cnt, username from user_email " +
+                    "where email = ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, email_field.getText());
+                ResultSet rs = pst.executeQuery();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+ */

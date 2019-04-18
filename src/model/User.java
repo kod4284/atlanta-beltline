@@ -10,7 +10,9 @@ public class User {
     private String userType;
     private ArrayList<String> email;
     private String status;
+    private String EmployeeType;
     private int emailCount;
+    private String siteName;
 
     public User(String username, String firstName, String lastName, String
             password, String userType, ArrayList<String> email, String status,
@@ -36,6 +38,22 @@ public class User {
         this.password = password;
         this.status = status;
         this.userType = userType;
+    }
+
+    public String getEmployeeType() {
+        return EmployeeType;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        EmployeeType = employeeType;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
     }
 
     public String getUsername() {
@@ -121,7 +139,15 @@ public class User {
     public boolean isVisitor() {
         return this.userType.equals(UserType.VISITOR.toString());
     }
-
+    public boolean isManager() {
+        return this.EmployeeType.equals(model.EmployeeType.MANAGER.toString());
+    }
+    public boolean isAdmin() {
+        return this.EmployeeType.equals(model.EmployeeType.ADMIN.toString());
+    }
+    public boolean isStaff() {
+        return this.EmployeeType.equals(model.EmployeeType.STAFF.toString());
+    }
     @Override
     public String toString() {
         String str = "username: " + username;
