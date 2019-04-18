@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="613.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterUser">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="613.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VisitorSite">
     <top>
         <Label contentDisplay="BOTTOM" text="Site Detail" BorderPane.alignment="CENTER">
             <font>
