@@ -36,7 +36,10 @@ public class UserLogin implements Initializable {
      * @param event Action from Login button
      */
     public void btnActionLogin(ActionEvent event) throws Exception {
-
+        if (!checkerFunction.verifyInputs(email_field.getText(),
+                password_field.getText())) {
+            return;
+        }
         //query
         Class.forName("com.mysql.cj.jdbc.Driver");
         // create a connection to the database
@@ -266,4 +269,6 @@ public class UserLogin implements Initializable {
         }
         return null;
     }
+
+
 }

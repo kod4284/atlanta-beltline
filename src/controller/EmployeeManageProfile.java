@@ -1,5 +1,8 @@
 package controller;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,20 +10,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.DB;
+import model.Email;
 import model.Session;
+import model.checkerFunction;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class EmployeeManageProfile implements Initializable {
@@ -35,6 +40,10 @@ public class EmployeeManageProfile implements Initializable {
     @FXML GridPane emailsPane;
     @FXML Button addBtn;
     @FXML TextField emailField;
+    @FXML TableView  emailTable;
+    @FXML TableColumn<Email, Email> buttonCol;
+    @FXML TableColumn<Email, String> emailCol;
+    private ObservableList<Email> emailData;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,10 +98,12 @@ public class EmployeeManageProfile implements Initializable {
                 pst.setString(1, Session.user.getUsername());
                 rs = pst.executeQuery();
                 while (rs.next()) {
-                    System.out.println(rs.getString("email"));
+                    Session.user.getEmail().clear(); // 초기화 꼭 해줘야함!
                     Session.user.getEmail().add(rs.getString("email"));
                 }
 
+                fillEmails(Session.user.getEmail());
+                System.out.println(Session.user.getEmail().size());
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -122,7 +133,7 @@ public class EmployeeManageProfile implements Initializable {
 
         }
     }
-    public void btnActionRegister(ActionEvent event) {
+    public void btnActionUpdate(ActionEvent event) {
 
     }
     private void showInfo() {
@@ -139,7 +150,51 @@ public class EmployeeManageProfile implements Initializable {
         isVisitor.setSelected(Session.user.isVisitor());
 
     }
-    private void fillEmails() {
+    private void fillEmails(List<String> emails) {
+
+        buttonCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        buttonCol.setCellFactory(param -> new TableCell<Email, Email>() {
+            private final Button deleteButton = new Button("Delete");
+
+            @Override
+            protected void updateItem(Email email, boolean empty) {
+                super.updateItem(email, empty);
+
+                if (email == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                setGraphic(deleteButton);
+                deleteButton.setOnAction(event -> {
+                    if (emailData.size() == 1) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Warning Dialog");
+                        alert.setHeaderText("Cannot delete the email!");
+                        alert.setContentText("At least one email account " +
+                                "should exist!");
+                        alert.showAndWait();
+                        return;
+                    } else {
+                        emailData.remove(email);
+                        System.out.println(emailData.size());
+                        return;
+                    }
+                });
+            }
+        });
+        emailData = FXCollections.observableArrayList();
+        for (String email: emails) {
+            emailData.add(new Email(email));
+        }
+        System.out.println(emailData.size());
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailTable.setItems(emailData);
+    }
+    private boolean addAnEmail() {
+        checkerFunction.verifyInputEmail(emailField.getText());
+        return true;
 
     }
 }
