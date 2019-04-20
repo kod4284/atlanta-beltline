@@ -304,27 +304,21 @@ public class EmployeeManageProfile implements Initializable {
                         "updated!");
 
                 //query 3
+                sql = "delete from user_email where username=?;";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                rs = pst.executeUpdate();
+                System.out.println("email: " + rs + "rows deleted");
+
                 for (Email e:emailData) {
-                    if (emailsFromDB.contains(e.getEmail())) {
-                        sql = "delete from user_email where username=?;";
-                        pst = conn.prepareStatement(sql);
-                        pst.setString(1, Session.user.getUsername());
-                        rs = pst.executeUpdate();
-                        System.out.println(rs + "rows deleted");
-                    } else {
-                       sql = "insert into user_email values (?," +
+                    sql = "insert into user_email values (?," +
                                 "?)";
-                       pst = conn.prepareStatement(sql);
-                       pst.setString(1, Session.user.getUsername());
-                       pst.setString(2, e.getEmail());
-                       rs = pst.executeUpdate();
-                       System.out.println(rs + "rows inserted");
-                    }
+                    pst = conn.prepareStatement(sql);
+                    pst.setString(1, Session.user.getUsername());
+                    pst.setString(2, e.getEmail());
+                    rs = pst.executeUpdate();
+                    System.out.println("email: " + rs + "rows inserted");
                 }
-
-
-
-
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -336,6 +330,70 @@ public class EmployeeManageProfile implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //go to another view totally 6 views
+        try {
+            //Visitor
+            if (Session.user.isVisitor()) {
+                //Manager-Visitor
+                if (Session.user.isManager()) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                            .getWindow();
+                    Parent root = FXMLLoader.load(getClass()
+                            .getResource("../view/Manager_Visitor_Functionality.fxml"));
+                    primaryStage.setScene(new Scene(root));
+                    //Staff-Visitor
+                } else if (Session.user.isStaff()) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                            .getWindow();
+                    Parent root = FXMLLoader.load(getClass()
+                            .getResource("../view/Staff_Visitor_Functionality" +
+                                    ".fxml"));
+                    primaryStage.setScene(new Scene(root));
+                    //Admin-Visitor
+                } else {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                            .getWindow();
+                    Parent root = FXMLLoader.load(getClass()
+                            .getResource("../view" +
+                                    "/Administrator_Visitor_Functionality" +
+                                    ".fxml"));
+                    primaryStage.setScene(new Scene(root));
+                }
+                //Employee Only
+            } else {
+                //Manager Only
+                if (Session.user.isManager()) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                            .getWindow();
+                    Parent root = FXMLLoader.load(getClass()
+                            .getResource("../view/Manager_Functionality_Only.fxml"));
+                    primaryStage.setScene(new Scene(root));
+                    //Staff Only
+                } else if (Session.user.isStaff()) {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                            .getWindow();
+                    Parent root = FXMLLoader.load(getClass()
+                            .getResource("../view/Staff_Functionality_Only" +
+                                    ".fxml"));
+                    primaryStage.setScene(new Scene(root));
+                    //Administrator Only
+                } else {
+                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                            .getWindow();
+                    Parent root = FXMLLoader.load(getClass()
+                            .getResource("../view" +
+                                    "/Administrator_Functionality_Only" +
+                                    ".fxml"));
+                    primaryStage.setScene(new Scene(root));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load Manager_Functionality_Only.fxml");
+
+        }
+
     }
     private void loadEmails() {
         emailsFromDB = new ArrayList<>();
@@ -371,5 +429,23 @@ public class EmployeeManageProfile implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private boolean isFieldsEmpty() {
+        if (firstName.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Email input Warning");
+            alert.setContentText("Cannot have more than 5 emails!");
+            alert.showAndWait();
+            return false;
+        } else if (lastName.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Email input Warning");
+            alert.setContentText("Cannot have more than 5 emails!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 }

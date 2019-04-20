@@ -27,7 +27,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="27.0" prefWidth="475.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionStaffViewScheduleBack" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -129,7 +129,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #249cd3;" text="Daily Detail" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffViewScheduleDailyDetail" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #249cd3;" text="View Event" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>

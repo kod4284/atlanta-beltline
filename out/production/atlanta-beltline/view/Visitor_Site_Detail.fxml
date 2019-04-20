@@ -26,7 +26,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="0.0" prefWidth="607.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" onAction="#btnActionBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionVisitorSiteDetailBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -108,7 +108,7 @@
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                      <Button mnemonicParsing="false" onAction="#btnActionRegisterUser" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Log Visit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Log Visit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
          </children>
