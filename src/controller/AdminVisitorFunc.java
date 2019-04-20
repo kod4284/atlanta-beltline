@@ -82,7 +82,7 @@ public class AdminVisitorFunc {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Administrator_Visitor_Functionality" +
+                    .getResource("../view/Administrator_Manage_User" +
                             ".fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
@@ -90,6 +90,58 @@ public class AdminVisitorFunc {
             System.out.println("Cannot load User_Login.fxml");
         }
     }
+    @FXML
+    public void btnActionAdminVisitorFuncTakeTransit(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Take_Transit.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+    @FXML
+    public void btnActionAdminVisitorFuncExploreSite(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Visitor_Explore_Site.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
 
+    @FXML
+    public void btnActionAdminVisitorFuncViewVisitHistory(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Visitor_Visit_History.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+    @FXML
+    public void btnActionAdminVisitorFuncBack(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Login.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
 
 }

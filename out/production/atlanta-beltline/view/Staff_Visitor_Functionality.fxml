@@ -68,7 +68,7 @@
                         <Font name="Arial" size="21.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Explore Site" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncExploreSite" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Explore Site" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="21.0" />
                      </font>
@@ -76,7 +76,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="View Visit History" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncViewVisitHistory" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="View Visit History" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -84,7 +84,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Back" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncBack" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Back" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="21.0" />
                      </font>

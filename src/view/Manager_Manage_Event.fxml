@@ -259,7 +259,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #249cd3;" text="Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #249cd3;" text="View/Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></Button>

@@ -135,13 +135,16 @@
                         <Insets left="30.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <VBox prefHeight="59.0" prefWidth="374.0">
+                  <VBox prefHeight="230.0" prefWidth="396.0">
                      <children>
-                        <TableView fx:id="emailTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="170.0" prefHeight="74.0" prefWidth="373.0">
+                        <TableView fx:id="emailTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="170.0" prefHeight="174.0" prefWidth="405.0">
                            <columns>
-                              <TableColumn fx:id="emailCol" prefWidth="282.0" text="email" />
-                              <TableColumn fx:id="buttonCol" prefWidth="91.0" />
+                              <TableColumn fx:id="emailCol" prefWidth="291.0" text="email" />
+                              <TableColumn fx:id="buttonCol" prefWidth="104.0" />
                            </columns>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </TableView>
                         <GridPane fx:id="emailsPane" maxHeight="66.0" prefHeight="37.0" prefWidth="374.0">
                            <columnConstraints>
@@ -167,6 +170,9 @@
                            </VBox.margin>
                         </GridPane>
                      </children>
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
                <VBox.margin>
