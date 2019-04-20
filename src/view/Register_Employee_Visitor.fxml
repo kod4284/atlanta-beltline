@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="612.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterEmployeeVisitor">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="612.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterEmployeeVisitor">
     <top>
         <Label contentDisplay="BOTTOM" text="Register Employee-Visitor" BorderPane.alignment="CENTER">
             <font>
@@ -152,7 +152,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="empTypes" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -196,7 +196,7 @@
                      </GridPane.margin>
                   </Label>
                   <TextField GridPane.columnIndex="1" />
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
+                  <ComboBox fx:id="stateTypes" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
