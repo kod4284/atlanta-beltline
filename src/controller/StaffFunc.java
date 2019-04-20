@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Session;
 
 import java.io.IOException;
 
@@ -75,6 +76,7 @@ public class StaffFunc {
             Parent root = FXMLLoader.load(getClass()
                     .getResource("../view/User_Login.fxml"));
             primaryStage.setScene(new Scene(root));
+            Session.user = null;
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");

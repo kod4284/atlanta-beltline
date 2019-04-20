@@ -106,20 +106,20 @@
                         <Insets left="15.0" />
                      </GridPane.margin>
                   </Label>
-                  <PasswordField GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <PasswordField fx:id="confirmPassword" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></PasswordField>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="firstName" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField prefHeight="29.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="username" prefHeight="29.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
+                  <TextField fx:id="lastName" prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />

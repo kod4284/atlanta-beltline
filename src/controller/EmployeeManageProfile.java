@@ -92,13 +92,12 @@ public class EmployeeManageProfile implements Initializable {
                 Session.user.setZipcode(rs.getString("employee_zipcode"));
 
                 //query4
-
+                Session.user.getEmail().clear(); // 초기화 꼭 해줘야함!
                 sql = ("select email from user_email where username=?;");
                 pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 rs = pst.executeQuery();
                 while (rs.next()) {
-                    Session.user.getEmail().clear(); // 초기화 꼭 해줘야함!
                     Session.user.getEmail().add(rs.getString("email"));
                 }
 
