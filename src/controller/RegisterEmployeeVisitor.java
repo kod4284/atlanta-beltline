@@ -42,7 +42,6 @@ public class RegisterEmployeeVisitor implements Initializable {
     @FXML PasswordField confirmPassword;
     private ObservableList<Email> emailData;
     private List<String> emailsFromDB;
-    private List<String> usernames;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillComboBox();
