@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class VisitorSite {
+public class VisitorSiteDetail {
     @FXML
     public void btnActionVisitorSiteDetailBack(ActionEvent event) {
         try {
