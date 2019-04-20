@@ -15,10 +15,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RegisterVisitor implements Initializable {
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
     public void btnActionBack(Event event) {
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
@@ -31,7 +33,6 @@ public class RegisterVisitor implements Initializable {
             System.out.println("Cannot load Register_Navigation.fxml");
         }
     }
-
     /**
      * This is a method to get an action from Register button
      * @param event Action from Register button
