@@ -62,4 +62,19 @@ public class checkerFunction {
             return true;
         }
     }
+    public static String formatPhone(String phone) {
+        return phone.replaceFirst("(\\d{3})(\\d{3})(\\d+)","$1-$2-$3");
+    }
+    public static long deFormatAndInt(String str) {
+        return Long.parseUnsignedLong(str.replaceAll("[^\\d]", "" ));
+    }
+    public static boolean validatePhone(String phoneNo) {
+         if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+             return true;
+         } else {
+             return false;
+         }
+
+    }
+
 }

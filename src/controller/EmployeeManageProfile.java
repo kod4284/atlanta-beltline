@@ -84,7 +84,7 @@ public class EmployeeManageProfile implements Initializable {
                 rs = pst.executeQuery();
                 rs.next();
                 Session.user.setEmployeeId(rs.getString("employee_id"));
-                Session.user.setPhone(rs.getString("phone"));
+                Session.user.setPhone(checkerFunction.formatPhone(rs.getString("phone")));
                 Session.user.setEmployeeAddress(rs.getString
                         ("employee_address"));
                 Session.user.setCity(rs.getString("employee_city"));
@@ -262,6 +262,9 @@ public class EmployeeManageProfile implements Initializable {
         }
     }
     public void btnActionUpdate(ActionEvent event) {
+        if (!isFieldsEmpty()) {
+            return;
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -296,7 +299,8 @@ public class EmployeeManageProfile implements Initializable {
                 sql = "update employee set phone=? where " +
                         "username=?;";
                 pst = conn.prepareStatement(sql);
-                long temp = Long.parseUnsignedLong(phone.getText().trim());
+                long temp = checkerFunction.deFormatAndInt(phone
+                        .getText().trim());
                 pst.setLong(1, temp);
                 pst.setString(2, Session.user.getUsername());
                 rs = pst.executeUpdate();
@@ -434,15 +438,39 @@ public class EmployeeManageProfile implements Initializable {
         if (firstName.getText().trim().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Email input Warning");
-            alert.setContentText("Cannot have more than 5 emails!");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Should fill out First Name field!");
             alert.showAndWait();
             return false;
         } else if (lastName.getText().trim().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Email input Warning");
-            alert.setContentText("Cannot have more than 5 emails!");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Should fill out Last Name field!");
+            alert.showAndWait();
+            return false;
+        } else if (!checkerFunction.validatePhone(phone.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Phone Number Should follow the format: " +
+                    "###-###-####");
+            alert.showAndWait();
+            return false;
+        } else if (firstName.getText().length() > 20) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("First Name should be less than 20 " +
+                    "characters");
+            alert.showAndWait();
+            return false;
+        } else if (lastName.getText().length() > 20) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Last Name should be less than 20 " +
+                    "characters");
             alert.showAndWait();
             return false;
         }
