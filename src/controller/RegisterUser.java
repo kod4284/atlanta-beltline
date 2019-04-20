@@ -159,7 +159,7 @@ public class RegisterUser implements Initializable {
         emailTable.setItems(emailData);
     }
     public void addAnEmail(ActionEvent event) {
-        if (emailData.size() > 5) {
+        if (emailData.size() >= 5) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Email input Warning");
