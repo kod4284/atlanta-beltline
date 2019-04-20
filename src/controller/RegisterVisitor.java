@@ -41,12 +41,9 @@ public class RegisterVisitor implements Initializable {
     @FXML PasswordField confirmPassword;
     private ObservableList<Email> emailData;
     private List<String> emailsFromDB;
-    private List<String> usernames;
-    private List<String> visitors;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadEmails();
-        loadUsernames();
         fillEmails();
     }
 
@@ -66,7 +63,12 @@ public class RegisterVisitor implements Initializable {
         if (!isFieldsEmpty()) {
             return;
         }
-
+        if (!checkUsernameExists()) {
+            return;
+        }
+        if (!checkVisitorExists()) {
+            return;
+        }
         try {
             //query
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -85,6 +87,7 @@ public class RegisterVisitor implements Initializable {
             pst.setString(3, firstName.getText());
             pst.setString(4, lastName.getText());
             pst.executeUpdate();
+
 
             //query2
             sql = ("insert into visitor values (?);");
@@ -322,8 +325,7 @@ public class RegisterVisitor implements Initializable {
             e.printStackTrace();
         }
     }
-    private void loadUsernames() {
-        usernames = new ArrayList<>();
+    private boolean checkUsernameExists() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -333,13 +335,24 @@ public class RegisterVisitor implements Initializable {
             try {
                 //query
                 // sql statements
-                String sql = ("select username from user;");
+                String sql = ("select count(username) as cnt from user where " +
+                        "username=?");
                 PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, username.getText());
                 ResultSet rs = pst.executeQuery();
-
-                while (rs.next()) {
-                    usernames.add(rs.getString("username"));
+                rs.next();
+                int cnt = rs.getInt("cnt");
+                if (cnt >= 1) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Field input Warning");
+                    alert.setContentText("The username is being used by " +
+                            "someone.\n Try another username!");
+                    alert.showAndWait();
+                    return false;
                 }
+                return true;
+
 
 
             } catch (Exception e) {
@@ -353,5 +366,51 @@ public class RegisterVisitor implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
+    }
+    private boolean checkVisitorExists() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+                // sql statements
+                String sql = ("select count(username) as cnt from visitor " +
+                        "where" +
+                        " " +
+                        "username=?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, username.getText());
+                ResultSet resultSet = pst.executeQuery();
+                resultSet.next();
+                int cnt = resultSet.getInt("cnt");
+                if (cnt >= 1) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Field input Warning");
+                    alert.setContentText("The username is being used by " +
+                            "someone.\n Try another username!");
+                    alert.showAndWait();
+                    return false;
+                }
+                return true;
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

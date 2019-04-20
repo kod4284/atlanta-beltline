@@ -19,7 +19,11 @@ public class checkerFunction {
         Pattern pat = Pattern.compile(emailRegex);
         return (email != null) && pat.matcher(email).matches();
     }
-
+    public static boolean verifyZip(String zip) {
+        String regex = "^[0-9]{5}";
+        Pattern pattern = Pattern.compile(regex);
+        return (zip != null) && pattern.matcher(zip).matches();
+    }
     /**
      * This method checks whether password is valid.
      * @param password password
