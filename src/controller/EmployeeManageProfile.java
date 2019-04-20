@@ -334,7 +334,7 @@ public class EmployeeManageProfile implements Initializable {
         //go to another view totally 6 views
         try {
             //Visitor
-            if (Session.user.isVisitor()) {
+            if (Session.user.isEmployeeVisitor()) {
                 //Manager-Visitor
                 if (Session.user.isManager()) {
                     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
