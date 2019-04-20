@@ -23,7 +23,7 @@ public class ManagerViewEditEvent implements Initializable {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Manager_Functionality_Only.fxml"));
+                    .getResource("../view/Manager_Manage_Event.fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
