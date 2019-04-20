@@ -19,7 +19,6 @@ public class User {
     private String city;
     private String state;
     private String zipcode;
-
     public User(String username, String firstName, String lastName, String
             password, String userType, ArrayList<String> email, String status,
                 int emailCount) {
@@ -71,6 +70,11 @@ public class User {
         this.status = status;
         this.userType = userType;
         email = new ArrayList<String>();
+    }
+
+
+    public boolean isUserOnly(boolean userOnly) {
+        return userType.equals("User") && EmployeeType == null;
     }
 
     public String getEmployeeId() {
