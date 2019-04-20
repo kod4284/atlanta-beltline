@@ -14,10 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.DB;
-import model.Email;
-import model.Session;
-import model.checkerFunction;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +22,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,9 +42,11 @@ public class EmployeeManageProfile implements Initializable {
     @FXML TableColumn<Email, Email> buttonCol;
     @FXML TableColumn<Email, String> emailCol;
     private ObservableList<Email> emailData;
+    private List<String> emailsFromDB;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadEmails();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -133,9 +133,6 @@ public class EmployeeManageProfile implements Initializable {
 
         }
     }
-    public void btnActionUpdate(ActionEvent event) {
-
-    }
     private void showInfo() {
         firstName.setText(Session.user.getFirstName());
         lastName.setText(Session.user.getLastName());
@@ -177,6 +174,7 @@ public class EmployeeManageProfile implements Initializable {
                         alert.showAndWait();
                         return;
                     } else {
+                        emailsFromDB.remove(email.getEmail());
                         emailData.remove(email);
                         System.out.println(emailData.size());
                         return;
@@ -192,9 +190,136 @@ public class EmployeeManageProfile implements Initializable {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         emailTable.setItems(emailData);
     }
-    private boolean addAnEmail() {
-        checkerFunction.verifyInputEmail(emailField.getText());
-        return true;
+    public void addAnEmail(ActionEvent event) {
+        if (emailData.size() > 5) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Email input Warning");
+            alert.setContentText("Cannot have more than 5 emails!");
+            alert.showAndWait();
+        } else if (!checkerFunction.verifyInputEmail(emailField.getText())) {
+            return;
+        } else if (emailsFromDB.contains(emailField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Email input Warning");
+            alert.setContentText("The email is being used by someone\n" +
+                    "Try another one!");
+            alert.showAndWait();
+        } else {
+            emailData.add(new Email(emailField.getText()));
+            emailsFromDB.add(emailField.getText());
+        }
+    }
+    public void btnActionUpdate(ActionEvent event) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
 
+            try {
+                //query
+                String tempType = "";
+                // sql statements
+                if (isVisitor.isSelected()) {
+                    tempType = UserType.EMPLOYEE_VISITOR.toString();
+                } else {
+                    tempType = UserType.EMPLOYEE.toString();
+                }
+
+                //if no row return, go to catch
+
+                //query 1
+                String sql = ("update user set firstname=?, lastname=?" +
+                        ", user_type=? where username=?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, firstName.getText());
+                pst.setString(2, lastName.getText());
+                pst.setString(3, tempType);
+                pst.setString(4, Session.user.getUsername());
+                int rs = pst.executeUpdate();
+                System.out.println("first, lastname, usertype "+ rs + " rows " +
+                        "updated!");
+
+                //query 2
+                sql = "update employee set phone=? where " +
+                        "username=?;";
+                pst = conn.prepareStatement(sql);
+                long temp = Long.parseUnsignedLong(phone.getText().trim());
+                pst.setLong(1, temp);
+                pst.setString(2, Session.user.getUsername());
+                rs = pst.executeUpdate();
+                System.out.println("Phone "+ rs + " rows " +
+                        "updated!");
+
+                //query 3
+                for (Email e:emailData) {
+                    if (emailsFromDB.contains(e.getEmail())) {
+                        sql = "delete from user_email where username=?;";
+                        pst = conn.prepareStatement(sql);
+                        pst.setString(1, Session.user.getUsername());
+                        rs = pst.executeUpdate();
+                        System.out.println(rs + "rows deleted");
+                    } else {
+                       sql = "insert into user_email values (?," +
+                                "?)";
+                       pst = conn.prepareStatement(sql);
+                       pst.setString(1, Session.user.getUsername());
+                       pst.setString(2, e.getEmail());
+                       rs = pst.executeUpdate();
+                       System.out.println(rs + "rows inserted");
+                    }
+                }
+
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadEmails() {
+        emailsFromDB = new ArrayList<>();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select email from user_email;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    emailsFromDB.add(rs.getString("email"));
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

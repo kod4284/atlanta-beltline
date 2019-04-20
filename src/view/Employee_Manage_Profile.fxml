@@ -205,7 +205,7 @@
                                     <Insets right="30.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <Button fx:id="addBtn" mnemonicParsing="false" style="-fx-background-color: #ffff; -fx-border-color: #bebebe;" text="Add" GridPane.columnIndex="1" />
+                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addAnEmail" style="-fx-background-color: #ffff; -fx-border-color: #bebebe;" text="Add" GridPane.columnIndex="1" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
