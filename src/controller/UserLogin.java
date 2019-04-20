@@ -16,7 +16,6 @@ import model.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -135,13 +134,24 @@ public class UserLogin implements Initializable {
                         cnt = rs.getInt("cnt");
                         String type = rs.getString("employee_type");
                         if (cnt < 1) {
-                            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                    .getWindow();
-                            Parent root = FXMLLoader.load(getClass()
-                                    .getResource
-                                            ("../view/User_Functionality" +
-                                                    ".fxml"));
-                            primaryStage.setScene(new Scene(root));
+                            if (Session.user.isUser()) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/User_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            } else if (Session.user.isVisitor()) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Visitor_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            }
+
                         } else {
                             if (Session.user.isEmployee()) {
                                 Session.user.setEmployeeType(type);
@@ -198,7 +208,8 @@ public class UserLogin implements Initializable {
                                                             ".fxml"));
                                     primaryStage.setScene(new Scene(root));
                                 }
-
+                            }
+                            /* may be needed
                             } else if(Session.user.isUser()) {
                                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                                         .getWindow();
@@ -216,6 +227,7 @@ public class UserLogin implements Initializable {
                                                         ".fxml"));
                                 primaryStage.setScene(new Scene(root));
                             }
+                            */
                         }
 
 
