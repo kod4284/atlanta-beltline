@@ -56,7 +56,7 @@ public class StaffVisitorFunc {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/User_Tansit_History.fxml"));
+                    .getResource("../view/User_Transit_History.fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,20 +77,43 @@ public class StaffVisitorFunc {
         }
     }
     @FXML
-    public void btnActionVisitorExploreEvent(ActionEvent event) {
+    public void btnActionStaffVisitorFuncExploreSite(ActionEvent event) {
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Visitor_Explore_Event.fxml"));
+                    .getResource("../view/Visitor_Explore_Site.fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");
         }
     }
-
-
-
+    @FXML
+    public void btnActionStaffVisitorFuncViewVisitHistory(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Visitor_Visit_History.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+    @FXML
+    public void btnActionStaffVisitorFuncBack(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Login.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
 
 }

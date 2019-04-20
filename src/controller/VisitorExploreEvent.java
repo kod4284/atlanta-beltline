@@ -31,7 +31,7 @@ public class VisitorExploreEvent {
     public void btnActionVisitorExploreEventBack(ActionEvent event) {
         try {
             //Employee
-            if (Session.user.isEmployee()) {
+            if (Session.user.isEmployeeVisitor()) {
                 //Manager Visitor
                 if (Session.user.isManager()) {
                     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
