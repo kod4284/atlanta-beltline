@@ -125,72 +125,16 @@ public class UserLogin implements Initializable {
                         Session.user = tempUser; //login
 
                         System.out.println(Session.user.getUsername());
-                        sql = ("SELECT employee_type FROM employee where " +
-                                "username = ?;");
+                        sql = ("SELECT count(username) as cnt, employee_type " +
+                                "FROM " +
+                                "employee where username = ?;");
                         pst = conn.prepareStatement(sql);
                         pst.setString(1, Session.user.getUsername());
                         rs = pst.executeQuery();
                         rs.next();
+                        cnt = rs.getInt("cnt");
                         String type = rs.getString("employee_type");
-
-                        Session.user.setEmployeeType(type);
-                        if (Session.user.isEmployee()) {
-
-                            if (type.equals(EmployeeType.STAFF.toString())) {
-                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                        .getWindow();
-                                Parent root = FXMLLoader.load(getClass()
-                                        .getResource
-                                                ("../view/Staff_Functionality_Only" +
-                                                        ".fxml"));
-                                primaryStage.setScene(new Scene(root));
-                            } else if (type.equals(EmployeeType.MANAGER.toString())) {
-                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                        .getWindow();
-                                Parent root = FXMLLoader.load(getClass()
-                                        .getResource
-                                                ("../view/Manager_Functionality_Only" +
-                                                        ".fxml"));
-                                primaryStage.setScene(new Scene(root));
-                            } else {
-                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                        .getWindow();
-                                Parent root = FXMLLoader.load(getClass()
-                                        .getResource
-                                                ("../view/Administrator_Functionality_Only" +
-                                                        ".fxml"));
-                                primaryStage.setScene(new Scene(root));
-                            }
-
-                        } else if (Session.user.isEmployeeVisitor()) {
-                            if (type.equals(EmployeeType.STAFF.toString())) {
-                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                        .getWindow();
-                                Parent root = FXMLLoader.load(getClass()
-                                        .getResource
-                                                ("../view/Staff_Visitor_Functionality" +
-                                                        ".fxml"));
-                                primaryStage.setScene(new Scene(root));
-                            } else if (type.equals(EmployeeType.MANAGER
-                                    .toString())) {
-                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                        .getWindow();
-                                Parent root = FXMLLoader.load(getClass()
-                                        .getResource
-                                                ("../view/Manager_Visitor_Functionality" +
-                                                        ".fxml"));
-                                primaryStage.setScene(new Scene(root));
-                            } else {
-                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                        .getWindow();
-                                Parent root = FXMLLoader.load(getClass()
-                                        .getResource
-                                                ("../view/Administrator_Visitor_Functionality" +
-                                                        ".fxml"));
-                                primaryStage.setScene(new Scene(root));
-                            }
-
-                        } else if(Session.user.isUser()) {
+                        if (cnt < 1) {
                             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                                     .getWindow();
                             Parent root = FXMLLoader.load(getClass()
@@ -199,14 +143,82 @@ public class UserLogin implements Initializable {
                                                     ".fxml"));
                             primaryStage.setScene(new Scene(root));
                         } else {
-                            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                    .getWindow();
-                            Parent root = FXMLLoader.load(getClass()
-                                    .getResource
-                                            ("../view/Visitor_Functionality" +
-                                                    ".fxml"));
-                            primaryStage.setScene(new Scene(root));
+                            if (Session.user.isEmployee()) {
+                                Session.user.setEmployeeType(type);
+                                if (type.equals(EmployeeType.STAFF.toString())) {
+                                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                            .getWindow();
+                                    Parent root = FXMLLoader.load(getClass()
+                                            .getResource
+                                                    ("../view/Staff_Functionality_Only" +
+                                                            ".fxml"));
+                                    primaryStage.setScene(new Scene(root));
+                                } else if (type.equals(EmployeeType.MANAGER.toString())) {
+                                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                            .getWindow();
+                                    Parent root = FXMLLoader.load(getClass()
+                                            .getResource
+                                                    ("../view/Manager_Functionality_Only" +
+                                                            ".fxml"));
+                                    primaryStage.setScene(new Scene(root));
+                                } else {
+                                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                            .getWindow();
+                                    Parent root = FXMLLoader.load(getClass()
+                                            .getResource
+                                                    ("../view/Administrator_Functionality_Only" +
+                                                            ".fxml"));
+                                    primaryStage.setScene(new Scene(root));
+                                }
+
+                            } else if (Session.user.isEmployeeVisitor()) {
+                                if (type.equals(EmployeeType.STAFF.toString())) {
+                                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                            .getWindow();
+                                    Parent root = FXMLLoader.load(getClass()
+                                            .getResource
+                                                    ("../view/Staff_Visitor_Functionality" +
+                                                            ".fxml"));
+                                    primaryStage.setScene(new Scene(root));
+                                } else if (type.equals(EmployeeType.MANAGER
+                                        .toString())) {
+                                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                            .getWindow();
+                                    Parent root = FXMLLoader.load(getClass()
+                                            .getResource
+                                                    ("../view/Manager_Visitor_Functionality" +
+                                                            ".fxml"));
+                                    primaryStage.setScene(new Scene(root));
+                                } else {
+                                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                            .getWindow();
+                                    Parent root = FXMLLoader.load(getClass()
+                                            .getResource
+                                                    ("../view/Administrator_Visitor_Functionality" +
+                                                            ".fxml"));
+                                    primaryStage.setScene(new Scene(root));
+                                }
+
+                            } else if(Session.user.isUser()) {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/User_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            } else {
+                                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                                        .getWindow();
+                                Parent root = FXMLLoader.load(getClass()
+                                        .getResource
+                                                ("../view/Visitor_Functionality" +
+                                                        ".fxml"));
+                                primaryStage.setScene(new Scene(root));
+                            }
                         }
+
+
                     } catch (IOException e) {
                         e.printStackTrace();
 
