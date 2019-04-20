@@ -27,7 +27,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="27.0" prefWidth="475.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionManagerManageEventBack" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -259,16 +259,16 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #249cd3;" text="Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button mnemonicParsing="false" onAction="#btnActionManagerManageEventViewEdit" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #249cd3;" text="View/Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                      <GridPane.margin>
-                        <Insets left="10.0" />
+                        <Insets />
                      </GridPane.margin></Button>
                   <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: #249cd3;" text="Create" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#btnActionManagerManageEventCreate" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: #249cd3;" text="Create" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" />
                </children>
                <VBox.margin>
                   <Insets top="15.0" />

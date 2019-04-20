@@ -51,4 +51,18 @@ public class ManagerSiteReport implements Initializable {
         }
     }
 
+    @FXML
+    public void btnActionManagerSiteReportDailyDetail(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Manager_Daily_Detail.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+
 }
