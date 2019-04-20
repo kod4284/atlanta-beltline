@@ -16,8 +16,6 @@ public class UserTakeTransit {
         @FXML
         public void btnActionTakeTransitBack(ActionEvent event) {
             try {
-                System.out.println(Session.user.getUserType());
-                System.out.println(Session.user.getEmployeeType());
                 //User Only
                 if (Session.user.isUser()) {
                     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()

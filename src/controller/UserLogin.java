@@ -153,8 +153,8 @@ public class UserLogin implements Initializable {
                             }
 
                         } else {
+                            Session.user.setEmployeeType(type);
                             if (Session.user.isEmployee()) {
-                                Session.user.setEmployeeType(type);
                                 if (type.equals(EmployeeType.STAFF.toString())) {
                                     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                                             .getWindow();

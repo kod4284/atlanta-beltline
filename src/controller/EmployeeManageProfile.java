@@ -122,6 +122,8 @@ public class EmployeeManageProfile implements Initializable {
     }
     public void btnActionBack(ActionEvent event) {
         try {
+            System.out.println(Session.user.getUserType());
+            System.out.println(Session.user.getEmployeeType());
             //Visitor
             if (Session.user.isEmployeeVisitor()) {
                 //Manager-Visitor
@@ -150,7 +152,7 @@ public class EmployeeManageProfile implements Initializable {
                     primaryStage.setScene(new Scene(root));
                 }
             //Employee Only
-            } else {
+            } else if (Session.user.isEmployee()) {
                 //Manager Only
                 if (Session.user.isManager()) {
                     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
