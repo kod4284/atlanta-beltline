@@ -123,7 +123,7 @@ public class EmployeeManageProfile implements Initializable {
     public void btnActionBack(ActionEvent event) {
         try {
             //Visitor
-            if (Session.user.isVisitor()) {
+            if (Session.user.isEmployeeVisitor()) {
                 //Manager-Visitor
                 if (Session.user.isManager()) {
                     Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()

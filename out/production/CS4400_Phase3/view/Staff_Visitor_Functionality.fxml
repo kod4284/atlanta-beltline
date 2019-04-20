@@ -27,20 +27,12 @@
          <children>
             <VBox prefHeight="245.0" prefWidth="195.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Manage Profile" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncManageProfile" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Manage Profile" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="21.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="View Schedule" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="Arial" size="21.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Take Transit" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncViewSchedule" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="View Schedule" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="21.0" />
                      </font>
@@ -48,7 +40,15 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="View Transit History" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncTakeTrasit" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Take Transit" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="21.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorViewTransitHistory" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="View Transit History" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="18.0" />
                      </font>
@@ -63,7 +63,7 @@
             </VBox>
             <VBox prefHeight="231.0" prefWidth="190.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Explore Event" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionStaffVisitorFuncExploreEvent" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #249cd3;" text="Explore Event" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="21.0" />
                      </font>
