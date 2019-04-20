@@ -69,7 +69,7 @@ public class checkerFunction {
         return Long.parseUnsignedLong(str.replaceAll("[^\\d]", "" ));
     }
     public static boolean validatePhone(String phoneNo) {
-         if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+         if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}")) {
              return true;
          } else {
              return false;
