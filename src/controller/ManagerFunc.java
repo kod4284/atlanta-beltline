@@ -75,11 +75,11 @@ public class ManagerFunc implements Initializable {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Manager_View_Edit_Event.fxml"));
+                    .getResource("../view/Manager_Manage_Event.fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Cannot load Manager_View_Edit_Event.fxml");
+            System.out.println("Cannot load Manager_Manage_Event.fxml");
 
         }
     }

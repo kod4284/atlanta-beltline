@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import model.Session;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 public class UserTakeTransit {
         @FXML
