@@ -1,9 +1,8 @@
-CREATE SCHEMA `atlanta_beltline` ;
 
 #1
 CREATE TABLE `user` (
 	`username` varchar(20) NOT NULL,
-	`password` varchar(15) NOT NULL,
+	`password` char(64) NOT NULL,
 	`status` ENUM ('Approved', 'Pending', 'Declined'),
 `firstname` varchar(20) NOT NULL,
 	`lastname` varchar(20) NOT NULL,
@@ -170,24 +169,24 @@ ENGINE=INNODB;
 
 
  INSERT INTO user values 
-('james.smith','jsmith123','Approved','James','Smith','Employee'),
-    ('michael.smith','msmith456','Approved','Michael','Smith','Employee, Visitor'),
-    ('robert.smith','rsmith789','Approved','Robert ','Smith','Employee'),
-    ('maria.garcia','mgarcia123','Approved','Maria','Garcia','Employee, Visitor'),
-    ('david.smith','dsmith456','Approved','David','Smith','Employee'),
-    ('manager1','manager1','Pending','Manager','One','Employee'),
-    ('manager2','manager2','Approved','Manager','Two','Employee, Visitor'),
-    ('manager3','manager3','Approved','Manager','Three','Employee'),
-    ('manager4','manager4','Approved','Manager','Four','Employee, Visitor'),
-    ('manager5','manager5','Approved','Manager','Five','Employee, Visitor'),
-    ('maria.rodriguez','mrodriguez','Declined','Maria','Rodriguez','Visitor'),
-    ('mary.smith','msmith789','Approved','Mary','Smith','Visitor'),
-    ('maria.hernandez','mhernandez','Approved','Maria','Hernandez','User'),
-    ('staff1','staff1234','Approved','Staff','One','Employee'),
-    ('staff2','staff4567','Approved','Staff','Two','Employee, Visitor'),
-    ('staff3','staff7890','Approved','Staff','Three','Employee, Visitor'),
-    ('user1','user123456','Pending','User','One','User'),
-    ('visitor1','visitor123','Approved','Visitor','One','Visitor');
+('james.smith','7cf2e5f72d3e144cad58f95214f2dd20ad8f9979f34d561433a31dacbc16071b','Approved','James','Smith','Employee'),
+('michael.smith','6d3a26d88ea77a9b07d79a48307644cd88976173f49f279fed04b681d713a541','Approved','Michael','Smith','Employee, Visitor'),
+('robert.smith','232c98d6f01474e874341b78d28064ac6c318763dbf80b057e0ea116905c7fcc','Approved','Robert ','Smith','Employee'),
+('maria.garcia','ddbdea14aecce91cd12172bce09e9b402a29ea0c2813dc35935095ead340cc35','Approved','Maria','Garcia','Employee, Visitor'),
+('david.smith','f79704e124b997b32bd83c014b05c20413c6a3e928ec8083bf1872c82c025672','Approved','David','Smith','Employee'),
+('manager1','380f9771d2df8566ce2bd5b8ed772b0bb74fd6457fb803ab2d267c394d89c750','Pending','Manager','One','Employee'),
+('manager2','9d05b6092d975b0884c6ba7fadb283ced03da9822ebbd13cc6b6d1855a6495ec','Approved','Manager','Two','Employee, Visitor'),
+('manager3','42385b24804a6609a2744d414e0bf945704427b256ab79144b9ba93f278dbea7','Approved','Manager','Three','Employee'),
+('manager4','e3c0f6e574f2e758a4d9d271fea62894230126062d74fd6d474e2046837f9bce','Approved','Manager','Four','Employee, Visitor'),
+('manager5','60c6fc387428b43201be7da60da59934acb080b254e4eebead657b54154fbeb1','Approved','Manager','Five','Employee, Visitor'),
+('maria.rodriguez','c50218388d572cbe6aac09b33ceb5189608d5b9ede429b5a17562a17fdd547c4','Declined','Maria','Rodriguez','Visitor'),
+('mary.smith','9ddbd60268ae6987437511066a2000f1f0017c23728700f9794628a9d3d33034','Approved','Mary','Smith','Visitor'),
+('maria.hernandez','600d2690306308866676b4229d51e04857876021705362bf3b26b08a1f78f9cb','Approved','Maria','Hernandez','User'),
+('staff1','02defbfb8190f9d0719ef7a23da2049bd2e61442bc14021a6d8a4ae35ca334b7','Approved','Staff','One','Employee'),
+('staff2','6bd0987c664d5e7551004d30656ae1d12b9d262e2d128ba4200934b4116d96cd','Approved','Staff','Two','Employee, Visitor'),
+('staff3','8857a879cbea64f2d20c6c1bfab505f4b23c06d28decb3b9ddc5426b75f469f1','Approved','Staff','Three','Employee, Visitor'),
+('user1','90aae915da86d3b3a4da7a996bc264bfbaf50a953cbbe8cd3478a2a6ccc7b900','Pending','User','One','User'),
+('visitor1','5c1e1b5c8936669bfe844210fb7ae7d3411dd9f41614d09ce9732dfc17c266bc','Approved','Visitor','One','Visitor');
 
 INSERT INTO user_email VALUES
     ('james.smith','jsmith@gmail.com'),

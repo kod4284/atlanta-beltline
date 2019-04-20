@@ -25,7 +25,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="47.0" prefWidth="468.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="31.0" prefWidth="125.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionStaffEventDetailBack" prefHeight="31.0" prefWidth="125.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>

@@ -32,12 +32,13 @@ public class StaffFunc {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Visitor_Functionality.fxml"));
+                    .getResource("../view/Staff_View_Schedule.fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");
         }
-
     }
+
+
 }
