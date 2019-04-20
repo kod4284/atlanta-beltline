@@ -16,17 +16,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.DB;
-import model.Email;
-import model.Session;
-import model.checkerFunction;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,9 +28,8 @@ import java.util.ResourceBundle;
 public class RegisterUser implements Initializable {
     @FXML TextField firstName;
     @FXML TextField lastName;
-    @FXML TextField phone;
     @FXML TextField username;
-    @FXML Label employee_id;
+
     @FXML GridPane emailsPane;
     @FXML Button addBtn;
     @FXML TextField emailField;
@@ -47,9 +40,13 @@ public class RegisterUser implements Initializable {
     @FXML PasswordField confirmPassword;
     private ObservableList<Email> emailData;
     private List<String> emailsFromDB;
+    private List<String> usernames;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadEmails();
+        loadUsernames();
+        fillEmails();
 
     }
 
@@ -72,21 +69,56 @@ public class RegisterUser implements Initializable {
      */
     @FXML
     public void btnActionRegisterUser(ActionEvent event) {
-        isFieldsEmpty();
+        if (!isFieldsEmpty()) {
+            return;
+        }
 
         try {
+            //query
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+            // sql statements
+
+            //if no row return, go to catch
+            //query 1
+            String sql = ("insert into user values (?, ?, 'Pending'," +
+                    " ?, ?, 'User');");
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, username.getText());
+            pst.setString(2, SHA256.encrypt(password.getText()));
+            pst.setString(3, firstName.getText());
+            pst.setString(4, lastName.getText());
+            int rs = pst.executeUpdate();
+            System.out.println(rs + "User registered");
+
+            //query2
+            for (Email email:emailData) {
+                sql = ("insert into user_email values (?, ?);");
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, username.getText());
+                pst.setString(2, email.getEmail());
+                rs = pst.executeUpdate();
+                System.out.println(rs + "email added ");
+            }
+
+
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                    .getWindow();
+                        .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/User_Login.fxml"));
+                        .getResource("../view/User_Login.fxml"));
             primaryStage.setScene(new Scene(root));
-        } catch (IOException e) {
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");
         }
 
     }
-    private void fillEmails(List<String> emails) {
+    private void fillEmails() {
 
         buttonCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
                 (param.getValue()));
@@ -122,9 +154,6 @@ public class RegisterUser implements Initializable {
             }
         });
         emailData = FXCollections.observableArrayList();
-        for (String email: emails) {
-            emailData.add(new Email(email));
-        }
         System.out.println(emailData.size());
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         emailTable.setItems(emailData);
@@ -186,14 +215,35 @@ public class RegisterUser implements Initializable {
             alert.setContentText("Should fill out confirm password field!");
             alert.showAndWait();
             return false;
-        } else if (!checkerFunction.validatePhone(phone.getText())) {
+        } else if (emailData.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Should add at least one email!");
+            alert.showAndWait();
+            return false;
+        } else if (!confirmPassword.getText().equals(password.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("confirm password and password don't match!");
+            alert.showAndWait();
+            return false;
+        } else if (password.getText().length() < 8) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("password should be at least 8 characters!");
+            alert.showAndWait();
+            return false;
+        /*} else if (!checkerFunction.validatePhone(phone.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
             alert.setContentText("Phone Number Should follow the format: " +
                     "###-###-####");
             alert.showAndWait();
-            return false;
+            return false; */
         } else if (firstName.getText().length() > 20) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
@@ -258,6 +308,38 @@ public class RegisterUser implements Initializable {
 
                 while (rs.next()) {
                     emailsFromDB.add(rs.getString("email"));
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadUsernames() {
+        usernames = new ArrayList<>();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+                // sql statements
+                String sql = ("select username from user;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    usernames.add(rs.getString("username"));
                 }
 
 
