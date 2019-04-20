@@ -29,7 +29,7 @@ public class StaffViewSchedule {
     @FXML
     public void btnActionStaffViewScheduleBack(ActionEvent event) {
         try {
-            if (Session.user.isVisitor()) {
+            if (Session.user.isEmployeeVisitor()) {
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                         .getWindow();
                 Parent root = FXMLLoader.load(getClass()

@@ -39,6 +39,48 @@ public class StaffFunc {
             System.out.println("Cannot load User_Login.fxml");
         }
     }
+    @FXML
+    public void btnActionStaffFuncTakeTransit(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Take_Transit.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+
+    @FXML
+    public void btnActionStaffFuncViewTransitHistory(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Transit_History.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+
+    @FXML
+    public void btnActionStaffFuncBack(ActionEvent event) {
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/User_Login.fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+
 
 
 }

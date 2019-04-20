@@ -37,7 +37,7 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Take Transit" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionStaffFuncTakeTransit" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Take Transit" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
@@ -45,7 +45,7 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="View Transit History" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionStaffFuncViewTransitHistory" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="View Transit History" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
@@ -53,7 +53,7 @@
                   <Insets left="80.0" right="80.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Back" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionStaffFuncBack" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #249cd3;" text="Back" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Arial" size="25.0" />
                </font>
