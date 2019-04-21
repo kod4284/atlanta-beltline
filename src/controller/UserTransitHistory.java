@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UserTransitHistory implements Initializable {
@@ -29,6 +30,7 @@ public class UserTransitHistory implements Initializable {
     @FXML TextField route;
     @FXML TextField startDate;
     @FXML TextField endDate;
+    @FXML TableView historyTable;
     @FXML TableColumn<UserTakeTransitData, String> routeCol;
     @FXML TableColumn<UserTakeTransitData, String> transportTypeCol;
     @FXML TableColumn<UserTakeTransitData, String> priceCol;
@@ -36,13 +38,76 @@ public class UserTransitHistory implements Initializable {
     private ObservableList<UserTransitHistoryData> historyData;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadSitesAndFillComboBox();
+    }
+    private void loadSitesAndFillComboBox() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select site_name from site;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    sites.add(rs.getString("site_name"));
+                }
+                containSite.getItems().addAll(sites);
+                containSite.getSelectionModel().selectFirst();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TransportType[] transportType = TransportType.class.getEnumConstants();
+        this.transportType.getItems().addAll(transportType);
+        this.transportType.getSelectionModel().selectFirst();
 
     }
-
+    private boolean checkFields() {
+        if (startDate.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Fill out Start date field!");
+            alert.showAndWait();
+            return false;
+        } else if (endDate.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Fill out End date field!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
     public void btnActionFilter(ActionEvent event) {
+        if (!checkFields()) {
+            return;
+        }
         historyData = FXCollections.observableArrayList();
+        System.out.println(transportType.getValue().toString());
+        System.out.println(TransportType.ALL);
+        System.out.println(transportType.getValue().toString().equals
+                (TransportType.ALL.toString()));
+        System.out.println(route.getText().trim().equals(""));
         if (transportType.getValue().toString().equals(TransportType
-                .ALL) && route.getText().trim().equals("")) {
+                .ALL.toString()) && route.getText().trim().equals("")) {
+            System.out.println("yes!");
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 // create a connection to the database
@@ -82,6 +147,8 @@ public class UserTransitHistory implements Initializable {
                     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
                     routeCol.setCellValueFactory(new PropertyValueFactory<>
                             ("route"));
+                    historyTable.setItems(historyData);
+
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -94,7 +161,7 @@ public class UserTransitHistory implements Initializable {
                 e.printStackTrace();
             }
         } else if (!transportType.getValue().toString().equals(TransportType
-                .ALL) && route.getText().trim().equals("")) {
+                .ALL.toString()) && route.getText().trim().equals("")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 // create a connection to the database
@@ -136,6 +203,7 @@ public class UserTransitHistory implements Initializable {
                     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
                     routeCol.setCellValueFactory(new PropertyValueFactory<>
                             ("route"));
+                    historyTable.setItems(historyData);
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -148,7 +216,7 @@ public class UserTransitHistory implements Initializable {
                 e.printStackTrace();
             }
         } else if (transportType.getValue().toString().equals(TransportType
-                .ALL) && !route.getText().trim().equals("")) {
+                .ALL.toString()) && !route.getText().trim().equals("")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 // create a connection to the database
@@ -190,6 +258,7 @@ public class UserTransitHistory implements Initializable {
                     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
                     routeCol.setCellValueFactory(new PropertyValueFactory<>
                             ("route"));
+                    historyTable.setItems(historyData);
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -202,7 +271,7 @@ public class UserTransitHistory implements Initializable {
                 e.printStackTrace();
             }
         } else if (!transportType.getValue().toString().equals(TransportType
-                .ALL) && route.getText().trim().equals("")) {
+                .ALL.toString()) && route.getText().trim().equals("")) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 // create a connection to the database
@@ -246,6 +315,7 @@ public class UserTransitHistory implements Initializable {
                     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
                     routeCol.setCellValueFactory(new PropertyValueFactory<>
                             ("route"));
+                    historyTable.setItems(historyData);
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -259,10 +329,6 @@ public class UserTransitHistory implements Initializable {
             }
         }
 
-
-    }
-    private void queryRouteIsEmpty() {
-        historyData = FXCollections.observableArrayList();
 
     }
 
