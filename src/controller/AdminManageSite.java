@@ -3,15 +3,39 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import model.Session;
+import model.Staff;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AdminManageSite {
+public class AdminManageSite implements Initializable {
+    @FXML ComboBox<String> site;
+    @FXML ComboBox<String> manager;
+
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+
+    @FXML
+    public void btnActionAdminManageSiteFilter(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void btnActionAdminManageSiteDelete(ActionEvent event) {
+
+    }
+
     @FXML
     public void btnActionAdminManageUserBack(ActionEvent event) {
         try {
