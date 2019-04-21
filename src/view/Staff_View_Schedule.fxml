@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="532.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StaffViewSchedule">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="532.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StaffViewSchedule">
     <top>
         <Label contentDisplay="BOTTOM" text="View Schedule" BorderPane.alignment="CENTER">
             <font>
@@ -75,22 +75,22 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1">
+                  <TextField fx:id="eventName" prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="30.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="3">
+                  <TextField fx:id="descriptionKeyword" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="startDate" prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="30.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <TextField fx:id="endDate" prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="20.0" />
                      </GridPane.margin>
@@ -135,7 +135,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionManagerViewScheduleFilter" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="40.0" />
                      </GridPane.margin>

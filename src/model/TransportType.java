@@ -1,7 +1,7 @@
 package model;
 
 public enum TransportType {
-    ALL("-- ALL --"), MARTA("MARTA"), BUS("Bus"), BIKE("Bike");
+    ALL("-- ALL --"), MARTA("MARTA"), BUS("Bus"), BIKE("Bike"), OTHER("Other");
 
     final String transportType;
 

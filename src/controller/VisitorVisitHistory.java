@@ -3,15 +3,35 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Session;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class VisitorVisitHistory {
+public class VisitorVisitHistory implements Initializable {
+
+    @FXML TextField event;
+    @FXML TextField site;
+    @FXML TextField startDate;
+    @FXML TextField endDate;
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    @FXML
+    public void btnActionVisitorVisitHistoryFilter(ActionEvent event) {
+
+    }
 
     @FXML
     public void btnActionVisitorVisitHistoryBack(ActionEvent event) {

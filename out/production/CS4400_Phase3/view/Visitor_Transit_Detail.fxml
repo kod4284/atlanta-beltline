@@ -65,8 +65,8 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label text="SITENAME" GridPane.columnIndex="1" />
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" />
+                  <Label fx:id="site" text="SITENAME" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="transportTypeComboBox" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
@@ -119,8 +119,8 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="2" />
-                  <Button cache="true" mnemonicParsing="false" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: #249cd3;" text="Log Transit" textFill="WHITE" GridPane.columnIndex="3">
+                  <TextField fx:id="transitDate" GridPane.columnIndex="2" />
+                  <Button cache="true" mnemonicParsing="false" onAction="#btnActionVisitorTransitDetailLogTransit" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: #249cd3;" text="Log Transit" textFill="WHITE" GridPane.columnIndex="3">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
