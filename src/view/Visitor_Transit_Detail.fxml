@@ -83,13 +83,12 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="transitTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="149.0" text="Route" />
-                  <TableColumn prefWidth="137.0" text="Transport Type" />
-                  <TableColumn text="Price" />
-                  <TableColumn prefWidth="109.0" text="# Connected&#10;Sites" />
+                <TableColumn fx:id="routeCol" prefWidth="149.0" text="Route" />
+                  <TableColumn fx:id="transportTypeCol" prefWidth="137.0" text="Transport Type" />
+                  <TableColumn fx:id="priceCol" text="Price" />
+                  <TableColumn fx:id="connectedSitesCol" prefWidth="109.0" text="# Connected&#10;Sites" />
               </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />

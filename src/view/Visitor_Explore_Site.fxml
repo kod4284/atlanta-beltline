@@ -77,7 +77,7 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <TextField fx:id="endDate" prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="20.0" />
                      </GridPane.margin>
@@ -104,17 +104,17 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="startDate" prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="30.0" />
                      </GridPane.margin>
                   </TextField>
-                  <ComboBox prefWidth="150.0" GridPane.columnIndex="1">
+                  <ComboBox fx:id="name" prefWidth="150.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="10.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <ComboBox prefWidth="150.0" GridPane.columnIndex="3">
+                  <ComboBox fx:id="openEveryday" prefWidth="150.0" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="50.0" right="20.0" />
                      </GridPane.margin>
@@ -161,22 +161,22 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="totalVisitsRangeMin" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="3">
+                  <TextField fx:id="totalVisitsRangeMax" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="5">
+                  <TextField fx:id="eventCountRangeMin" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="7">
+                  <TextField fx:id="eventCountRangeMax" GridPane.columnIndex="7">
                      <GridPane.margin>
                         <Insets right="25.0" top="5.0" />
                      </GridPane.margin>
@@ -204,7 +204,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </padding>
                <children>
-                  <CheckBox mnemonicParsing="false" prefHeight="18.0" prefWidth="203.0" text="Include Visited">
+                  <CheckBox fx:id="includeVisited" mnemonicParsing="false" prefHeight="18.0" prefWidth="203.0" text="Include Visited">
                      <GridPane.margin>
                         <Insets left="150.0" />
                      </GridPane.margin></CheckBox>
@@ -225,7 +225,7 @@
                         <Insets left="40.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionVisitorExploreSiteFilter" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="40.0" />
                      </GridPane.margin>
@@ -240,13 +240,12 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="exploreSiteTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="185.0" text="Site Name" />
-                  <TableColumn prefWidth="121.0" text="Event Count" />
-                  <TableColumn minWidth="0.0" prefWidth="86.0" text="Total Visits" />
-                  <TableColumn prefWidth="83.0" text="MyVisits" />
+                <TableColumn fx:id="siteNameCol" prefWidth="185.0" text="Site Name" />
+                  <TableColumn fx:id="eventCountCol" prefWidth="121.0" text="Event Count" />
+                  <TableColumn fx:id="totalVisitsCol" minWidth="0.0" prefWidth="86.0" text="Total Visits" />
+                  <TableColumn fx:id="myVisitsCol" prefWidth="83.0" text="MyVisits" />
               </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="20.0" />

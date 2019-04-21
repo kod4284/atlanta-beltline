@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="476.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageSite">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="584.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageSite">
     <top>
         <Label contentDisplay="BOTTOM" text="Manage Site" BorderPane.alignment="CENTER">
             <font>
@@ -28,7 +28,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="47.0" prefWidth="468.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionAdminManageUserBack" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -97,7 +97,7 @@
                         <Insets top="10.0" />
                     </VBox.margin>
                <children>
-                  <ComboBox prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="openEveryday" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
                   <Label contentDisplay="BOTTOM" text="Open Everyday">
                      <font>
                         <Font name="Arial" size="15.0" />
@@ -127,7 +127,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #249cd3;" text="Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                  <Button mnemonicParsing="false" onAction="#btnActionAdminManageUserEdit" prefHeight="29.0" prefWidth="80.0" style="-fx-background-color: #249cd3;" text="Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></Button>
@@ -136,18 +136,18 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: #249cd3;" text="Create" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#btnActionAdminManageUserCreate" prefHeight="29.0" prefWidth="78.0" style="-fx-background-color: #249cd3;" text="Create" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="235.0" text="Name" />
-                  <TableColumn prefWidth="128.0" text="Manager" />
-                  <TableColumn prefWidth="74.0" text="Open &#10;Everyday" />
+                <TableColumn minWidth="0.0" prefWidth="1.0000152587890625" />
+                <TableColumn fx:id="nameCol" prefWidth="263.99998474121094" text="Name" />
+                  <TableColumn fx:id="managerCol" prefWidth="194.0" text="Manager" />
+                  <TableColumn fx:id="openEverydayCol" prefWidth="106.0" text="Open &#10;Everyday" />
               </columns>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" top="20.0" />
