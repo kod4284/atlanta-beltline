@@ -2,6 +2,9 @@ package model;
 
 import javafx.scene.control.Alert;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class checkerFunction {
@@ -18,6 +21,46 @@ public class checkerFunction {
 
         Pattern pat = Pattern.compile(emailRegex);
         return (email != null) && pat.matcher(email).matches();
+    }
+    public static boolean laterThanCurrentTime(String input) {
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        if (input.compareTo(formatter.format(date)) < 0) {
+            return false;
+        }
+        return true;
+    }
+    public static boolean verifyDateFormat(String dateToValidate){
+
+        if(dateToValidate == null){
+            return false;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+
+        try {
+
+            //if not valid, it will throw ParseException
+            Date date = sdf.parse(dateToValidate);
+            System.out.println(date);
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean verifyNumeric(String price) {
+        try {
+            double d = Double.parseDouble(price);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
     public static boolean verifyZip(String zip) {
         String regex = "^[0-9]{5}";
