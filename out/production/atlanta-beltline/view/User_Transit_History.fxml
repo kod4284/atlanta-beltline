@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="475.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserTransitHistory">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="475.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserTransitHistory">
     <top>
         <Label contentDisplay="BOTTOM" text="Transit History" BorderPane.alignment="CENTER">
             <font>
@@ -50,7 +50,7 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label contentDisplay="BOTTOM" text="Contain Stie" GridPane.columnIndex="2">
+                  <Label contentDisplay="BOTTOM" text="Contain Site" GridPane.columnIndex="2">
                      <font>
                         <Font name="Arial" size="13.0" />
                      </font>
@@ -61,8 +61,8 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
+                  <ComboBox fx:id="transportType" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="containSite" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
@@ -107,8 +107,8 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="29.0" prefWidth="61.0" GridPane.columnIndex="1" />
-                  <TextField prefHeight="29.0" prefWidth="159.0" GridPane.columnIndex="3" />
+                  <TextField fx:id="route" prefHeight="29.0" prefWidth="61.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="startDate" prefHeight="29.0" prefWidth="159.0" GridPane.columnIndex="3" />
                   <Label contentDisplay="BOTTOM" text="End Date" GridPane.columnIndex="4">
                      <font>
                         <Font name="Arial" size="13.0" />
@@ -120,7 +120,7 @@
                         <Insets left="18.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="29.0" prefWidth="159.0" GridPane.columnIndex="5">
+                  <TextField fx:id="endDate" prefHeight="29.0" prefWidth="159.0" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
@@ -130,17 +130,17 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </GridPane>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#btnActionFilter" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
                <VBox.margin>
                   <Insets left="180.0" right="180.0" top="20.0" />
                </VBox.margin>
             </Button>
             <TableView prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="124.0" text="Date" />
-                <TableColumn prefWidth="107.0" text="Route" />
-                  <TableColumn prefWidth="125.0" text="Transport&#10;Type&#10;" />
-                  <TableColumn prefWidth="92.0" text="Price" />
+                <TableColumn fx:id="dateCol" prefWidth="124.0" text="Date" />
+                <TableColumn fx:id="routeCol" prefWidth="107.0" text="Route" />
+                  <TableColumn fx:id="transportTypeCol" prefWidth="125.0" text="Transport&#10;Type&#10;" />
+                  <TableColumn fx:id="priceCol" prefWidth="92.0" text="Price" />
               </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="10.0" />
