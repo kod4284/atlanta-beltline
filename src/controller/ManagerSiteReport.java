@@ -223,12 +223,12 @@ public class ManagerSiteReport implements Initializable {
                         .getWindow();
                 Parent root = FXMLLoader.load(getClass()
                         .getResource
-                                ("../view/Manager_Visitor_Functionality_Only" +
+                                ("../view/Manager_Visitor_Functionality" +
                                 ".fxml"));
                 primaryStage.setScene(new Scene(root));
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Cannot load Manager_Visitor_Functionality_Only.fxml");
+                System.out.println("Cannot load Manager_Visitor_Functionality.fxml");
             }
         }
     }
