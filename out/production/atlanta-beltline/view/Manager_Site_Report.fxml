@@ -74,12 +74,12 @@
                         <Insets left="50.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1">
+                  <TextField fx:id="startDate" prefHeight="27.0" prefWidth="137.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" right="30.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="3">
+                  <TextField fx:id="endDate" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" right="20.0" />
                      </GridPane.margin>
@@ -127,12 +127,12 @@
                         <Insets left="10.0" right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="5">
+                  <TextField fx:id="staffCountRangeStart" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="7">
+                  <TextField fx:id="staffCountRangeEnd" GridPane.columnIndex="7">
                      <GridPane.margin>
                         <Insets right="25.0" />
                      </GridPane.margin>
@@ -141,8 +141,8 @@
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin></Label>
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField prefHeight="27.0" prefWidth="60.0" GridPane.columnIndex="3">
+                  <TextField fx:id="eventCountRangeStart" GridPane.columnIndex="1" />
+                  <TextField fx:id="eventCountRangeEnd" prefHeight="27.0" prefWidth="60.0" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -174,19 +174,19 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="totalVisitsRangeStart" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <TextField fx:id="totalVisitsRangeEnd" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="1">
+                  <TextField fx:id="totalRevenueRangeStart" GridPane.columnIndex="5" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="7" GridPane.rowIndex="1">
+                  <TextField fx:id="totalRevenueRangeEnd" GridPane.columnIndex="7" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="25.0" top="5.0" />
                      </GridPane.margin></TextField>
@@ -216,12 +216,12 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#btnActionManagerSiteReportDailyDetail" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #249cd3;" text="Daily Detail" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
+                  <Button fx:id="dailyDetailButton" mnemonicParsing="false" onAction="#btnActionManagerSiteReportDailyDetail" prefHeight="27.0" prefWidth="118.0" style="-fx-background-color: #249cd3;" text="Daily Detail" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="filterButton" mnemonicParsing="false" onAction="#btnActionFilter" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="40.0" />
                      </GridPane.margin>
@@ -234,14 +234,13 @@
                   <Insets top="10.0" />
                </padding>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="siteReportTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="146.0" text="Date" />
-                  <TableColumn prefWidth="96.0" text="Event&#10;Count&#10;" />
-                  <TableColumn prefWidth="66.0" text="Staff&#10;Count&#10;" />
-                  <TableColumn prefWidth="82.0" text="Total Visits" />
-                  <TableColumn prefWidth="105.0" text="Total&#10;Revenues ($)" />
+                <TableColumn fx:id="dateCol" prefWidth="146.0" text="Date" />
+                  <TableColumn fx:id="eventCountCol" prefWidth="96.0" text="Event&#10;Count&#10;" />
+                  <TableColumn fx:id="staffCountCol" prefWidth="66.0" text="Staff&#10;Count&#10;" />
+                  <TableColumn fx:id="totalVisitsCol" prefWidth="82.0" text="Total Visits" />
+                  <TableColumn fx:id="totalRevenueCol" prefWidth="105.0" text="Total&#10;Revenues ($)" />
               </columns>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" top="10.0" />
