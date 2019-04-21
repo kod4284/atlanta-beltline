@@ -23,4 +23,44 @@ public class VisitorExploreEventData {
         this.totalVisits = totalVisits;
         this.myVisits = myVisits;
     }
+
+    public String getEventName() {
+        return eventName.get();
+    }
+
+    public SimpleStringProperty eventNameProperty() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName.set(eventName);
+    }
+
+    public String getSiteName() {
+        return siteName.get();
+    }
+
+    public SimpleStringProperty siteNameProperty() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName.set(siteName);
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public int getTicketRemaining() {
+        return ticketRemaining;
+    }
+
+    public int getTotalVisits() {
+        return totalVisits;
+    }
+
+    public int getMyVisits() {
+        return myVisits;
+    }
 }
