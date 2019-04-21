@@ -1,22 +1,21 @@
 package controller;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.DB;
-import model.Session;
-import model.TransportType;
-import model.checkerFunction;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +33,13 @@ public class VisitorVisitHistory implements Initializable {
     @FXML TextField startDate;
     @FXML TextField endDate;
 
+    @FXML TableView visitHistoryTable;
+    @FXML TableColumn<VisitorVisitHistoryData, String> dateCol;
+    @FXML TableColumn<VisitorVisitHistoryData, String> eventCol;
+    @FXML TableColumn<VisitorVisitHistoryData, String> siteCol;
+    @FXML TableColumn<VisitorVisitHistoryData, String> priceCol;
+
+    private ObservableList<VisitorVisitHistoryData> visitorVisitHistoryData;
     ToggleGroup group;
 
     @Override
@@ -84,26 +90,172 @@ public class VisitorVisitHistory implements Initializable {
 
     private void loadTableData() {
 
-        if (!allDataValid()) {
-            return;
-        }
-//        visitorVisitHistoryData = FXCollections.observableArrayList();
+         visitorVisitHistoryData = FXCollections.observableArrayList();
 
+        if (site.getValue().toString().equals("-- ALL --")) {
+            sqlAllSite();
+        } else {
+            sqlNotAllSite();
+        }
+    }
+
+    private void sqlNotAllSite() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select * from\n" +
+                        "(select visit_event_date as Date, event.event_name " +
+                        "as Event, event.site_name as Site, event.start_date, event.event_price " +
+                        "as 'Price'\n" +
+                        "from visit_event join event \n" +
+                        "on event.event_name=visit_event.event_name " +
+                        "and event.site_name=visit_event.site_name " +
+                        "and event.start_date=visit_event.start_date\n" +
+                        "where visitor_username='visitor1'\n" +
+                        "union\n" +
+                        "select visit_site_date as Date, " +
+                        "NULL as Event, site_name as Site, " +
+                        "NULL as start_date, 0 as 'Price' from visit_site " +
+                        "where visitor_username='visitor1') t\n" +
+                        "where Site=? #filter visitor1’s visit site\n" +
+                        "and Event like concat('%',?,'%') #filter visitor1’s visit event\n" +
+                        "and Date between ? and ? #filter the date\n" +
+                        "order by Date;\n" +
+                        "#sort by each column\n" +
+                        "-- order by Date desc\n" +
+                        "-- order by Event\n" +
+                        "-- order by Event desc\n" +
+                        "-- order by Site\n" +
+                        "-- order by Site desc\n" +
+                        "-- order by Price\n" +
+                        "-- order by Price desc\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, site.getValue().toString().trim());
+                pst.setString(2, event.getText());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    visitorVisitHistoryData.add(new VisitorVisitHistoryData(
+                            new SimpleStringProperty(rs.getString("Date")),
+                            new SimpleStringProperty(rs.getString("Event")),
+                            new SimpleStringProperty(rs.getString("Site")),
+                            Integer.valueOf(rs.getInt("Price"))));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        dateCol.setCellValueFactory(new PropertyValueFactory<>(
+                "date"));
+        eventCol.setCellValueFactory(new PropertyValueFactory<>(
+                "event"));
+        siteCol.setCellValueFactory(new PropertyValueFactory<>(
+                "site"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "price"));
+
+        visitHistoryTable.setItems(visitorVisitHistoryData);
 
     }
 
-    private boolean allDataValid() {
+    private void sqlAllSite() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
 
-        if (!checkerFunction.verifyDateFormat(startDate.getText()) || !checkerFunction.verifyDateFormat(endDate.getText())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Field input Warning");
-            alert.setContentText("The date should follow the format" +
-                    "####-##-##");
-            alert.showAndWait();
-            return false;
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select * from\n" +
+                        "(select visit_event_date as Date, event.event_name " +
+                        "as Event, event.site_name as Site, event.start_date, event.event_price " +
+                        "as 'Price'\n" +
+                        "from visit_event join event \n" +
+                        "on event.event_name=visit_event.event_name " +
+                        "and event.site_name=visit_event.site_name " +
+                        "and event.start_date=visit_event.start_date\n" +
+                        "where visitor_username='visitor1'\n" +
+                        "union\n" +
+                        "select visit_site_date as Date, " +
+                        "NULL as Event, site_name as Site, " +
+                        "NULL as start_date, 0 as 'Price' from visit_site " +
+                        "where visitor_username='visitor1') t\n" +
+//                        "where Site=? #filter visitor1’s visit site\n" +
+                        "where Event like concat('%',?,'%') #filter visitor1’s visit event\n" +
+                        "and Date between ? and ? #filter the date\n" +
+                        "order by Date;\n" +
+                        "#sort by each column\n" +
+                        "-- order by Date desc\n" +
+                        "-- order by Event\n" +
+                        "-- order by Event desc\n" +
+                        "-- order by Site\n" +
+                        "-- order by Site desc\n" +
+                        "-- order by Price\n" +
+                        "-- order by Price desc\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, event.getText());
+                pst.setString(2, startDate.getText());
+                pst.setString(3, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    visitorVisitHistoryData.add(new VisitorVisitHistoryData(
+                            new SimpleStringProperty(rs.getString("Date")),
+                            new SimpleStringProperty(rs.getString("Event")),
+                            new SimpleStringProperty(rs.getString("Site")),
+                            Integer.valueOf(rs.getInt("Price"))));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return true;
+
+
+        dateCol.setCellValueFactory(new PropertyValueFactory<>(
+                "date"));
+        eventCol.setCellValueFactory(new PropertyValueFactory<>(
+                "event"));
+        siteCol.setCellValueFactory(new PropertyValueFactory<>(
+                "site"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "price"));
+
+        visitHistoryTable.setItems(visitorVisitHistoryData);
+
     }
 
     @FXML

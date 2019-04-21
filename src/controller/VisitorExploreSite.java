@@ -1289,9 +1289,12 @@ public class VisitorExploreSite implements Initializable {
             Parent root = FXMLLoader.load(getClass()
                     .getResource("../view/Visitor_Site_Detail.fxml"));
             primaryStage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Cannot load User_Login.fxml");
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please select an item");
+            alert.showAndWait();
         }
     }
 
@@ -1307,9 +1310,12 @@ public class VisitorExploreSite implements Initializable {
             Parent root = FXMLLoader.load(getClass()
                     .getResource("../view/Visitor_Transit_Detail.fxml"));
             primaryStage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Cannot load User_Login.fxml");
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please select an item");
+            alert.showAndWait();
         }
     }
 
