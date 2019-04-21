@@ -19,10 +19,7 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AdminManageUser implements Initializable {
@@ -461,6 +458,9 @@ public class AdminManageUser implements Initializable {
     }
     @FXML
     public void btnActionAdminManageUserFilter(ActionEvent event) {
+        filter();
+    }
+    private void filter() {
         userData = FXCollections.observableArrayList();
         if (username.getText().trim().equals("")) {
             System.out.println("empty");
@@ -538,15 +538,124 @@ public class AdminManageUser implements Initializable {
 
         tableView.setItems(userData);
     }
-
     @FXML
     public void btnActionAdminManageUserApprove(ActionEvent event) {
+        AdminManageUserData item = (AdminManageUserData) tableView.getItems()
+                .get(colIndex);
+        System.out.println(item.getStatus().equals(UserStatus.DECLINED.toString()));
+        if(item.getStatus().equals(UserStatus.DECLINED.toString())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Update Error");
+            alert.setContentText("You cannot approve declined account!");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
 
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("update user set status='Approved' where " +
+                        "username=?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, item.getUsername());
+                int rs = pst.executeUpdate();
+                System.out.println(rs + " rows inserted");
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Field input Confirmation");
+                alert.setContentText("The date successfully inserted!");
+                alert.showAndWait();
+
+            } catch(SQLIntegrityConstraintViolationException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Duplicate Input");
+                alert.setContentText("You cannot input because of duplicate " +
+                        "value!");
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        filter();
     }
 
     @FXML
     public void btnActionAdminManageUserDecline(ActionEvent event) {
+        AdminManageUserData item = (AdminManageUserData) tableView.getItems()
+                .get(colIndex);
+        System.out.println(item.getStatus().equals(UserStatus.APPROVED.toString()));
+        if(item.getStatus().equals(UserStatus.APPROVED.toString())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Update Error");
+            alert.setContentText("You cannot decline approved account!");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
 
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("update user set status='Declined' where " +
+                        "username=? and user_Type<>'Approved'");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, item.getUsername());
+                int rs = pst.executeUpdate();
+                System.out.println(rs + " rows updated");
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Field input Confirmation");
+                alert.setContentText("The date successfully inserted!");
+                alert.showAndWait();
+
+            } catch(SQLIntegrityConstraintViolationException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Duplicate Input");
+                alert.setContentText("You cannot input because of duplicate " +
+                        "value!");
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        filter();
     }
 
     @FXML

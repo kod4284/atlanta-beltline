@@ -1,4 +1,4 @@
-package model;
+ManagerManageEventDatapackage model;
 
 import javafx.scene.control.Alert;
 

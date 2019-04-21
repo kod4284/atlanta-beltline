@@ -263,7 +263,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="visitorExploreEventTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn prefWidth="30.0" />
                 <TableColumn prefWidth="119.0" text="Event Name" />
