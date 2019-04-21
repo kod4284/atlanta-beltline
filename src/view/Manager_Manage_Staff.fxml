@@ -66,7 +66,7 @@
                         <Insets left="160.0" right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <ComboBox prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="site" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
@@ -118,15 +118,15 @@
                         <Insets left="20.0" right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="startDate" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <TextField fx:id="endDate" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="20.0" top="5.0" />
                      </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="1" />
+                  <TextField fx:id="firstName" GridPane.columnIndex="1" />
                   <Label contentDisplay="BOTTOM" layoutX="20.0" layoutY="44.0" text="First Name">
                      <font>
                         <Font name="Arial" size="15.0" />
@@ -149,7 +149,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField layoutX="127.0" layoutY="11.0" prefHeight="27.0" prefWidth="122.0" GridPane.columnIndex="3">
+                  <TextField fx:id="lastName" layoutX="127.0" layoutY="11.0" prefHeight="27.0" prefWidth="122.0" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
@@ -159,7 +159,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </GridPane>
-            <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Filter" textFill="WHITE">
+            <Button cache="true" mnemonicParsing="false" onAction="#btnActionManagerManageStaffFilter" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Filter" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

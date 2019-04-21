@@ -73,7 +73,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="name" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
@@ -108,7 +108,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="2">
+                  <TextField fx:id="price" GridPane.columnIndex="2">
                      <GridPane.margin>
                         <Insets right="30.0" />
                      </GridPane.margin></TextField>
@@ -128,8 +128,8 @@
                      <font>
                         <Font size="11.0" />
                      </font></Label>
-                  <TextField GridPane.columnIndex="4" />
-                  <TextField GridPane.columnIndex="6">
+                  <TextField fx:id="capacity" GridPane.columnIndex="4" />
+                  <TextField fx:id="minimumStaffRequired" GridPane.columnIndex="6">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
@@ -172,8 +172,8 @@
                         <Insets left="20.0" right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="3">
+                  <TextField fx:id="startDate" GridPane.columnIndex="1" />
+                  <TextField fx:id="endDate" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin></TextField>
@@ -204,7 +204,7 @@
                   </Label>
                   <ScrollPane prefHeight="99.0" prefWidth="354.0" GridPane.columnIndex="1">
                      <content>
-                        <TextArea prefHeight="112.0" prefWidth="337.0" />
+                        <TextArea fx:id="description" prefHeight="112.0" prefWidth="337.0" />
                      </content>
                   </ScrollPane>
                </children>
@@ -221,7 +221,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label contentDisplay="BOTTOM" text="Staff Assgned" wrapText="true">
+                  <Label contentDisplay="BOTTOM" text="Staff Assigned" wrapText="true">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>
@@ -234,7 +234,7 @@
                   </Label>
                   <ScrollPane prefHeight="99.0" prefWidth="354.0" GridPane.columnIndex="1">
                      <content>
-                        <ListView prefHeight="106.0" prefWidth="337.0" />
+                        <ListView fx:id="staffAssigned" prefHeight="106.0" prefWidth="337.0" />
                      </content>
                   </ScrollPane>
                </children>
