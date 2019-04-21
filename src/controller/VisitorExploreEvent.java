@@ -23,10 +23,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -125,14 +122,22 @@ public class VisitorExploreEvent implements Initializable {
             if (includeVisited.isSelected() && includeSoldOutEvent.isSelected()) {
                 sqlAllCheckedboth();
             } else if (includeVisited.isSelected() && !includeSoldOutEvent.isSelected()) {
-//                sqlAllVisitedChecked();
+                sqlAllVisitedChecked();
             } else if (!includeVisited.isSelected() && includeSoldOutEvent.isSelected()) {
-//                sqlAllSoldOutChecked();
+                sqlAllSoldOutChecked();
             } else {
-//                sqlAllNotCheckdBoth();
+                sqlAllNotCheckdBoth();
             }
         } else {
-            sqlNotAll();
+            if (includeVisited.isSelected() && includeSoldOutEvent.isSelected()) {
+                sqlNotAllCheckedboth();
+            } else if (includeVisited.isSelected() && !includeSoldOutEvent.isSelected()) {
+                sqlNotAllVisitedChecked();
+            } else if (!includeVisited.isSelected() && includeSoldOutEvent.isSelected()) {
+                sqlNotAllSoldOutChecked();
+            } else {
+                sqlNotAllNotCheckdBoth();
+            }
         }
 
     }
@@ -150,18 +155,15 @@ public class VisitorExploreEvent implements Initializable {
                 // sql statements
 
                 //if no row return, go to catch
-                String sql = ("select site_name from site;\n" +
-                        "\n" +
-                        "select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
-                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, " +
-                        "0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
                         "from event left outer join visit_event \n" +
                         "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
                         "event.site_name=visit_event.site_name\n" +
-                        "where event.event_name like '%'+?+'%'\n" +
-                        "and description like '%'+?'%'\n" +
-                        "and event.site_name=?\n" +
-                        "and '2019-02-01'<=?\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "#and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
                         "and event.end_date<=?\n" +
                         "and event_price between ? and ?\n" +
                         "group by event.event_name, event.site_name, event.start_date\n" +
@@ -173,19 +175,21 @@ public class VisitorExploreEvent implements Initializable {
                         "order by event_name) as t2\n" +
                         "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
                         "where total_visits between ? and ?\n" +
-                        "#and my_visits is NULL #if include visited not checked\n" +
-                        "#and ticket_remaining>0 #if include sold out event not checked\n" +
+                        "#and my_visits is NULL #if include visited not " +
+                        "checked\n" +
+                        "#and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
                         "order by event_name;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, name.getText());
                 pst.setString(2, descriptionKeyword.getText());
-                pst.setString(3, siteName.getValue().toString());
-                pst.setString(4, startDate.getText());
-                pst.setString(5, endDate.getText());
-                pst.setInt(6, Integer.parseInt(totalRevenueRangeMin.getText()));
-                pst.setInt(7, Integer.parseInt(totalRevenueRangeMax.getText()));
-                pst.setInt(8, Integer.parseInt(totalVisitsRangeMin.getText()));
-                pst.setInt(9,Integer.parseInt(totalVisitsRangeMax.getText()));
+//                pst.setString(3, siteName.getValue().toString());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                pst.setInt(5, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(7, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(8,Integer.parseInt(totalVisitsRangeMax.getText()));
                 ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
@@ -194,7 +198,8 @@ public class VisitorExploreEvent implements Initializable {
                             Double.valueOf(rs.getDouble("event_price")),
                             Integer.valueOf(rs.getInt("ticket_remaining")),
                             Integer.valueOf(rs.getInt("total_visits")),
-                            Integer.valueOf(rs.getInt("my_visits"))));
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
                 }
 
             } catch (Exception e) {
@@ -225,7 +230,7 @@ public class VisitorExploreEvent implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
+//                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent arg0) {
@@ -250,7 +255,7 @@ public class VisitorExploreEvent implements Initializable {
         visitorExploreEventTable.setItems(exploreEventData);
     }
 
-    private void sqlNotAll() {
+    private void sqlAllVisitedChecked() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -263,20 +268,17 @@ public class VisitorExploreEvent implements Initializable {
                 // sql statements
 
                 //if no row return, go to catch
-                String sql = ("select site_name from site;\n" +
-                        "\n" +
-                        "select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
-                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, " +
-                        "0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
                         "from event left outer join visit_event \n" +
                         "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
                         "event.site_name=visit_event.site_name\n" +
-                        "#where event.event_name like '%%'\n" +
-                        "#and description like '%%'\n" +
-                        "#and event.site_name='Inman Park'\n" +
-                        "#and '2019-02-01'<=event.start_date\n" +
-                        "#and event.end_date<='2020-01-01'\n" +
-                        "#and event_price between 0 and 9999\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "#and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
                         "group by event.event_name, event.site_name, event.start_date\n" +
                         "order by event.event_name) as t1\n" +
                         "left outer join\n" +
@@ -285,13 +287,367 @@ public class VisitorExploreEvent implements Initializable {
                         "group by event_name, site_name, start_date\n" +
                         "order by event_name) as t2\n" +
                         "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
-                        "#where total_visits between 0 and 20\n" +
-                        "#and my_visits is NULL #if include visited not checked\n" +
-                        "#and ticket_remaining>0 #if include sold out event not checked\n" +
+                        "where total_visits between ? and ?\n" +
+                        "#and my_visits is NULL #if include visited not " +
+                        "checked\n" +
+                        "and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
                         "order by event_name;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
-//                pst.setString(1, email_field.getText());
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+//                pst.setString(3, siteName.getValue().toString());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                pst.setInt(5, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(7, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(8,Integer.parseInt(totalVisitsRangeMax.getText()));
                 ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
+    }
+
+    private void sqlAllSoldOutChecked() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                        "from event left outer join visit_event \n" +
+                        "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
+                        "event.site_name=visit_event.site_name\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "#and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
+                        "group by event.event_name, event.site_name, event.start_date\n" +
+                        "order by event.event_name) as t1\n" +
+                        "left outer join\n" +
+                        "(select event_name, site_name, start_date, if(count(*)=0, 0, count(*)) as my_visits\n" +
+                        "from visit_event where visitor_username='mary.smith'\n" +
+                        "group by event_name, site_name, start_date\n" +
+                        "order by event_name) as t2\n" +
+                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                        "where total_visits between ? and ?\n" +
+                        "and my_visits is NULL #if include visited not checked\n" +
+                        "#and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
+                        "order by event_name;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+//                pst.setString(3, siteName.getValue().toString());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                pst.setInt(5, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(7, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(8,Integer.parseInt(totalVisitsRangeMax.getText()));
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
+    }
+
+    private void sqlAllNotCheckdBoth() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                        "from event left outer join visit_event \n" +
+                        "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
+                        "event.site_name=visit_event.site_name\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "#and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
+                        "group by event.event_name, event.site_name, event.start_date\n" +
+                        "order by event.event_name) as t1\n" +
+                        "left outer join\n" +
+                        "(select event_name, site_name, start_date, if(count(*)=0, 0, count(*)) as my_visits\n" +
+                        "from visit_event where visitor_username='mary.smith'\n" +
+                        "group by event_name, site_name, start_date\n" +
+                        "order by event_name) as t2\n" +
+                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                        "where total_visits between ? and ?\n" +
+                        "and my_visits is NULL #if include visited not checked\n" +
+                        "and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
+                        "order by event_name;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+//                pst.setString(3, siteName.getValue().toString());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                pst.setInt(5, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(7, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(8,Integer.parseInt(totalVisitsRangeMax.getText()));
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
+    }
+
+    private void sqlNotAllCheckedboth() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                        "from event left outer join visit_event \n" +
+                        "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
+                        "event.site_name=visit_event.site_name\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
+                        "group by event.event_name, event.site_name, event.start_date\n" +
+                        "order by event.event_name) as t1\n" +
+                        "left outer join\n" +
+                        "(select event_name, site_name, start_date, if(count(*)=0, 0, count(*)) as my_visits\n" +
+                        "from visit_event where visitor_username='mary.smith'\n" +
+                        "group by event_name, site_name, start_date\n" +
+                        "order by event_name) as t2\n" +
+                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                        "where total_visits between ? and ?\n" +
+                        "#and my_visits is NULL #if include visited not " +
+                        "checked\n" +
+                        "#and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
+                        "order by event_name;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+                pst.setString(3, siteName.getValue().toString());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(7, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(8, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(9,Integer.parseInt(totalVisitsRangeMax.getText()));
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -305,10 +661,383 @@ public class VisitorExploreEvent implements Initializable {
             e.printStackTrace();
         }
 
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
+    }
+    private void sqlNotAllVisitedChecked() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                        "from event left outer join visit_event \n" +
+                        "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
+                        "event.site_name=visit_event.site_name\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
+                        "group by event.event_name, event.site_name, event.start_date\n" +
+                        "order by event.event_name) as t1\n" +
+                        "left outer join\n" +
+                        "(select event_name, site_name, start_date, if(count(*)=0, 0, count(*)) as my_visits\n" +
+                        "from visit_event where visitor_username='mary.smith'\n" +
+                        "group by event_name, site_name, start_date\n" +
+                        "order by event_name) as t2\n" +
+                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                        "where total_visits between ? and ?\n" +
+                        "#and my_visits is NULL #if include visited not " +
+                        "checked\n" +
+                        "and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
+                        "order by event_name;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+                pst.setString(3, siteName.getValue().toString());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(7, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(8, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(9,Integer.parseInt(totalVisitsRangeMax.getText()));
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
+    }
+    private void sqlNotAllSoldOutChecked() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                        "from event left outer join visit_event \n" +
+                        "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
+                        "event.site_name=visit_event.site_name\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
+                        "group by event.event_name, event.site_name, event.start_date\n" +
+                        "order by event.event_name) as t1\n" +
+                        "left outer join\n" +
+                        "(select event_name, site_name, start_date, if(count(*)=0, 0, count(*)) as my_visits\n" +
+                        "from visit_event where visitor_username='mary.smith'\n" +
+                        "group by event_name, site_name, start_date\n" +
+                        "order by event_name) as t2\n" +
+                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                        "where total_visits between ? and ?\n" +
+                        "and my_visits is NULL #if include visited not checked\n" +
+                        "#and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
+                        "order by event_name;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+                pst.setString(3, siteName.getValue().toString());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(7, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(8, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(9,Integer.parseInt(totalVisitsRangeMax.getText()));
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
+    }
+    private void sqlNotAllNotCheckdBoth() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select t1.event_name, t1.site_name, t1.start_date, event_price, ticket_remaining, total_visits, my_visits from\n" +
+                        "(select event.event_name, event.site_name, event.start_date, event_price, capacity-if(count(visitor_username)=0, 0, count(*)) as ticket_remaining, if(count(visitor_username)=0, 0, count(*)) as total_visits\n" +
+                        "from event left outer join visit_event \n" +
+                        "on event.event_name=visit_event.event_name and event.start_date=visit_event.start_date and " +
+                        "event.site_name=visit_event.site_name\n" +
+                        "where event.event_name like concat('%',?,'%') \n" +
+                        "and description like concat('%',?,'%') \n" +
+                        "and event.site_name=?\n" +
+                        "and ?<=event.start_date\n" +
+                        "and event.end_date<=?\n" +
+                        "and event_price between ? and ?\n" +
+                        "group by event.event_name, event.site_name, event.start_date\n" +
+                        "order by event.event_name) as t1\n" +
+                        "left outer join\n" +
+                        "(select event_name, site_name, start_date, if(count(*)=0, 0, count(*)) as my_visits\n" +
+                        "from visit_event where visitor_username='mary.smith'\n" +
+                        "group by event_name, site_name, start_date\n" +
+                        "order by event_name) as t2\n" +
+                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                        "where total_visits between ? and ?\n" +
+                        "and my_visits is NULL #if include visited not checked\n" +
+                        "and ticket_remaining>0 #if include sold out event " +
+                        "not checked\n" +
+                        "order by event_name;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, name.getText());
+                pst.setString(2, descriptionKeyword.getText());
+                pst.setString(3, siteName.getValue().toString());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                pst.setInt(6, Integer.parseInt(totalRevenueRangeMin.getText()));
+                pst.setInt(7, Integer.parseInt(totalRevenueRangeMax.getText()));
+                pst.setInt(8, Integer.parseInt(totalVisitsRangeMin.getText()));
+                pst.setInt(9,Integer.parseInt(totalVisitsRangeMax.getText()));
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
+                            new SimpleStringProperty(rs.getString("site_name")),
+                            Double.valueOf(rs.getDouble("event_price")),
+                            Integer.valueOf(rs.getInt("ticket_remaining")),
+                            Integer.valueOf(rs.getInt("total_visits")),
+                            Integer.valueOf(rs.getInt("my_visits")),
+                            new SimpleStringProperty(rs.getString("start_date"))));
+                }
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        eventNameCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        eventNameCol.setCellFactory(param -> new TableCell<VisitorExploreEventData,
+                VisitorExploreEventData>() {
+            @Override
+            public void updateItem(VisitorExploreEventData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getEventName());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+//                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        siteNameCol.setCellValueFactory(new PropertyValueFactory<>("siteName"));
+        ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketPrice"));
+        ticketRemainingCol.setCellValueFactory(new PropertyValueFactory<>(
+                "ticketRemaining"));
+        totalVisitsCol.setCellValueFactory(new PropertyValueFactory<>(
+                "totalVisits"));
+        myVisitsCol.setCellValueFactory(new PropertyValueFactory<>("myVisits"));
+
+        visitorExploreEventTable.setItems(exploreEventData);
     }
 
+
+
     private boolean allDataValid() {
-        if (name.getText() == "" || descriptionKeyword.getText() == "" || startDate.getText() == "" || endDate.getText() == "") {
+        if (name.getText().trim().equals("") || descriptionKeyword.getText().trim().equals("")
+                || startDate.getText().trim().equals("") || endDate.getText().trim().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
@@ -327,16 +1056,14 @@ public class VisitorExploreEvent implements Initializable {
         return true;
     }
 
-    private static boolean containsWords(String inputString, String item) {
-        boolean found = true;
-        if (!inputString.contains(item)) {
-                found = false;
-        }
-        return found;
-    }
 
     @FXML
     public void btnActionVisitorExploreEventDetail(ActionEvent event) {
+        VisitorExploreEventData item =
+                (VisitorExploreEventData) visitorExploreEventTable.getItems().get(colIndex);
+        Session.eventDetail = new EventDetail(item.getEventName(),
+                item.getSiteName(), item.getStartDate(), item.getTicketRemaining());
+
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();

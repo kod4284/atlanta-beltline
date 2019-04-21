@@ -908,7 +908,8 @@ public class UserTakeTransit implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
-            alert.setContentText("The date input is behind than current time");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
             alert.showAndWait();
             return false;
         }

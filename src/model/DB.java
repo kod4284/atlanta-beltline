@@ -60,7 +60,7 @@ public class DB {
                 pst.setString(1, email_field.getText());
                 ResultSet rs = pst.executeQuery();
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
 
             } finally {

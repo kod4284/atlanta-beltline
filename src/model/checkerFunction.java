@@ -30,6 +30,13 @@ public class checkerFunction {
         }
         return true;
     }
+    public static boolean verifyBetweenDate(String startDate, String endDate,
+                                            String input) {
+        if (input.compareTo(startDate) >= 0 && input.compareTo(endDate) <= 0 ) {
+            return true;
+        }
+        return false;
+    }
     public static boolean verifyDateFormat(String dateToValidate){
 
         if(dateToValidate == null){
