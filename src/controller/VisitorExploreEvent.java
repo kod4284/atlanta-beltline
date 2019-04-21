@@ -43,7 +43,7 @@ public class VisitorExploreEvent implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        group = new ToogleGroup();
+        group = new ToggleGroup();
     }
 
     @FXML
@@ -188,6 +188,5 @@ public class VisitorExploreEvent implements Initializable {
             System.out.println("Cannot load User_Login.fxml");
         }
     }
-
 
 }

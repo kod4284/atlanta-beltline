@@ -1,14 +1,12 @@
 package model;
 
-public enum UserType {
-    ALL("-- ALL --"), EMPLOYEE("Employee"), EMPLOYEE_VISITOR("Employee, " +
-            "Visitor"), USER
-            ("User"),
+public enum UserTypeForFilter {
+    ALL("-- ALL --"), MANAGER("Manager"), STAFF("Staff"), USER("User"),
     VISITOR("Visitor");
 
     final String userType;
 
-    UserType(String type) {
+    UserTypeForFilter(String type) {
         userType = type;
     }
 

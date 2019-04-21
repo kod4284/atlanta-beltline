@@ -1,6 +1,6 @@
 package model;
 
-import controller.VisitorExploreEvent;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class VisitorExploreEventData {

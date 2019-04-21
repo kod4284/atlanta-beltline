@@ -1,7 +1,8 @@
 package model;
 
 public enum UserStatus {
-    APPROVED("Aproved"), PENDING("Pending"), DECLINED("Declined");
+    ALL("-- ALL --"), APPROVED("Approved"), PENDING("Pending"), DECLINED
+            ("Declined");
 
     final String user_status;
 

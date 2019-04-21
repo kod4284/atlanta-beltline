@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="476.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageUser">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="631.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageUser">
     <top>
         <Label contentDisplay="BOTTOM" text="Manage User" BorderPane.alignment="CENTER">
             <font>
@@ -42,14 +42,14 @@
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane>
+            <GridPane prefWidth="731.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.0" minWidth="10.0" prefWidth="101.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="94.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="50.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="56.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="94.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="103.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="52.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="112.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="0.0" prefWidth="83.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="0.0" prefWidth="147.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -126,13 +126,13 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                  <TableColumn prefWidth="40.0" />
-                <TableColumn minWidth="-Infinity" prefWidth="100.0" text="Username" />
-                <TableColumn minWidth="-Infinity" text="Email Count" />
-                  <TableColumn minWidth="-Infinity" prefWidth="109.0" text="UserType" />
-                  <TableColumn minWidth="-Infinity" prefWidth="140.0" text="Status" />
+                  <TableColumn minWidth="0.0" prefWidth="0.0" />
+                <TableColumn fx:id="usernameCol" minWidth="-Infinity" prefWidth="137.00000762939453" text="Username" />
+                <TableColumn fx:id="emailCountCol" minWidth="-Infinity" prefWidth="148.0" text="Email Count" />
+                  <TableColumn fx:id="userTypeCol" minWidth="-Infinity" prefWidth="169.0" text="UserType" />
+                  <TableColumn fx:id="statusCol" minWidth="-Infinity" prefWidth="157.0" text="Status" />
               </columns>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" top="20.0" />
