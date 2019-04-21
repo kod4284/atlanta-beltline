@@ -44,15 +44,97 @@ public class UserTakeTransit implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
         loadSitesAndFillComboBox();
-        loadTableData(true);
-    }
 
-    public void btnActionFilter(ActionEvent event) {
-        loadTableData(false);
     }
-    private void loadTableData(boolean init) {
-        transitData = FXCollections.observableArrayList();
-        if(init) {
+    private void Empty_Empty_ALL_ALL() {
+        System.out.println("Empty_Empty_ALL_ALL");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
+                        "(select transit_route, transit_type, transit_price\n" +
+                        "from connect natural join transit) t1\n" +
+                        "join\n" +
+                        "(select transit_route, transit_type, count(*) as site_number\n" +
+                        "from connect natural join transit\n" +
+                        "group by transit_route, transit_type) t2\n" +
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
+                            ("transit_route")), new SimpleStringProperty(rs.getString
+                            ("transit_type")), rs.getDouble("transit_price")
+                            , rs.getInt("site_number")));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
+                UserTakeTransitData>() {
+            @Override
+            public void updateItem(UserTakeTransitData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getRoute());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+
+                    radioButton.setSelected(true);
+
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if(radioButton.isSelected()){
+                                tableRow = getTableRow();
+                                colIndex = getIndex();
+
+                            }
+
+                        }
+                    });
+                }
+            }
+
+        });
+
+
+        transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                ("transportType"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
+                ("connectedSites"));
+
+        transitTable.setItems(transitData);
+    }
+    private void Empty_Empty_NOT_ALL() {
+        System.out.println("Empty_Empty_NOT_NULL");
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 // create a connection to the database
@@ -74,8 +156,7 @@ public class UserTakeTransit implements Initializable {
                             "(select transit_route, transit_type, count(*) as site_number\n" +
                             "from connect natural join transit\n" +
                             "group by transit_route, transit_type) t2\n" +
-                            "on t1.transit_route=t2.transit_route and " +
-                            "t1.transit_type=t2.transit_type;");
+                            "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
                     PreparedStatement pst = conn.prepareStatement(sql);
                     pst.setString(1, containSite.getValue());
                     ResultSet rs = pst.executeQuery();
@@ -85,6 +166,8 @@ public class UserTakeTransit implements Initializable {
                                 ("transit_type")), rs.getDouble("transit_price")
                                 , rs.getInt("site_number")));
                     }
+                    System.out.println(transitData);
+
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -96,236 +179,534 @@ public class UserTakeTransit implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
                     (param.getValue()));
             routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
-                            UserTakeTransitData>() {
-                        @Override
-                        public void updateItem(UserTakeTransitData obj, boolean
-                                empty) {
-                            super.updateItem(obj, empty);
-                            if (empty) {
-                                setText(null);
-                                setGraphic(null);
-                            } else {
-                                RadioButton radioButton = new RadioButton(obj.getRoute());
-                                radioButton.setToggleGroup(group);
-                                // Add Listeners if any
-                                setGraphic(radioButton);
+                    UserTakeTransitData>() {
+                @Override
+                public void updateItem(UserTakeTransitData obj, boolean
+                        empty) {
+                    super.updateItem(obj, empty);
+                    if (empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        RadioButton radioButton = new RadioButton(obj.getRoute());
+                        radioButton.setToggleGroup(group);
+                        // Add Listeners if any
+                        setGraphic(radioButton);
+                        radioButton.setSelected(true);
+                        radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
-                                radioButton.setSelected(true);
+                            @Override
+                            public void handle(ActionEvent arg0) {
+                                if (radioButton.isSelected()) {
+                                    colIndex = getIndex();
 
-                                radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                                }
 
-                                    @Override
-                                    public void handle(ActionEvent arg0) {
-                                        if(radioButton.isSelected()){
-                                            tableRow = getTableRow();
-                                            colIndex = getIndex();
-
-                                        }
-
-                                    }
-                                });
                             }
-                        }
+                        });
+                    }
+                }
+                //private RadioButton radioButton = new RadioButton();
+
 
             });
-
-
             transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
                     ("transportType"));
             priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
             connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
                     ("connectedSites"));
-
             transitTable.setItems(transitData);
-        } else {
-            checkPriceRange();
-            transitData.clear();
-            if (transportType.getValue().toString().equals(TransportType.ALL
-                    .toString())) {
-                System.out.println("All");
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    // create a connection to the database
-                    Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                            .password);
+    }
+    private void Empty_Empty_ALL_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
 
-                    try {
-                        //query
+            try {
+                //query
 
-                        // sql statements
-                        ArrayList<String> sites = new ArrayList<>();
-                        //if no row return, go to catch
-                        String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
-                                "(select transit_route, transit_type, transit_price\n" +
-                                "from connect natural join transit\n" +
-                                "where site_name=?\n" +
-                                "and transit_price between ? and ?) t1\n" +
-                                "join\n" +
-                                "(select transit_route, transit_type, count(*) as site_number\n" +
-                                "from connect natural join transit\n" +
-                                "group by transit_route, transit_type) t2\n" +
-                                "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
-                        PreparedStatement pst = conn.prepareStatement(sql);
-                        pst.setString(1, containSite.getValue());
-                        pst.setDouble(2, Double.parseDouble(priceRangeStart
-                                .getText()));
-                        pst.setDouble(3, Double.parseDouble(priceRangeEnd
-                                .getText()));
-                        ResultSet rs = pst.executeQuery();
-                        while (rs.next()) {
-                            transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
-                                    ("transit_route")), new SimpleStringProperty(rs.getString
-                                    ("transit_type")), rs.getDouble("transit_price")
-                                    , rs.getInt("site_number")));
-                        }
-                        System.out.println(transitData);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                    } finally {
-                        if (conn != null) {
-                            conn.close();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
+                        "(select transit_route, transit_type, transit_price\n" +
+                        "from connect natural join transit\n" +
+                        "where transit_type=?\n" +
+                        ") t1\n" +
+                        "join\n" +
+                        "(select transit_route, transit_type, count(*) as site_number\n" +
+                        "from connect natural join transit\n" +
+                        "group by transit_route, transit_type) t2\n" +
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, transportType.getValue().toString());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
+                            ("transit_route")), new SimpleStringProperty(rs.getString
+                            ("transit_type")), rs.getDouble("transit_price")
+                            , rs.getInt("site_number")));
                 }
-                routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
-                        (param.getValue()));
-                routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
-                        UserTakeTransitData>() {
-                    @Override
-                    public void updateItem(UserTakeTransitData obj, boolean
-                            empty) {
-                        super.updateItem(obj, empty);
-                        if (empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            RadioButton radioButton = new RadioButton(obj.getRoute());
-                            radioButton.setToggleGroup(group);
-                            // Add Listeners if any
-                            setGraphic(radioButton);
-                            radioButton.setSelected(true);
-                            radioButton.setOnAction(new EventHandler<ActionEvent>() {
+                System.out.println(transitData);
 
-                                @Override
-                                public void handle(ActionEvent arg0) {
-                                    if(radioButton.isSelected()){
-                                        colIndex = getIndex();
+            } catch (Exception e) {
+                e.printStackTrace();
 
-                                    }
-
-                                }
-                            });
-                        }
-                    }
-                    //private RadioButton radioButton = new RadioButton();
-
-
-                });
-                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
-                        ("transportType"));
-                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
-                        ("connectedSites"));
-
-                transitTable.setItems(transitData);
-            } else {
-                    try {
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-                        // create a connection to the database
-                        Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                                .password);
-
-                        try {
-                            //query
-                            System.out.println("no All");
-                            // sql statements
-                            ArrayList<String> sites = new ArrayList<>();
-                            //if no row return, go to catch
-                            String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
-                                    "(select transit_route, transit_type, transit_price\n" +
-                                    "from connect natural join transit\n" +
-                                    "where site_name=?\n" +
-                                    "and transit_type=?\n" +
-                                    "and transit_price between ? and ?) t1\n" +
-                                    "join\n" +
-                                    "(select transit_route, transit_type, count(*) as site_number\n" +
-                                    "from connect natural join transit\n" +
-                                    "group by transit_route, transit_type) t2\n" +
-                                    "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
-                            PreparedStatement pst = conn.prepareStatement(sql);
-                            pst.setString(1, containSite.getValue());
-                            pst.setString(2, transportType.getValue().toString());
-                            pst.setDouble(3, Double.parseDouble(priceRangeStart
-                                    .getText()));
-                            pst.setDouble(4, Double.parseDouble(priceRangeEnd
-                                    .getText()));
-                            ResultSet rs = pst.executeQuery();
-                            while (rs.next()) {
-                                transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
-                                        ("transit_route")), new SimpleStringProperty(rs.getString
-                                        ("transit_type")), rs.getDouble("transit_price")
-                                        , rs.getInt("site_number")));
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-
-                        } finally {
-                            if (conn != null) {
-                                conn.close();
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
-                        (param.getValue()));
-                routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
-                        UserTakeTransitData>() {
-                    @Override
-                    public void updateItem(UserTakeTransitData obj, boolean
-                            empty) {
-                        super.updateItem(obj, empty);
-                        if (empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            RadioButton radioButton = new RadioButton(obj.getRoute());
-                            radioButton.setToggleGroup(group);
-                            // Add Listeners if any
-                            setGraphic(radioButton);
-                            radioButton.setSelected(true);
-                            radioButton.setOnAction(new EventHandler<ActionEvent>() {
-
-                                @Override
-                                public void handle(ActionEvent arg0) {
-                                    if(radioButton.isSelected()){
-                                        tableRow = getTableRow();
-                                        colIndex = getIndex();
-
-                                    }
-
-                                }
-                            });
-                        }
-
-                    }
-                });
-                    transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("transportType"));
-                    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                    connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("connectedSites"));
-
-                    transitTable.setItems(transitData);
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
+                UserTakeTransitData>() {
+            @Override
+            public void updateItem(UserTakeTransitData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getRoute());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if (radioButton.isSelected()) {
+                                colIndex = getIndex();
+
+                            }
+
+                        }
+                    });
+                }
+            }
+            //private RadioButton radioButton = new RadioButton();
+
+
+        });
+        transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                ("transportType"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
+                ("connectedSites"));
+
+        transitTable.setItems(transitData);
+    }
+    private void Empty_Empty_NOT_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
+                        "(select transit_route, transit_type, transit_price\n" +
+                        "from connect natural join transit\n" +
+                        "where site_name=?\n" +
+                        "and transit_type=?\n" +
+                        ") t1\n" +
+                        "join\n" +
+                        "(select transit_route, transit_type, count(*) as site_number\n" +
+                        "from connect natural join transit\n" +
+                        "group by transit_route, transit_type) t2\n" +
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, containSite.getValue().toString());
+                pst.setString(2, transportType.getValue().toString());
+
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
+                            ("transit_route")), new SimpleStringProperty(rs.getString
+                            ("transit_type")), rs.getDouble("transit_price")
+                            , rs.getInt("site_number")));
+                }
+                System.out.println(transitData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
+                UserTakeTransitData>() {
+            @Override
+            public void updateItem(UserTakeTransitData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getRoute());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if (radioButton.isSelected()) {
+                                colIndex = getIndex();
+
+                            }
+
+                        }
+                    });
+                }
+            }
+            //private RadioButton radioButton = new RadioButton();
+
+
+        });
+        transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                ("transportType"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
+                ("connectedSites"));
+
+        transitTable.setItems(transitData);
+    }
+    private void Data_Data_ALL_ALL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
+                        "(select transit_route, transit_type, transit_price\n" +
+                        "from connect natural join transit\n" +
+                        "where transit_price between ? and ?\n" +
+                        ") t1\n" +
+                        "join\n" +
+                        "(select transit_route, transit_type, count(*) as site_number\n" +
+                        "from connect natural join transit\n" +
+                        "group by transit_route, transit_type) t2\n" +
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setDouble(1, Double.parseDouble(priceRangeStart.getText()));
+                pst.setDouble(2, Double.parseDouble(priceRangeEnd.getText()));
+
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
+                            ("transit_route")), new SimpleStringProperty(rs.getString
+                            ("transit_type")), rs.getDouble("transit_price")
+                            , rs.getInt("site_number")));
+                }
+                System.out.println(transitData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
+                UserTakeTransitData>() {
+            @Override
+            public void updateItem(UserTakeTransitData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getRoute());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if (radioButton.isSelected()) {
+                                colIndex = getIndex();
+
+                            }
+
+                        }
+                    });
+                }
+            }
+            //private RadioButton radioButton = new RadioButton();
+
+
+        });
+        transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                ("transportType"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
+                ("connectedSites"));
+
+        transitTable.setItems(transitData);
+    }
+    private void Data_Data_ALL_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
+                        "(select transit_route, transit_type, transit_price\n" +
+                        "from connect natural join transit\n" +
+                        "where transit_type=?\n" +
+                        "and transit_price between ? and ?\n" +
+                        ") t1\n" +
+                        "join\n" +
+                        "(select transit_route, transit_type, count(*) as site_number\n" +
+                        "from connect natural join transit\n" +
+                        "group by transit_route, transit_type) t2\n" +
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, transportType.getValue().toString());
+                pst.setDouble(2, Double.parseDouble(priceRangeStart.getText()));
+                pst.setDouble(3, Double.parseDouble(priceRangeEnd.getText()));
+
+
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
+                            ("transit_route")), new SimpleStringProperty(rs.getString
+                            ("transit_type")), rs.getDouble("transit_price")
+                            , rs.getInt("site_number")));
+                }
+                System.out.println(transitData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
+                UserTakeTransitData>() {
+            @Override
+            public void updateItem(UserTakeTransitData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getRoute());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if (radioButton.isSelected()) {
+                                colIndex = getIndex();
+
+                            }
+
+                        }
+                    });
+                }
+            }
+            //private RadioButton radioButton = new RadioButton();
+
+
+        });
+        transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                ("transportType"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
+                ("connectedSites"));
+
+        transitTable.setItems(transitData);
+    }
+    private void Data_Data_NOT_ALL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_number from\n" +
+                        "(select transit_route, transit_type, transit_price\n" +
+                        "from connect natural join transit\n" +
+                        "where transit_type=?\n" +
+                        "and transit_price between ? and ?\n" +
+                        ") t1\n" +
+                        "join\n" +
+                        "(select transit_route, transit_type, count(*) as site_number\n" +
+                        "from connect natural join transit\n" +
+                        "group by transit_route, transit_type) t2\n" +
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, transportType.getValue().toString());
+                pst.setDouble(2, Double.parseDouble(priceRangeStart.getText()));
+                pst.setDouble(3, Double.parseDouble(priceRangeEnd.getText()));
+
+
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    transitData.add(new UserTakeTransitData(new SimpleStringProperty(rs.getString
+                            ("transit_route")), new SimpleStringProperty(rs.getString
+                            ("transit_type")), rs.getDouble("transit_price")
+                            , rs.getInt("site_number")));
+                }
+                System.out.println(transitData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
+                (param.getValue()));
+        routeCol.setCellFactory(param -> new TableCell<UserTakeTransitData,
+                UserTakeTransitData>() {
+            @Override
+            public void updateItem(UserTakeTransitData obj, boolean
+                    empty) {
+                super.updateItem(obj, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    RadioButton radioButton = new RadioButton(obj.getRoute());
+                    radioButton.setToggleGroup(group);
+                    // Add Listeners if any
+                    setGraphic(radioButton);
+                    radioButton.setSelected(true);
+                    radioButton.setOnAction(new EventHandler<ActionEvent>() {
+
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            if (radioButton.isSelected()) {
+                                colIndex = getIndex();
+
+                            }
+
+                        }
+                    });
+                }
+            }
+            //private RadioButton radioButton = new RadioButton();
+
+
+        });
+        transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                ("transportType"));
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        connectedSitesCol.setCellValueFactory(new PropertyValueFactory<>
+                ("connectedSites"));
+
+        transitTable.setItems(transitData);
+    }
+    private void Data_Data_NOT_NOT() {
+
+    }
+    public void btnActionFilter(ActionEvent event) {
+        transitData = FXCollections.observableArrayList();
+        if (priceRangeStart.getText().trim().equals("") && priceRangeEnd.getText()
+                .trim().equals("")) {
+            if (containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Empty_Empty_ALL_ALL();
+            } else if (!containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Empty_Empty_NOT_ALL();
+            } else if (containSite.getValue().toString().equals("-- ALL --") &&
+                    !transportType.getValue().toString().equals("-- ALL --")) {
+                Empty_Empty_ALL_NOT();
+            } else {
+                Empty_Empty_NOT_NOT();
+            }
+
+        } else {
+            if (!checkPriceRange()) {
+                return;
+            }
+            if (containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Data_Data_ALL_ALL();
+            } else if (!containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Data_Data_NOT_ALL();
+            } else if (containSite.getValue().toString().equals("-- ALL --") &&
+                    !transportType.getValue().toString().equals("-- ALL --")) {
+                Data_Data_ALL_NOT();
+            } else {
+                Data_Data_NOT_NOT();
+            }
+
         }
     }
 
@@ -341,6 +722,7 @@ public class UserTakeTransit implements Initializable {
 
                 // sql statements
                 ArrayList<String> sites = new ArrayList<>();
+                sites.add("-- ALL --");
                 //if no row return, go to catch
                 String sql = ("select site_name from site;");
                 PreparedStatement pst = conn.prepareStatement(sql);
