@@ -184,21 +184,21 @@ public class ManagerSiteReport implements Initializable {
     }
 
     @FXML
-    public void btnActionDailyDetail (ActionEvent event) {
+    public void btnActionManagerSiteReportDailyDetail (ActionEvent event) {
         ManagerSiteReportData item = (ManagerSiteReportData) siteReportTable.getItems()
             .get(colIndex);
-        Session.dailyDetail = new DailyDetail(item.getDate());
+        Session.dailyDetail = new DailyDetail(item.getDate(), Session.user.getUsername());
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
                     .getResource
-                            ("../view/Manager_Functionality_Only" +
+                            ("../view/Manager_Daily_Detail" +
                                     ".fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Manager_Functionality_Only.fxml");
+            System.out.println("Manager_Daily_Detail.fxml");
         }
     }
 
@@ -254,20 +254,6 @@ public class ManagerSiteReport implements Initializable {
             return false;
         }
         return true;
-    }
-
-    @FXML
-    public void btnActionManagerSiteReportDailyDetail(ActionEvent event) {
-        try {
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                    .getWindow();
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Manager_Daily_Detail.fxml"));
-            primaryStage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Cannot load User_Login.fxml");
-        }
     }
 
 }
