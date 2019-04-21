@@ -28,14 +28,14 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="0.0" prefWidth="576.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionAdminCreateSiteBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Create" textAlignment="CENTER" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#btnActionAdminCreateSiteCreate" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Create" textAlignment="CENTER" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="10.0" left="30.0" right="20.0" />
                     </HBox.margin></Button>

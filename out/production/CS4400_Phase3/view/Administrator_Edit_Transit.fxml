@@ -28,14 +28,14 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="47.0" prefWidth="468.0" BorderPane.alignment="CENTER">
             <children>
-                <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+                <Button cache="true" mnemonicParsing="false" onAction="#btnActionAdminVisitorEditTransitBack" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-            <Button cache="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
+            <Button cache="true" mnemonicParsing="false" onAction="#btnActionAdminVisitorEditTransitUpdate" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #249cd3;" text="Update" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
