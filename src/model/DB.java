@@ -72,3 +72,19 @@ public class DB {
             e.printStackTrace();
         }
  */
+
+/*
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Email input Warning");
+                alert.setContentText("The Email doesn't match, try it again!");
+                alert.showAndWait();
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR Dialog");
+                alert.setHeaderText("User input ERROR");
+                alert.setContentText("The email or password input doesn't " +
+                        "exist, try it " +
+                        "again with anther input!");
+                alert.showAndWait();
+ */
