@@ -168,7 +168,8 @@ CREATE TABLE `visit_event`(
 ENGINE=INNODB;
 
 
- INSERT INTO user values 
+ INSERT INTO user values
+('ray.cho','7cf2e5f72d3e144cad58f95214f2dd20ad8f9979f34d561433a31dacbc16071b','Approved','Ray','Cho','Employee, Visitor'),
 ('james.smith','7cf2e5f72d3e144cad58f95214f2dd20ad8f9979f34d561433a31dacbc16071b','Approved','James','Smith','Employee'),
 ('michael.smith','6d3a26d88ea77a9b07d79a48307644cd88976173f49f279fed04b681d713a541','Approved','Michael','Smith','Employee, Visitor'),
 ('robert.smith','232c98d6f01474e874341b78d28064ac6c318763dbf80b057e0ea116905c7fcc','Approved','Robert ','Smith','Employee'),
@@ -189,6 +190,7 @@ ENGINE=INNODB;
 ('visitor1','5c1e1b5c8936669bfe844210fb7ae7d3411dd9f41614d09ce9732dfc17c266bc','Approved','Visitor','One','Visitor');
 
 INSERT INTO user_email VALUES
+    ('ray.cho','woonglae@gmail.com'),
     ('james.smith','jsmith@gmail.com'),
     ('james.smith','jsmith@hotmail.com'),
     ('james.smith','jsmith@gatech.edu'),
@@ -215,6 +217,7 @@ INSERT INTO user_email VALUES
 
 
 INSERT INTO employee VALUES
+    ('ray.cho',000000014,8018955159,'1032 Hemphill ave','Atlanta','GA',30318,'Admin'),
     ('james.smith',000000001,4043721234,'123 East Main Street','Rochester','NY',14604,'Admin'),
     ('michael.smith',000000002,4043726789,'350 Ferst Drive','Atlanta','GA',30332,'Staff'),
     ('robert.smith',000000003,1234567890,'123 East Main Street','Columbus','OH',43215,'Staff'),
@@ -230,6 +233,7 @@ INSERT INTO employee VALUES
 	('staff3', 000000013, 3333333333, '801 Atlantic Drive', 'Atlanta', 'GA', 30332, 'Staff');
     
 INSERT INTO administrator VALUES
+  ('ray.cho'),
 	('james.smith');
 
 INSERT INTO manager VALUES 
@@ -239,7 +243,7 @@ INSERT INTO manager VALUES
 	('manager2'),
 	('manager3'),
 	('manager4'),
-    ('manager5');
+  ('manager5');
 
 INSERT INTO staff VALUE
 	('staff1'),
@@ -248,10 +252,11 @@ INSERT INTO staff VALUE
     ('robert.smith'),
     ('michael.smith');
 
-INSERT INTO visitor VALUES 
+INSERT INTO visitor VALUES
+  ('ray.cho'),
 	('michael.smith'),
-    ('maria.garcia'),
-    ('manager2'),
+  ('maria.garcia'),
+  ('manager2'),
 	('manager4'),
 	('manager5'),
 	('maria.rodriguez'),

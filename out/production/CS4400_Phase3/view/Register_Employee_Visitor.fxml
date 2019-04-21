@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="612.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterEmployeeVisitor">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="549.0" prefWidth="612.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterEmployeeVisitor">
     <top>
         <Label contentDisplay="BOTTOM" text="Register Employee-Visitor" BorderPane.alignment="CENTER">
             <font>
@@ -26,7 +28,7 @@
         </Label>
     </top>
     <bottom>
-        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="601.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="606.0" BorderPane.alignment="CENTER">
             <children>
                 <Button cache="true" mnemonicParsing="false" onAction="#btnActionBack" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Back" textFill="WHITE">
                     <opaqueInsets>
@@ -35,7 +37,7 @@
                     <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="30.0" />
                     </HBox.margin></Button>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#btnActionRegister" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Register" textAlignment="CENTER" textFill="WHITE">
                     <HBox.margin>
                         <Insets bottom="10.0" left="30.0" right="20.0" />
                     </HBox.margin></Button>
@@ -114,20 +116,20 @@
                         <Insets left="60.0" />
                      </GridPane.margin>
                   </Label>
-                  <PasswordField GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <PasswordField fx:id="confirmPassword" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></PasswordField>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="firstName" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField prefHeight="29.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="username" prefHeight="29.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
+                  <TextField fx:id="lastName" prefHeight="30.0" prefWidth="154.0" GridPane.columnIndex="3" />
                   <Label text="Phone" textAlignment="CENTER" GridPane.rowIndex="3">
                      <font>
                         <Font name="Arial" size="16.0" />
@@ -136,11 +138,11 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <TextField fx:id="phone" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></TextField>
-                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <TextField fx:id="address" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                   <Label text="Address" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
                      <font>
                         <Font name="Arial" size="16.0" />
@@ -152,7 +154,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="empTypes" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -195,13 +197,13 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" />
-                  <ComboBox prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
+                  <TextField fx:id="city" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="stateTypes" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </GridPane.margin>
                   </ComboBox>
-                  <TextField GridPane.columnIndex="5" />
+                  <TextField fx:id="zipcode" GridPane.columnIndex="5" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" left="20.0" right="20.0" top="9.0" />
@@ -218,35 +220,40 @@
                      </HBox.margin>
                   </Label>
                   <VBox prefHeight="59.0" prefWidth="374.0">
+                     <HBox.margin>
+                        <Insets left="67.0" />
+                     </HBox.margin>
                      <children>
-                        <GridPane maxHeight="66.0" prefHeight="37.0" prefWidth="374.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <TableView fx:id="emailTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="170.0" prefHeight="174.0" prefWidth="405.0">
+                           <columns>
+                              <TableColumn fx:id="emailCol" prefWidth="291.0" text="email" />
+                              <TableColumn fx:id="buttonCol" prefWidth="104.0" />
+                           </columns>
+                        </TableView>
+                        <GridPane fx:id="emailsPane" maxHeight="66.0" prefHeight="37.0" prefWidth="374.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                           </rowConstraints>
                            <children>
-                              <TextField prefHeight="25.0" prefWidth="143.0">
+                              <TextField fx:id="emailField" prefHeight="25.0" prefWidth="143.0">
                                  <GridPane.margin>
                                     <Insets right="30.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #ffff; -fx-border-color: #bebebe;" text="Add" GridPane.columnIndex="1" />
+                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addAnEmail" style="-fx-background-color: #ffff; -fx-border-color: #bebebe;" text="Add" GridPane.columnIndex="1" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </GridPane>
                      </children>
-                     <HBox.margin>
-                        <Insets left="67.0" />
-                     </HBox.margin>
                   </VBox>
                </children>
                <VBox.margin>

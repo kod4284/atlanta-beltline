@@ -30,7 +30,7 @@ public class AdminVisitorFunc {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Administartor_Manage_Transit.fxml"));
+                    .getResource("../view/Administrator_Manage_Transit.fxml"));
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();

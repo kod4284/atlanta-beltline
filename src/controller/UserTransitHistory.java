@@ -345,8 +345,8 @@ public class UserTransitHistory implements Initializable {
                 e.printStackTrace();
                 System.out.println("Cannot go back to the functionality.fxml");
             }
-
         }
+
 
 
 }

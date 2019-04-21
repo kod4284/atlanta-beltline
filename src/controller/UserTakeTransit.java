@@ -48,7 +48,6 @@ public class UserTakeTransit implements Initializable {
     }
 
     public void btnActionFilter(ActionEvent event) {
-
         loadTableData(false);
     }
     private void loadTableData(boolean init) {
@@ -143,9 +142,7 @@ public class UserTakeTransit implements Initializable {
 
             transitTable.setItems(transitData);
         } else {
-            if (!checkPriceRange()) {
-                return;
-            }
+            checkPriceRange();
             transitData.clear();
             if (transportType.getValue().toString().equals(TransportType.ALL
                     .toString())) {
@@ -186,6 +183,7 @@ public class UserTakeTransit implements Initializable {
                                     , rs.getInt("site_number")));
                         }
                         System.out.println(transitData);
+
                     } catch (Exception e) {
                         e.printStackTrace();
 
@@ -370,7 +368,9 @@ public class UserTakeTransit implements Initializable {
     }
 
     public void btnActionLogTransit(ActionEvent event) {
-        checkTransiteDate();
+        if (!checkTransiteDate()) {
+            return;
+        }
         UserTakeTransitData item = (UserTakeTransitData) transitTable.getItems()
                     .get(colIndex);
         try {
@@ -401,13 +401,13 @@ public class UserTakeTransit implements Initializable {
                 alert.setContentText("The date successfully inserted!");
                 alert.showAndWait();
 
-                Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                        .getWindow();
-                Parent root = FXMLLoader.load(getClass()
-                        .getResource("../view/User_Functionality" +
-                                ".fxml"));
-                primaryStage.setScene(new Scene(root));
-
+            } catch(SQLIntegrityConstraintViolationException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Duplicate Transit Input");
+                alert.setContentText("You cannot take a same transit on a same" +
+                        "day.");
+                alert.showAndWait();
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -416,12 +416,10 @@ public class UserTakeTransit implements Initializable {
                     conn.close();
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
 
     }
     private boolean checkTransiteDate() {

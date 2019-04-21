@@ -135,7 +135,7 @@
                   <Insets left="180.0" right="180.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="transitTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="dateCol" prefWidth="124.0" text="Date" />
                 <TableColumn fx:id="routeCol" prefWidth="107.0" text="Route" />
