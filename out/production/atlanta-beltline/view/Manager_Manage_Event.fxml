@@ -278,14 +278,14 @@
                   <Insets top="10.0" />
                </padding>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="manageEventTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="182.0" text="Name" />
-                  <TableColumn prefWidth="60.0" text="Staff&#10;Count&#10;" />
-                  <TableColumn prefWidth="75.0" text="Duration&#10;(days)" />
-                  <TableColumn prefWidth="94.0" text="Total Visits" />
-                  <TableColumn prefWidth="84.0" text="Total&#10;Revenue ($)" />
+                <TableColumn fx:id="nameCol" prefWidth="182.0" text="Name" />
+                  <TableColumn fx:id="staffCountCol" prefWidth="60.0" text="Staff&#10;Count&#10;" />
+                  <TableColumn fx:id="durationCol" prefWidth="75.0" text="Duration&#10;(days)" />
+                  <TableColumn fx:id="totalVisitsCol" prefWidth="94.0" text="Total Visits" />
+                  <TableColumn fx:id="totalRevenueCol" prefWidth="84.0" text="Total&#10;Revenue ($)" />
               </columns>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" top="20.0" />
