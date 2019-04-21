@@ -59,17 +59,17 @@ public class ManagerSiteReport implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
-        System.out.println("1fefeedddddddddddddddddddddddddddddd");
     }
 
     @FXML
     public void btnActionFilter (ActionEvent event) {
         loadTableData(true);
-        System.out.println("2fefeedddddddddddddddddddddddddddddd");
     }
     private void loadTableData(boolean init) {
+        if (!allDataValid()) {
+            return;
+        }
         siteReportData = FXCollections.observableArrayList();
-        System.out.println("3fefeedddddddddddddddddddddddddddddd");
         if(init) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -116,7 +116,6 @@ public class ManagerSiteReport implements Initializable {
                             "order by visit_event_date) t4\n" +
                             "on t3.visit_date=t4.visit_event_date;\n");
                     PreparedStatement pst = conn.prepareStatement(sql);
-                    System.out.println("4fefeedddddddddddddddddddddddddddddd");
                     for (int x = 1; x <= 4 ; x++) {
                         pst.setString(x, Session.user.getUsername());
                     }
@@ -186,7 +185,21 @@ public class ManagerSiteReport implements Initializable {
 
     @FXML
     public void btnActionDailyDetail (ActionEvent event) {
-
+        ManagerSiteReportData item = (ManagerSiteReportData) siteReportTable.getItems()
+            .get(colIndex);
+        Session.dailyDetail = new DailyDetail(item.getDate());
+        try {
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource
+                            ("../view/Manager_Functionality_Only" +
+                                    ".fxml"));
+            primaryStage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Manager_Functionality_Only.fxml");
+        }
     }
 
     @FXML
@@ -218,6 +231,29 @@ public class ManagerSiteReport implements Initializable {
                 System.out.println("Cannot load Manager_Visitor_Functionality_Only.fxml");
             }
         }
+    }
+
+    private boolean allDataValid() {
+        if (startDate.getText() == "" || endDate.getText() == "") {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please provide both" +
+                    "starting date and ending date.");
+            alert.showAndWait();
+            return false;
+        }
+        if (!checkerFunction.verifyDateFormat(startDate.getText()) ||
+                !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     @FXML
