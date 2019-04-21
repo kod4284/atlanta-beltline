@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="476.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageTransit">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="476.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminManageTransit">
     <top>
         <Label contentDisplay="BOTTOM" text="Manage Transit" BorderPane.alignment="CENTER">
             <font>
@@ -64,7 +64,7 @@
                                 <Insets left="20.0" />
                             </GridPane.margin>
                         </Label>
-                        <Label contentDisplay="BOTTOM" text="Manager" GridPane.columnIndex="2">
+                        <Label contentDisplay="BOTTOM" text="Route" GridPane.columnIndex="2">
                             <font>
                                 <Font name="Arial" size="15.0" />
                             </font>
@@ -75,12 +75,12 @@
                                 <Insets left="10.0" right="10.0" />
                             </GridPane.margin>
                         </Label>
-                        <ComboBox fx:id="manager" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
-                            <GridPane.margin>
-                                <Insets right="20.0" />
-                            </GridPane.margin>
-                        </ComboBox>
                   <ComboBox fx:id="transportTypeComboBox" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <TextField fx:id="route" GridPane.columnIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
                     </children>
                     <VBox.margin>
                         <Insets top="20.0" />
@@ -175,14 +175,14 @@
                   <Insets top="10.0" />
                </padding>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="79.0" text="Route" />
-                  <TableColumn prefWidth="100.0" text="Transport &#10;Type" />
-                  <TableColumn prefWidth="73.0" text="Price" />
-                  <TableColumn prefWidth="104.0" text="# Connected&#10;Sites" />
-                  <TableColumn prefWidth="83.0" text="# Transit&#10;Logged" />
+                <TableColumn minWidth="0.0" prefWidth="0.0" />
+                <TableColumn fx:id="routeCol" prefWidth="109.0" text="Route" />
+                  <TableColumn fx:id="transportTypeCol" prefWidth="100.0" text="Transport &#10;Type" />
+                  <TableColumn fx:id="priceCol" prefWidth="73.0" text="Price" />
+                  <TableColumn fx:id="connectedSitesCol" prefWidth="104.0" text="# Connected&#10;Sites" />
+                  <TableColumn fx:id="transitLoggedCol" prefWidth="83.0" text="# Transit&#10;Logged" />
               </columns>
                <VBox.margin>
                   <Insets left="5.0" right="5.0" top="20.0" />

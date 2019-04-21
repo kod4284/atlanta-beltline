@@ -265,13 +265,12 @@
             </GridPane>
             <TableView fx:id="visitorExploreEventTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="30.0" />
-                <TableColumn prefWidth="119.0" text="Event Name" />
-                  <TableColumn prefWidth="111.0" text="Site Name" />
-                  <TableColumn prefWidth="65.0" text="Ticket &#10;Price" />
-                  <TableColumn prefWidth="75.0" text="Ticket&#10;Remaining" />
-                  <TableColumn prefWidth="55.0" text="Total&#10;Visits" />
-                  <TableColumn minWidth="0.0" prefWidth="50.0" text="My&#10;Visits&#10;" />
+                <TableColumn fx:id="eventNameCol" prefWidth="119.0" text="Event Name" />
+                  <TableColumn fx:id="siteNameCol" prefWidth="111.0" text="Site Name" />
+                  <TableColumn fx:id="ticketPriceCol" prefWidth="65.0" text="Ticket &#10;Price" />
+                  <TableColumn fx:id="ticketRemainingCol" prefWidth="75.0" text="Ticket&#10;Remaining" />
+                  <TableColumn fx:id="totalVisitsCol" prefWidth="55.0" text="Total&#10;Visits" />
+                  <TableColumn fx:id="myVisitsCol" minWidth="0.0" prefWidth="50.0" text="My&#10;Visits&#10;" />
               </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="20.0" />

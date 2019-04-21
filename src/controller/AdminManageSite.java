@@ -711,6 +711,37 @@ public class AdminManageSite implements Initializable {
 
     @FXML
     public void btnActionAdminManageSiteDelete(ActionEvent event) {
+        AdminManageSiteData item = (AdminManageSiteData) tableView.getItems()
+                .get(colIndex);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("delete from site where site_name=?;\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, item.getName());
+                int rs = pst.executeUpdate();
+                System.out.println(rs + "rows deleted");
+                filter();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
