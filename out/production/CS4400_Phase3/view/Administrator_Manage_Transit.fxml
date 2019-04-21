@@ -75,12 +75,12 @@
                                 <Insets left="10.0" right="10.0" />
                             </GridPane.margin>
                         </Label>
-                        <ComboBox prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
+                        <ComboBox fx:id="manager" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3">
                             <GridPane.margin>
                                 <Insets right="20.0" />
                             </GridPane.margin>
                         </ComboBox>
-                  <ComboBox prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="transportTypeComboBox" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
                     </children>
                     <VBox.margin>
                         <Insets top="20.0" />
@@ -121,13 +121,13 @@
                         <Insets left="10.0" right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <ComboBox prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="3">
+                  <ComboBox fx:id="containSite" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <TextField fx:id="priceRangeMin" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" right="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField GridPane.columnIndex="5">
+                  <TextField fx:id="priceRangeMax" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets left="5.0" right="20.0" />
                      </GridPane.margin>
@@ -152,7 +152,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="81.0" style="-fx-background-color: #249cd3;" text="Delete" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
+                  <Button mnemonicParsing="false" onAction="#btnActionAdminManageTransitDelete" prefHeight="29.0" prefWidth="81.0" style="-fx-background-color: #249cd3;" text="Delete" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
@@ -161,7 +161,7 @@
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></Button>
-                  <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#btnActionAdminManageTransitFilter" prefHeight="29.0" prefWidth="104.0" style="-fx-background-color: #249cd3;" text="Filter" textAlignment="CENTER" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>

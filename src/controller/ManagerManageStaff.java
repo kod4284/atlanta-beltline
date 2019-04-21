@@ -35,6 +35,8 @@ public class ManagerManageStaff implements Initializable {
 
     }
 
+
+
     public void btnActionBack(Event event) {
         if (Session.user.isEmployee() && Session.user.isManager()) {
             try {

@@ -3,15 +3,43 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import model.Session;
+import org.w3c.dom.Text;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class VisitorExploreEvent {
+public class VisitorExploreEvent implements Initializable {
+
+    @FXML TextField name;
+    @FXML TextField descriptionKeyword;
+    @FXML ComboBox<String> siteName;
+    @FXML TextField startDate;
+    @FXML TextField endDate;
+    @FXML TextField totalVisitsRangeMin;
+    @FXML TextField totalVisitsRangeMax;
+    @FXML TextField totalRevenueRangeMin;
+    @FXML TextField totalRevenueRangeMax;
+    @FXML Checkbox includeVisited;
+    @FXML Checkbox includeSoldOutEvent;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    @FXML
+    public void btnActionVisitorExploreEventFilter(ActionEvent event) {
+
+    }
 
     @FXML
     public void btnActionVisitorExploreEventDetail(ActionEvent event) {

@@ -81,9 +81,9 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label alignment="CENTER" text="NAME" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                  <Label text="YESORNO" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
-                  <Label text="ADDRESS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Label fx:id="site" alignment="CENTER" text="NAME" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Label fx:id="openEveryday" text="YESORNO" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                  <Label fx:id="address" text="ADDRESS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -103,12 +103,12 @@
                </VBox.margin>
                <children>
                   <Label text="Visit Date" GridPane.halignment="RIGHT" />
-                  <TextField prefHeight="10.0" prefWidth="207.0" GridPane.columnIndex="1">
+                  <TextField fx:id="visitDate" prefHeight="10.0" prefWidth="207.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Log Visit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                      <Button mnemonicParsing="false" onAction="#btnActionVisitorSiteDetailLogVisit" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #249cd3;" text="Log Visit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
          </children>
