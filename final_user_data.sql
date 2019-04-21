@@ -231,19 +231,19 @@ INSERT INTO employee VALUES
 	('staff1', 000000011, 8024456765, '266 Ferst Drive Northwest', 'Atlanta', 'GA', 30332, 'Staff'),
 	('staff2', 000000012, 8888888888, '266 Ferst Drive Northwest', 'Atlanta', 'GA', 30332, 'Staff'),
 	('staff3', 000000013, 3333333333, '801 Atlantic Drive', 'Atlanta', 'GA', 30332, 'Staff');
-    
+
 INSERT INTO administrator VALUES
-  ('ray.cho'),
+    ('ray.cho'),
 	('james.smith');
 
-INSERT INTO manager VALUES 
+INSERT INTO manager VALUES
 	('maria.garcia'),
 	('david.smith'),
 	('manager1'),
 	('manager2'),
 	('manager3'),
 	('manager4'),
-  ('manager5');
+    ('manager5');
 
 INSERT INTO staff VALUE
 	('staff1'),
@@ -253,10 +253,10 @@ INSERT INTO staff VALUE
     ('michael.smith');
 
 INSERT INTO visitor VALUES
-  ('ray.cho'),
+    ('ray.cho'),
 	('michael.smith'),
-  ('maria.garcia'),
-  ('manager2'),
+    ('maria.garcia'),
+    ('manager2'),
 	('manager4'),
 	('manager5'),
 	('maria.rodriguez'),
