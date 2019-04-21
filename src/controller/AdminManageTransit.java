@@ -671,6 +671,10 @@ public class AdminManageTransit implements Initializable {
 
     @FXML
     public void btnActionAdminVisitorManageTransitEditTransit(ActionEvent event) {
+        AdminManageTransitData item = (AdminManageTransitData) tableView.getItems()
+                .get(colIndex);
+        AdminEditTransit.data = item;
+
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
