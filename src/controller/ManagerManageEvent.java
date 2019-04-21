@@ -19,13 +19,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.*;
 
+import javax.xml.transform.Result;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -54,8 +53,13 @@ public class ManagerManageEvent implements Initializable {
     ToggleGroup group;
     private ObservableList<ManagerManageEventData> manageEventData;
 
+    private List<String> chosenEventSiteNames;
+    private List<String> chosenEventStartDates;
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
+        chosenEventSiteNames = new ArrayList<>();
+        chosenEventStartDates = new ArrayList<>();
     }
 
     @FXML
@@ -177,6 +181,8 @@ public class ManagerManageEvent implements Initializable {
                     }
                     ResultSet rs = pst.executeQuery();
                     while (rs.next()) {
+                        chosenEventSiteNames.add(rs.getString("t1.site_name"));
+                        chosenEventStartDates.add(rs.getString("t1.start_date"));
                         manageEventData.add(new ManagerManageEventData(
                                 new SimpleStringProperty(rs.getString("name")),
                                 Integer.valueOf(rs.getString("staff_count")),
@@ -239,7 +245,50 @@ public class ManagerManageEvent implements Initializable {
 
     @FXML
     public void btnActionManagerMangeEventDelete(ActionEvent event) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
 
+            try {
+                //query
+
+                // sql statements
+                ArrayList<String> sites = new ArrayList<>();
+                //if no row return, go to catch
+                //dataChecker:
+                //Initialized to seven 0's. If certain TextFields are filled out,
+                // then 0 on which the index of TextField is located at is triggered to become 1.
+                // This is used to fill up sql with appropriate values.
+                // Order: Name, Description, StartDate, EndDate, DurationRange, TotalVisitsRange, TotalRevenueRange.
+                // E.g. if the user had filled out Name, Start Date, and Total Visits Range,
+                // then dataChecker ends up = [1, 0, 1, 0, 0, 1, 0].
+
+                ManagerManageEventData item = (ManagerManageEventData) manageEventTable.getItems()
+                        .get(colIndex);
+
+                String sql = "delete from event where event_name=? and site_name=? and start_date=?;";
+
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, item.getName());
+                pst.setString(2, chosenEventSiteNames.get(colIndex));
+                pst.setString(3, chosenEventStartDates.get(colIndex));
+
+                System.out.println(pst);
+
+                pst.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
