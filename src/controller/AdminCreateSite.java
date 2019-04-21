@@ -9,8 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
-import java.awt.*;
+
+import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +24,7 @@ public class AdminCreateSite implements Initializable {
     @FXML TextField address;
     @FXML TextField zipcode;
     @FXML ComboBox<String> manager;
-    @FXML Checkbox openEveryday;
+    @FXML CheckBox openEveryday;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

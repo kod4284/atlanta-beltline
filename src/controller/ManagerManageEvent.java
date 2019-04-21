@@ -2,15 +2,17 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Session;
 
-import java.awt.*;
+import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,7 +29,6 @@ public class ManagerManageEvent implements Initializable {
     @FXML TextField totalVisitsRangeMax;
     @FXML TextField totalRevenueRangeMin;
     @FXML TextField totalRevenueRangeMax;
-
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -92,8 +93,4 @@ public class ManagerManageEvent implements Initializable {
             System.out.println("Cannot load User_Login.fxml");
         }
     }
-
-
-
-
 }

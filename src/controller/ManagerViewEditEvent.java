@@ -9,10 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import jdk.jfr.Event;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,7 +25,7 @@ public class ManagerViewEditEvent implements Initializable {
     @FXML Label minimumStaffRequired;
     @FXML Label capacity;
     @FXML ListView<String> staffAssigned;
-    @FXML ListView<String> description;
+    @FXML TextArea description;
     @FXML TextField dailyVisitsRangeMin;
     @FXML TextField dailyVisitsRangeMax;
     @FXML TextField dailyRevenueRangeMin;

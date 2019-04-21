@@ -37,12 +37,12 @@
     <center>
         <VBox prefHeight="435.0" prefWidth="476.0" BorderPane.alignment="CENTER">
             <children>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="dailyDetailTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="183.0" text="Event Name" />
-                <TableColumn prefWidth="172.0" text="Staff Names" />
-                  <TableColumn prefWidth="67.0" text="Visits" />
-                  <TableColumn prefWidth="103.0" text="Revenue ($)" />
+                <TableColumn fx:id="eventNameCol" prefWidth="183.0" text="Event Name" />
+                <TableColumn fx:id="staffNameCol" prefWidth="172.0" text="Staff Names" />
+                  <TableColumn fx:id="visitCol" prefWidth="67.0" text="Visits" />
+                  <TableColumn fx:id="revenueCol" prefWidth="103.0" text="Revenue ($)" />
               </columns>
                <VBox.margin>
                   <Insets top="20.0" />
