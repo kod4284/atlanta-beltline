@@ -52,6 +52,7 @@ public class UserTransitHistory implements Initializable {
 
                 // sql statements
                 ArrayList<String> sites = new ArrayList<>();
+                sites.add("-- ALL --");
                 //if no row return, go to catch
                 String sql = ("select site_name from site;");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -95,6 +96,444 @@ public class UserTransitHistory implements Initializable {
         }
         return true;
     }
+    private void Empty_ALL_ALL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? and " +
+                        "transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, startDate.getText());
+                pst.setString(3, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Empty_NOT_ALL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select distinct transit_date, transit_route, transit_type, transit_price from transit natural join take_transit natural join connect\n" +
+                        "where username=? and site_name=?\n" +
+                        "and transit_date between ? and ?\n");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, containSite.getValue());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Empty_ALL_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? and transit_type=? " +
+                        "and transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, transportType.getValue().toString());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Empty_NOT_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? and transit_type=? and site_name=?" +
+                        "and transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, transportType.getValue().toString());
+                pst.setString(3, containSite.getValue().toString());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Data_ALL_ALL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? " +
+                        "and transit_route=?\n" +
+                        "and transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, route.getText());
+                pst.setString(3, startDate.getText());
+                pst.setString(4, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Data_NOT_ALL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? and site_name=? and " +
+                        "transit_route=?\n" +
+                        "and transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, containSite.getValue());
+                pst.setString(3, route.getText());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Data_ALL_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? and transit_type=? " +
+                        "and transit_route=?\n" +
+                        "and transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, transportType.getValue().toString());
+                pst.setString(3, route.getText());
+                pst.setString(4, startDate.getText());
+                pst.setString(5, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void Data_NOT_NOT() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
+                        "from transit natural join take_transit natural join connect\n" +
+                        "where username=? and transit_type=? and site_name=?" +
+                        "and transit_route=?\n" +
+                        "and transit_date between ? and ?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                pst.setString(2, transportType.getValue().toString());
+                pst.setString(3, containSite.getValue().toString());
+                pst.setString(4, route.getText());
+                pst.setString(5, startDate.getText());
+                pst.setString(6, endDate.getText());
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    historyData.add(new UserTransitHistoryData(new
+                            SimpleStringProperty(rs.getString
+                            ("transit_date")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_route")), new
+                            SimpleStringProperty(rs.getString
+                            ("transit_type")),
+                            rs.getDouble("transit_price"))
+                    );
+                }
+                transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("transportType"));
+                priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+                dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+                routeCol.setCellValueFactory(new PropertyValueFactory<>
+                        ("route"));
+                historyTable.setItems(historyData);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void btnActionFilter(ActionEvent event) {
         if (!checkFields()) {
             return;
@@ -105,231 +544,40 @@ public class UserTransitHistory implements Initializable {
         System.out.println(transportType.getValue().toString().equals
                 (TransportType.ALL.toString()));
         System.out.println(route.getText().trim().equals(""));
-        if (transportType.getValue().toString().equals(TransportType
-                .ALL.toString()) && route.getText().trim().equals("")) {
-            System.out.println("yes!");
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                // create a connection to the database
-                Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                        .password);
 
-                try {
-                    //query
-
-                    // sql statements
-
-                    //if no row return, go to catch
-                    String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
-                            "from transit natural join take_transit natural join connect\n" +
-                            "where username=? and site_name=?\n" +
-                            "and transit_date between ? and ?;");
-                    PreparedStatement pst = conn.prepareStatement(sql);
-                    pst.setString(1, Session.user.getUsername());
-                    pst.setString(2, containSite.getValue());
-                    pst.setString(3, startDate.getText());
-                    pst.setString(4, endDate.getText());
-                    ResultSet rs = pst.executeQuery();
-                    while (rs.next()) {
-                        historyData.add(new UserTransitHistoryData(new
-                                SimpleStringProperty(rs.getString
-                                ("transit_date")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_route")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_type")),
-                                rs.getDouble("transit_price"))
-                        );
-                    }
-                    transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("transportType"));
-                    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                    dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-                    routeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("route"));
-                    historyTable.setItems(historyData);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } finally {
-                    if (conn != null) {
-                        conn.close();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (route.getText().trim().equals("")) {
+            System.out.println("empty");
+            if (containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                System.out.println("empty-ALL-ALL");
+                Empty_ALL_ALL();
+            } else if (!containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Empty_NOT_ALL();
+            } else if (containSite.getValue().toString().equals("-- ALL --") &&
+                    !transportType.getValue().toString().equals("-- ALL --")) {
+                Empty_ALL_NOT();
+            } else {
+                System.out.println("empty-not-not");
+                Empty_NOT_NOT();
             }
-        } else if (!transportType.getValue().toString().equals(TransportType
-                .ALL.toString()) && route.getText().trim().equals("")) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                // create a connection to the database
-                Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                        .password);
 
-                try {
-                    //query
-
-                    // sql statements
-
-                    //if no row return, go to catch
-                    String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
-                            "from transit natural join take_transit natural join connect\n" +
-                            "where username=? and site_name=?\n" +
-                            "and transit_type=? " +
-                            "and transit_date between ? and ?;");
-                    PreparedStatement pst = conn.prepareStatement(sql);
-                    pst.setString(1, Session.user.getUsername());
-                    pst.setString(2, containSite.getValue());
-                    pst.setString(3, transportType.getValue().toString());
-                    pst.setString(4, startDate.getText());
-                    pst.setString(5, endDate.getText());
-                    ResultSet rs = pst.executeQuery();
-                    while (rs.next()) {
-                        historyData.add(new UserTransitHistoryData(new
-                                SimpleStringProperty(rs.getString
-                                ("transit_date")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_route")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_type")),
-                                rs.getDouble("transit_price"))
-                        );
-                    }
-                    transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("transportType"));
-                    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                    dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-                    routeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("route"));
-                    historyTable.setItems(historyData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } finally {
-                    if (conn != null) {
-                        conn.close();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        } else {
+            System.out.println("Data");
+            if (containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Data_ALL_ALL();
+            } else if (!containSite.getValue().toString().equals("-- ALL --") &&
+                    transportType.getValue().toString().equals("-- ALL --")) {
+                Data_NOT_ALL();
+            } else if (containSite.getValue().toString().equals("-- ALL --") &&
+                    !transportType.getValue().toString().equals("-- ALL --")) {
+                Data_ALL_NOT();
+            } else {
+                Data_NOT_NOT();
             }
-        } else if (transportType.getValue().toString().equals(TransportType
-                .ALL.toString()) && !route.getText().trim().equals("")) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                // create a connection to the database
-                Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                        .password);
 
-                try {
-                    //query
-
-                    // sql statements
-
-                    //if no row return, go to catch
-                    String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
-                            "from transit natural join take_transit natural join connect\n" +
-                            "where username=? and site_name=?\n" +
-                            "and transit_route=?" +
-                            "and transit_date between ? and ?;");
-                    PreparedStatement pst = conn.prepareStatement(sql);
-                    pst.setString(1, Session.user.getUsername());
-                    pst.setString(2, containSite.getValue());
-                    pst.setString(3, route.getText());
-                    pst.setString(4, startDate.getText());
-                    pst.setString(5, endDate.getText());
-                    ResultSet rs = pst.executeQuery();
-                    while (rs.next()) {
-                        historyData.add(new UserTransitHistoryData(new
-                                SimpleStringProperty(rs.getString
-                                ("transit_date")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_route")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_type")),
-                                rs.getDouble("transit_price"))
-                        );
-                    }
-                    transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("transportType"));
-                    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                    dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-                    routeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("route"));
-                    historyTable.setItems(historyData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } finally {
-                    if (conn != null) {
-                        conn.close();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (!transportType.getValue().toString().equals(TransportType
-                .ALL.toString()) && route.getText().trim().equals("")) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                // create a connection to the database
-                Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                        .password);
-
-                try {
-                    //query
-
-                    // sql statements
-
-                    //if no row return, go to catch
-                    String sql = ("select transit_date, transit_route, transit_type, transit_price \n" +
-                            "from transit natural join take_transit natural join connect\n" +
-                            "where username=? and site_name=?\n" +
-                            "and transit_type=? " +
-                            "and transit_route=?" +
-                            "and transit_date between ? and ?;");
-                    PreparedStatement pst = conn.prepareStatement(sql);
-                    pst.setString(1, Session.user.getUsername());
-                    pst.setString(2, containSite.getValue());
-                    pst.setString(3, transportType.getValue().toString());
-                    pst.setString(4, route.getText());
-                    pst.setString(5, startDate.getText());
-                    pst.setString(6, endDate.getText());
-                    ResultSet rs = pst.executeQuery();
-                    while (rs.next()) {
-                        historyData.add(new UserTransitHistoryData(new
-                                SimpleStringProperty(rs.getString
-                                ("transit_date")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_route")), new
-                                SimpleStringProperty(rs.getString
-                                ("transit_type")),
-                                rs.getDouble("transit_price"))
-                        );
-                    }
-                    transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("transportType"));
-                    priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                    dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-                    routeCol.setCellValueFactory(new PropertyValueFactory<>
-                            ("route"));
-                    historyTable.setItems(historyData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } finally {
-                    if (conn != null) {
-                        conn.close();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
-
-
     }
 
 
