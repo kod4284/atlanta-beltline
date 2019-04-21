@@ -6,13 +6,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class AdminEditTransit {
+
+    @FXML Label transportType;
+    @FXML TextField route;
+    @FXML TextField price;
+    @FXML ListView<String> connectedSites;
+
     @FXML
     public void btnActionAdminVisitorEditTransitUpdate(ActionEvent event) {
+
+
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
