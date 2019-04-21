@@ -48,7 +48,6 @@ public class UserTakeTransit implements Initializable {
     }
 
     public void btnActionFilter(ActionEvent event) {
-
         loadTableData(false);
     }
     private void loadTableData(boolean init) {
@@ -143,9 +142,7 @@ public class UserTakeTransit implements Initializable {
 
             transitTable.setItems(transitData);
         } else {
-            if (!checkPriceRange()) {
-                return;
-            }
+            checkPriceRange();
             transitData.clear();
             if (transportType.getValue().toString().equals(TransportType.ALL
                     .toString())) {
@@ -186,6 +183,7 @@ public class UserTakeTransit implements Initializable {
                                     , rs.getInt("site_number")));
                         }
                         System.out.println(transitData);
+
                     } catch (Exception e) {
                         e.printStackTrace();
 
@@ -370,7 +368,9 @@ public class UserTakeTransit implements Initializable {
     }
 
     public void btnActionLogTransit(ActionEvent event) {
-        checkTransiteDate();
+        if (!checkTransiteDate()) {
+            return;
+        }
         UserTakeTransitData item = (UserTakeTransitData) transitTable.getItems()
                     .get(colIndex);
         try {
@@ -401,76 +401,13 @@ public class UserTakeTransit implements Initializable {
                 alert.setContentText("The date successfully inserted!");
                 alert.showAndWait();
 
-                if (Session.user.isUser()) {
-                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                            .getWindow();
-                    Parent root = FXMLLoader.load(getClass()
-                            .getResource("../view/User_Functionality.fxml"));
-                    primaryStage.setScene(new Scene(root));
-
-                    //Employee Only
-                } else if (Session.user.isEmployee()) {
-                    //Manager Only
-                    if (Session.user.isManager()) {
-                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                .getWindow();
-                        Parent root = FXMLLoader.load(getClass()
-                                .getResource("../view/Manager_Functionality_Only.fxml"));
-                        primaryStage.setScene(new Scene(root));
-                        //Staff Only
-                    } else if (Session.user.isStaff()) {
-                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                .getWindow();
-                        Parent root = FXMLLoader.load(getClass()
-                                .getResource("../view/Staff_Functionality_Only" +
-                                        ".fxml"));
-                        primaryStage.setScene(new Scene(root));
-                        //Administrator Only
-                    } else {
-                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                .getWindow();
-                        Parent root = FXMLLoader.load(getClass()
-                                .getResource("../view" +
-                                        "/Administrator_Functionality_Only" +
-                                        ".fxml"));
-                        primaryStage.setScene(new Scene(root));
-                    }
-                    // Employee Visitor
-                } else if (Session.user.isEmployeeVisitor()) {
-                    //Manager-Visitor
-                    if (Session.user.isManager()) {
-                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                .getWindow();
-                        Parent root = FXMLLoader.load(getClass()
-                                .getResource("../view/Manager_Visitor_Functionality.fxml"));
-                        primaryStage.setScene(new Scene(root));
-                        //Staff-Visitor
-                    } else if (Session.user.isStaff()) {
-                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                .getWindow();
-                        Parent root = FXMLLoader.load(getClass()
-                                .getResource("../view/Staff_Visitor_Functionality" +
-                                        ".fxml"));
-                        primaryStage.setScene(new Scene(root));
-                        //Admin-Visitor
-                    } else {
-                        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                                .getWindow();
-                        Parent root = FXMLLoader.load(getClass()
-                                .getResource("../view" +
-                                        "/Administrator_Visitor_Functionality" +
-                                        ".fxml"));
-                        primaryStage.setScene(new Scene(root));
-                    }
-                    //Visitor Only
-                } else {
-                    Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                            .getWindow();
-                    Parent root = FXMLLoader.load(getClass()
-                            .getResource("../view/Visitor_Functionality.fxml"));
-                    primaryStage.setScene(new Scene(root));
-                }
-
+            } catch(SQLIntegrityConstraintViolationException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setHeaderText("Duplicate Transit Input");
+                alert.setContentText("You cannot take a same transit on a same" +
+                        "day.");
+                alert.showAndWait();
             } catch (Exception e) {
                 e.printStackTrace();
 
@@ -479,12 +416,10 @@ public class UserTakeTransit implements Initializable {
                     conn.close();
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
 
     }
     private boolean checkTransiteDate() {
