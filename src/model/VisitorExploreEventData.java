@@ -3,6 +3,8 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.text.SimpleDateFormat;
+
 public class VisitorExploreEventData {
     private final SimpleStringProperty eventName;
     private final SimpleStringProperty siteName;
@@ -10,18 +12,33 @@ public class VisitorExploreEventData {
     private final int ticketRemaining;
     private final int totalVisits;
     private final int myVisits;
+    private final SimpleStringProperty startDate;
 
     public VisitorExploreEventData(SimpleStringProperty eventName,
                                    SimpleStringProperty siteName,
                                    double ticketPrice,
                                    int ticketRemaining, int totalVisits,
-                                   int myVisits) {
+                                   int myVisits,
+                                   SimpleStringProperty startDate) {
         this.eventName = eventName;
         this.siteName = siteName;
         this.ticketPrice = ticketPrice;
         this.ticketRemaining = ticketRemaining;
         this.totalVisits = totalVisits;
         this.myVisits = myVisits;
+        this.startDate = startDate;
+    }
+
+    public String getStartDate() {
+        return startDate.get();
+    }
+
+    public SimpleStringProperty startDateProperty() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate.set(startDate);
     }
 
     public String getEventName() {
