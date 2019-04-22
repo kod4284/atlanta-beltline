@@ -8,13 +8,43 @@ public class ManagerManageEventData {
     private int duration;
     private int totalVisits;
     private double totalRevenue;
+    private SimpleStringProperty siteName;
+    private SimpleStringProperty startDate;
 
-    public ManagerManageEventData(SimpleStringProperty name, int staffCount, int duration, int totalVisits, double totalRevenue) {
+    public ManagerManageEventData(SimpleStringProperty name, int staffCount, int duration, int totalVisits, double totalRevenue,
+                                  SimpleStringProperty siteName,
+                                  SimpleStringProperty startDate) {
         this.name = name;
         this.staffCount = staffCount;
         this.duration = duration;
         this.totalVisits = totalVisits;
         this.totalRevenue = totalRevenue;
+        this.siteName = siteName;
+        this.startDate = startDate;
+    }
+
+    public String getStartDate() {
+        return startDate.get();
+    }
+
+    public SimpleStringProperty startDateProperty() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate.set(startDate);
+    }
+
+    public String getSiteName() {
+        return siteName.get();
+    }
+
+    public SimpleStringProperty siteNameProperty() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName.set(siteName);
     }
 
     public String getName() {
