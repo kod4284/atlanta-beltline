@@ -74,6 +74,12 @@ public class DB {
  */
 
 /*
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Field input Confirmation");
+                alert.setContentText("The date successfully inserted!");
+                alert.showAndWait();
+
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
                 alert.setHeaderText("Email input Warning");
