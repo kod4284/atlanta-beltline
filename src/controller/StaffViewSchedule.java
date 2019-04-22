@@ -57,6 +57,18 @@ public class StaffViewSchedule implements Initializable {
 
     private void loadDate() {
         try {
+            if ((!startDate.getText().equals("")
+                    && !checkerFunction.verifyDateFormat(startDate.getText()))
+                    || (!endDate.getText().equals("")
+                    && !checkerFunction.verifyDateFormat(endDate.getText()))) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Field input Warning");
+                alert.setContentText("The date should follow the format" +
+                        "####-##-##");
+                alert.showAndWait();
+                return;
+            }
             staffViewScheduleData = FXCollections.observableArrayList();
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -77,7 +89,7 @@ public class StaffViewSchedule implements Initializable {
                         "from assign_to natural join event\n" +
                         "group by event.event_name, event.site_name, event.start_date) t2\n" +
                         "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
-                        "where t1.event_name like concat('%',?,'%' #Event Name Filter\n" +
+                        "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
                         "and description like concat('%',?,'%') #Event Description Filter\n" +
                         "and ?<t1.start_date #Event Start Date Filter\n" +
                         "and end_date<? #Event End Date Filter\n" +
@@ -112,7 +124,7 @@ public class StaffViewSchedule implements Initializable {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
 
             } finally {
                 if (conn != null) {
@@ -140,7 +152,7 @@ public class StaffViewSchedule implements Initializable {
                     setGraphic(null);
                 } else {
                     RadioButton radioButton =
-                            new RadioButton(obj.getSiteName());
+                            new RadioButton(obj.getEventName());
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
@@ -160,7 +172,7 @@ public class StaffViewSchedule implements Initializable {
         siteNameCol.setCellValueFactory(new PropertyValueFactory<>(
                 "siteName"));
         startDateCol.setCellValueFactory(new PropertyValueFactory<>(
-                "starDate"));
+                "startDate"));
         endDateCol.setCellValueFactory(new PropertyValueFactory<>(
                 "endDate"));
         staffCountCol.setCellValueFactory(new PropertyValueFactory<>(
