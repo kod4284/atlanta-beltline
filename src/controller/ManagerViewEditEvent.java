@@ -141,7 +141,6 @@ public class ManagerViewEditEvent implements Initializable {
                             rs.getInt("min_staff_required"),
                             rs.getInt("capacity"),
                             availStaffUsername,
-//                            assignedStaffUsername,
                             rs.getString("description")
                     );
                 }
