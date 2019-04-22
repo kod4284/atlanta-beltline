@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -48,9 +49,13 @@ public class ManagerViewEditEvent implements Initializable {
     @FXML TextField dailyRevenueRangeMax;
 
     private ManagerViewEditEventData viewEditEventData;
+    private List<String> availStaffName;
+    private List<String> assignedStaffName;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        staffAssigned.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         loadData();
     }
     private void loadData() {
@@ -83,14 +88,13 @@ public class ManagerViewEditEvent implements Initializable {
                 String eventSql = "select event_name, event_price, start_date, end_date, min_staff_required, capacity, description from event \n" +
                         "where event_name=? and start_date=? and site_name=?;\n";
 
-                System.out.println("YEET");
                 PreparedStatement pst = conn.prepareStatement(eventSql);
                 pst.setString(1, eN);
                 pst.setString(2, sD);
                 pst.setString(3, sN);
                 ResultSet rs = pst.executeQuery();
 
-                String staffSql = "select concat(firstname, ' ', lastname) as 'Staff Assigned', t1.username from\n" +
+                String staffSql = "select concat(firstname, ' ', lastname) as 'all_available_staff', t1.username from\n" +
                         "(select staff_username as username from assign_to where event_name=? and start_date=? and site_name=?\n" +
                         "union\n" +
                         "select username from staff where username not in (select staff_username from assign_to)) t1\n" +
@@ -103,10 +107,30 @@ public class ManagerViewEditEvent implements Initializable {
                 pst2.setString(3, sN);
                 ResultSet rs2 = pst2.executeQuery();
 
-                List<String> availableStaff = new ArrayList<>();
+                availStaffName = new ArrayList<>();
+                List<String> availStaffUsername = new ArrayList<>();
                 while (rs2.next()) {
-                    availableStaff.add(rs2.getString("Staff Assigned"));
+                    availStaffName.add(rs2.getString("all_available_staff"));
+                    availStaffUsername.add(rs2.getString("t1.username"));
                 }
+
+                String assignedAlreadyStaff = "select concat(firstname, ' ', lastname) as " +
+                        "'already_assigned_staff', username from assign_to join user " +
+                        "on assign_to.staff_username=user.username \n" +
+                        "where event_name=? and start_date=? and site_name=?;\n";
+                PreparedStatement pst3 = conn.prepareStatement(assignedAlreadyStaff);
+                pst3.setString(1, eN);
+                pst3.setString(2, sD);
+                pst3.setString(3, sN);
+                ResultSet rs3 = pst3.executeQuery();
+
+                assignedStaffName = new ArrayList<>();
+                List<String> assignedStaffUsername = new ArrayList<>();
+                while (rs3.next()) {
+                    assignedStaffName.add(rs3.getString("already_assigned_staff"));
+                    assignedStaffUsername.add(rs3.getString("username"));
+                }
+
 
                 if (rs.next()) {
                     viewEditEventData = new ManagerViewEditEventData(
@@ -116,7 +140,8 @@ public class ManagerViewEditEvent implements Initializable {
                             rs.getString("end_date"),
                             rs.getInt("min_staff_required"),
                             rs.getInt("capacity"),
-                            availableStaff,
+                            availStaffUsername,
+                            assignedStaffUsername,
                             rs.getString("description")
                     );
                 }
@@ -141,7 +166,12 @@ public class ManagerViewEditEvent implements Initializable {
         minimumStaffRequired.setText("" + viewEditEventData.getMinimumStaffRequired());
         eventCapacity.setText("" + viewEditEventData.getEventCapacity());
 
-        staffAssigned.setItems(FXCollections.observableArrayList(viewEditEventData.getAllAvailableStaff()));
+        staffAssigned.setItems(FXCollections.observableList(availStaffName));
+        for (int x = 0; x < staffAssigned.getItems().size(); x++) {
+            if (assignedStaffName.contains(staffAssigned.getItems().get(x))){
+                staffAssigned.getSelectionModel().select(x);
+            }
+        }
         System.out.println(viewEditEventData.getDescription());
         description.setText(viewEditEventData.getDescription());
         description.setWrapText(true);
@@ -150,12 +180,71 @@ public class ManagerViewEditEvent implements Initializable {
 
     @FXML
     public void btnActionManagerViewEditEventFilter(ActionEvent event) {
-
     }
 
     @FXML
     public void btnActionManagerMangeEventUpdate(ActionEvent event) {
+        try {
 
+            System.out.println("DELETED");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //availStaffName
+                //assignedStaffName
+                assignedStaffName = staffAssigned.getSelectionModel().getSelectedItems();
+
+                String eN = Session.viewEditEvent.getEventName().trim();
+                String sD = Session.viewEditEvent.getStartDate().trim();
+                String sN = Session.viewEditEvent.getSiteName().trim();
+
+                String deleteAll = "delete from assign_to where event_name=? " +
+                        "and start_date= ? and site_name=?;";
+                PreparedStatement pst1 = conn.prepareStatement(deleteAll);
+                pst1.setString(1, eN);
+                pst1.setString(2, sD);
+                pst1.setString(3, sN);
+                pst1.executeUpdate();
+
+                for (int x = 0; x < assignedStaffName.size(); x++) {
+                    String putAllBackIn = "insert into assign_to values " +
+                            "(?, ?, ?, ?), " +
+                            "('michael.smith', 'Bus Tour', '2019-02-01', 'Inman Park');";
+                    PreparedStatement pst2 = conn.prepareStatement(putAllBackIn);
+                    pst2.setString(1, assignedStaffName.get(x));
+                    pst2.setString(2, eN);
+                    pst2.setString(3, sD);
+                    pst2.setString(4, sN);
+                }
+
+                String staffSql = "select concat(firstname, ' ', lastname) as 'all_available_staff', t1.username from\n" +
+                        "(select staff_username as username from assign_to where event_name=? and start_date=? and site_name=?\n" +
+                        "union\n" +
+                        "select username from staff where username not in (select staff_username from assign_to)) t1\n" +
+                        "join\n" +
+                        "(select username, firstname, lastname from user) t2\n" +
+                        "on t1.username=t2.username;\n";
+                PreparedStatement pst3 = conn.prepareStatement(staffSql);
+                pst3.setString(1, eN);
+                pst3.setString(2, sD);
+                pst3.setString(3, sN);
+                ResultSet rs2 = pst3.executeQuery();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        staffAssigned.setItems(FXCollections.observableList(availStaffName));
+        for (int x = 0; x < staffAssigned.getItems().size(); x++) {
+            if (assignedStaffName.contains(staffAssigned.getItems().get(x))){
+                staffAssigned.getSelectionModel().select(x);
+            }
+        }
     }
 
     public void btnActionBack(ActionEvent event){
