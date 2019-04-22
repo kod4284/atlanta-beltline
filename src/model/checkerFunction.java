@@ -55,7 +55,7 @@ public class checkerFunction {
 
         } catch (ParseException e) {
 
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
 

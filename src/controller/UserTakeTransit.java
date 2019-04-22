@@ -39,11 +39,13 @@ public class UserTakeTransit implements Initializable {
     private TableRow tableRow;
     private int colIndex;
     ToggleGroup group;
+    boolean flag;
     private ObservableList<UserTakeTransitData> transitData;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
         loadSitesAndFillComboBox();
+        flag = false;
 
     }
     private void Empty_Empty_ALL_ALL() {
@@ -102,19 +104,16 @@ public class UserTakeTransit implements Initializable {
                 } else {
                     RadioButton radioButton = new RadioButton(obj.getRoute());
                     radioButton.setToggleGroup(group);
+
                     // Add Listeners if any
                     setGraphic(radioButton);
-
-                    radioButton.setSelected(true);
-
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
-
                         @Override
                         public void handle(ActionEvent arg0) {
                             if(radioButton.isSelected()){
                                 tableRow = getTableRow();
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -195,14 +194,14 @@ public class UserTakeTransit implements Initializable {
                         radioButton.setToggleGroup(group);
                         // Add Listeners if any
                         setGraphic(radioButton);
-                        radioButton.setSelected(true);
+
                         radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                             @Override
                             public void handle(ActionEvent arg0) {
                                 if (radioButton.isSelected()) {
                                     colIndex = getIndex();
-
+                                    flag = true;
                                 }
 
                             }
@@ -281,14 +280,13 @@ public class UserTakeTransit implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -371,14 +369,13 @@ public class UserTakeTransit implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -460,14 +457,13 @@ public class UserTakeTransit implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -552,14 +548,15 @@ public class UserTakeTransit implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
+
+
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -644,14 +641,13 @@ public class UserTakeTransit implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -738,14 +734,13 @@ public class UserTakeTransit implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -799,6 +794,7 @@ public class UserTakeTransit implements Initializable {
             }
 
         }
+        flag = false;
     }
 
     private void loadSitesAndFillComboBox() {
@@ -844,6 +840,14 @@ public class UserTakeTransit implements Initializable {
         if (!checkTransiteDate()) {
             return;
         }
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         UserTakeTransitData item = (UserTakeTransitData) transitTable.getItems()
                     .get(colIndex);
         try {
@@ -868,10 +872,10 @@ public class UserTakeTransit implements Initializable {
                 int rs = pst.executeUpdate();
                 System.out.println(rs + " rows inserted");
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
-                alert.setHeaderText("Field input Confirmation");
-                alert.setContentText("The date successfully inserted!");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Field input Information");
+                alert.setContentText("The data successfully inserted!");
                 alert.showAndWait();
 
             } catch(SQLIntegrityConstraintViolationException e) {
