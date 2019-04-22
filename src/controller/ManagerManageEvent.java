@@ -72,6 +72,16 @@ public class ManagerManageEvent implements Initializable {
         String totalFilter = "";
         String revFilter = "";
 
+        if ((!startDate.getText().isEmpty() && !checkerFunction.verifyDateFormat(startDate.getText()))
+                ||  (!endDate.getText().isEmpty() && !checkerFunction.verifyDateFormat(endDate.getText()))) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
+            alert.showAndWait();
+        }
+
         manageEventData = FXCollections.observableArrayList();
 
         try {
