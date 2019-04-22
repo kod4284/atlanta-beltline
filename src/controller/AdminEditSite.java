@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import model.DB;
+import model.ManagerUsernameForCombo;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,10 +25,11 @@ public class AdminEditSite implements Initializable {
     @FXML TextField name;
     @FXML TextField zipcode;
     @FXML TextField address;
-    @FXML ComboBox<String> manager;
+    @FXML ComboBox<ManagerUsernameForCombo> manager;
     @FXML CheckBox openEveryday;
     public static String siteName;
     public static String username;
+    public static String managerName;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillData();
@@ -43,22 +45,33 @@ public class AdminEditSite implements Initializable {
                 //query
 
                 // sql statements
-                ArrayList<String> managers = new ArrayList<>();
+                ArrayList<ManagerUsernameForCombo> managers = new ArrayList<>();
                 //if no row return, go to catch
                 String sql = ("select concat(firstname, ' ', lastname) as 'Manager', t1.username from\n" +
-                        "(select manager_username as username from site where site_name='Piedmont Park'\n" +
+                        "(select manager_username as username from site where manager_username=?\n" +
                         "union\n" +
-                        "select username from employee where username not in (select manager_username from site) and employee_type='Manager') t1\n" +
+                        "select username from employee where username not in (select manager_username from site) and employee_type='Manager' ) t1\n" +
                         "join\n" +
-                        "(select username, firstname, lastname from user) t2\n" +
-                        "on t1.username=t2.username;\n;");
+                        "(select username, firstname, lastname from user where status='Approved') t2\n" +
+                        "on t1.username=t2.username;");
                 PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, username);
                 ResultSet rs = pst.executeQuery();
+
+                ManagerUsernameForCombo dataToBeShown = null;
                 while (rs.next()) {
-                    managers.add(rs.getString("Manager"));
+                    ManagerUsernameForCombo temp = new ManagerUsernameForCombo(rs.getString
+                            ("Manager"), rs.getString
+                            ("username"));
+                    if (temp.getUsername().equals(username)) {
+                        dataToBeShown = temp;
+                    }
+                    managers.add(temp);
                 }
+                //dataToBeShown = new ManagerUsernameForCombo(managerName, username);
+
                 manager.getItems().addAll(managers);
-                manager.getSelectionModel().selectFirst();
+                manager.getSelectionModel().select(dataToBeShown);
 
                 sql = ("select site_name, site_zipcode, site_address, " +
                         "manager_username, open_everyday from site where site_name=?;");
@@ -115,22 +128,22 @@ public class AdminEditSite implements Initializable {
                 // sql statements
                 ArrayList<String> managers = new ArrayList<>();
                 //if no row return, go to catch
-                String sql = ("update site set site_name=?, \n" +
-                        "site_zipcode=?, site_address=?, " +
-                        "manager_username=?,\n" +
-                        "open_everyday=?\n" +
-                        "where site_name = ?;\n");
+                String sql = ("delete from site where site_name=? and manager_username=?;\n" +
+                        "insert into site values (?, ?, ?, ?, ?);");
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, name.getText());
-                pst.setInt(2,Integer.parseInt(zipcode.getText()));
-                pst.setString(3, address.getText());
-                pst.setString(4, this.username);
+                pst.setString(1, siteName);
+                pst.setString(2, username);
+
+                pst.setString(3, name.getText());
+                pst.setString(4, address.getText());
+                pst.setInt(5,Integer.parseInt(zipcode.getText()));
                 if (openEveryday.isSelected()) {
-                    pst.setString(5, "Yes");
+                    pst.setString(6, "Yes");
                 } else {
-                    pst.setString(5, "No");
+                    pst.setString(6, "No");
                 }
-                pst.setString(6, this.siteName);
+                pst.setString(7, manager.getValue().toString());
+
                 int rs = pst.executeUpdate();
                 System.out.println(rs + "rows updated");
 

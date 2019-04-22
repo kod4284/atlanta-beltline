@@ -20,10 +20,7 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -70,12 +67,18 @@ public class EmployeeManageProfile implements Initializable {
                 //query2
                 if (Session.user.isManager()) {
                     sql = ("select site_name from site where " +
-                            "manager_username=?; ");
+                            "manager_username=?;");
                     pst = conn.prepareStatement(sql);
                     pst.setString(1, Session.user.getUsername());
                     rs = pst.executeQuery();
                     rs.next();
-                    Session.user.setSiteName(rs.getString("site_name"));
+                    Object obj = rs.getObject("site_name");
+                    if (obj == null) {
+                        Session.user.setSiteName("NONE");
+                    } else {
+                        Session.user.setSiteName(String.valueOf(obj));
+                    }
+
                 }
                 //query3
                 sql = ("select employee_id, phone, employee_address, employee_city," +
@@ -84,6 +87,35 @@ public class EmployeeManageProfile implements Initializable {
                 pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 rs = pst.executeQuery();
+                rs.next();
+                Session.user.setEmployeeId(rs.getString("employee_id"));
+                Session.user.setPhone(checkerFunction.formatPhone(rs.getString("phone")));
+                Session.user.setEmployeeAddress(rs.getString
+                        ("employee_address"));
+                Session.user.setCity(rs.getString("employee_city"));
+                Session.user.setState(rs.getString("employee_state"));
+                Session.user.setZipcode(rs.getString("employee_zipcode"));
+
+                //query4
+                Session.user.getEmail().clear(); // 초기화 꼭 해줘야함!
+                sql = ("select email from user_email where username=?;");
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    Session.user.getEmail().add(rs.getString("email"));
+                }
+
+                fillEmails(Session.user.getEmail());
+                System.out.println(Session.user.getEmail().size());
+            } catch (SQLException e) {
+                siteName.setText("NONE");
+                String sql = ("select employee_id, phone, employee_address, employee_city," +
+                        " employee_state, employee_zipcode from " +
+                        "employee where username=?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, Session.user.getUsername());
+                ResultSet rs = pst.executeQuery();
                 rs.next();
                 Session.user.setEmployeeId(rs.getString("employee_id"));
                 Session.user.setPhone(checkerFunction.formatPhone(rs.getString("phone")));

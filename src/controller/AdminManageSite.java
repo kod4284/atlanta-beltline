@@ -791,6 +791,7 @@ public class AdminManageSite implements Initializable {
                 .get(colIndex);
         AdminEditSite.siteName = item.getName();
         AdminEditSite.username = item.getUsername();
+        AdminEditSite.managerName = item.getManager();
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();

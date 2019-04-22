@@ -244,7 +244,8 @@ public class UserLogin implements Initializable {
                 alert.showAndWait();
             }
 
-        } catch(SQLException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
             System.out.println("ErrorCode: " + e.getErrorCode());

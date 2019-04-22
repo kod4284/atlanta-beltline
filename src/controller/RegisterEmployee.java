@@ -112,24 +112,28 @@ public class RegisterEmployee implements Initializable {
             insertedCnt = pst.executeUpdate();
             System.out.println("Employee: " + insertedCnt + " rows inserted!");
             //query 4
-            sql = ("insert into manager values (?);");
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, username.getText());
-            int rs = pst.executeUpdate();
-            System.out.println(rs + " manager registered");
-            //query 5
-            sql = ("insert into staff values (?);");
-            pst = conn.prepareStatement(sql);
-            pst.setString(1, username.getText());
-            rs = pst.executeUpdate();
-            System.out.println(rs + " staff registered");
+            if (empTypes.getValue().equals(EmployeeTypeForRegister.MANAGER)) {
+                sql = ("insert into manager values (?);");
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, username.getText());
+                int rs = pst.executeUpdate();
+                System.out.println(rs + " manager registered");
+            }
+            if (empTypes.getValue().equals(EmployeeTypeForRegister.STAFF)) {
+                //query 5
+                sql = ("insert into staff values (?);");
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, username.getText());
+                int rs = pst.executeUpdate();
+                System.out.println(rs + " staff registered");
+            }
             //query 6
             for (Email email:emailData) {
                 sql = ("insert into user_email values (?, ?);");
                 pst = conn.prepareStatement(sql);
                 pst.setString(1, username.getText());
                 pst.setString(2, email.getEmail());
-                rs = pst.executeUpdate();
+                int rs = pst.executeUpdate();
                 System.out.println(rs + " email added ");
             }
 

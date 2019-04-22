@@ -110,8 +110,13 @@ public class RegisterUser implements Initializable {
                         .getResource("../view/User_Login.fxml"));
             primaryStage.setScene(new Scene(root));
 
-        }catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR Dialog");
+            alert.setHeaderText("Duplication input ERROR");
+            alert.setContentText("The information you have input already " +
+                    "exists!");
+            alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");
