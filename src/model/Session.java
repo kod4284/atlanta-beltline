@@ -7,4 +7,5 @@ public class Session {
     public static DailyDetail dailyDetail;
     public static EventDetail eventDetail;
     public static SiteDetail siteDetail;
+    public static StaffEventDetailModel staffEventDetailModel;
 }

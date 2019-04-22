@@ -8,14 +8,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
 
 import java.util.ResourceBundle;
 
-public class StaffEvent implements Initializable {
+public class StaffEventDetail implements Initializable {
 
     @FXML Label event;
     @FXML Label site;
@@ -25,13 +27,29 @@ public class StaffEvent implements Initializable {
     @FXML Label staffsAssigned;
     @FXML Label capacity;
     @FXML Label price;
-    @FXML Label description;
+    @FXML TextArea description;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadDate();
+    }
+
+    public void loadDate() {
+        event.setText(Session.staffEventDetailModel.getEventName());
+        site.setText(Session.staffEventDetailModel.getSiteName());
+        startDate.setText(Session.staffEventDetailModel.getStartDate());
+        endDate.setText(Session.staffEventDetailModel.getEndDate());
+        durationDays.setText(Integer.valueOf(Session.staffEventDetailModel.getDurationDays()).toString());
+        capacity.setText(Integer.valueOf(Session.staffEventDetailModel.getCapacity()).toString());
+        price.setText(Double.valueOf(Session.staffEventDetailModel.getEventPrice()).toString());
+        description.setText(Session.staffEventDetailModel.getDescription());
+        description.setWrapText(true);
+
 
     }
+
+
 
     @FXML
     public void btnActionStaffEventDetailBack(ActionEvent event) {
