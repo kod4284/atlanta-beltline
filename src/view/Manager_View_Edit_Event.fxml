@@ -77,8 +77,8 @@
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="name" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="price" text="Label" GridPane.columnIndex="3" />
+                  <Label fx:id="eventName" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="eventPrice" text="Label" GridPane.columnIndex="3" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
@@ -155,7 +155,7 @@
                      </GridPane.margin>
                   </Label>
                   <Label fx:id="minimumStaffRequired" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="capacity" text="Label" GridPane.columnIndex="3" />
+                  <Label fx:id="eventCapacity" text="Label" GridPane.columnIndex="3" />
                </children>
             </GridPane>
             <GridPane prefHeight="90.0" prefWidth="477.0">

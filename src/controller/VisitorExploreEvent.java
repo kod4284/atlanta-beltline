@@ -1059,20 +1059,25 @@ public class VisitorExploreEvent implements Initializable {
 
     @FXML
     public void btnActionVisitorExploreEventDetail(ActionEvent event) {
-        VisitorExploreEventData item =
-                (VisitorExploreEventData) visitorExploreEventTable.getItems().get(colIndex);
-        Session.eventDetail = new EventDetail(item.getEventName(),
-                item.getSiteName(), item.getStartDate(), item.getTicketRemaining());
-
         try {
+            VisitorExploreEventData item =
+                    (VisitorExploreEventData) visitorExploreEventTable.getItems().get(colIndex);
+
+            Session.eventDetail = new EventDetail(item.getEventName(),
+                    item.getSiteName(), item.getStartDate(), item.getTicketRemaining());
+
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
                     .getResource("../view/Visitor_Event_Detail.fxml"));
             primaryStage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Cannot load User_Login.fxml");
+        } catch (Exception e) {
+//            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please select the item");
+            alert.showAndWait();
         }
     }
 
