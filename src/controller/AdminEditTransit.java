@@ -38,6 +38,7 @@ public class AdminEditTransit implements Initializable {
         route.setText(data.getRoute());
         price.setText(String.valueOf(data.getPrice()));
         transportType.setText(data.getTransportType());
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -83,6 +84,7 @@ public class AdminEditTransit implements Initializable {
             connectedSites.getSelectionModel().select(str);
         }
         connectedSites.setItems(tableData);
+        connectedSites.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
 
@@ -110,6 +112,15 @@ public class AdminEditTransit implements Initializable {
                 pst.setString(4, data.getRoute());
                 int resultSet = pst.executeUpdate();
                 System.out.println(resultSet + " Updated!");
+
+
+                sql = ("delete from connect where transit_type=? and " +
+                        "transit_route=?;");
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, data.getTransportType());
+                pst.setString(2, data.getRoute());
+                resultSet = pst.executeUpdate();
+                System.out.println(resultSet + " Deleted!");
                 sql = ("insert into connect values (?, ?, ?);");
                 pst = conn.prepareStatement(sql);
                 for (String str : connectedSites

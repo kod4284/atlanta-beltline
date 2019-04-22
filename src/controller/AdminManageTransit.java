@@ -47,6 +47,7 @@ public class AdminManageTransit implements Initializable {
         group = new ToggleGroup();
         fillComboBox();
     }
+
     private void fillComboBox() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -114,19 +115,27 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
+                    Object obj = rs.getObject("transit_count");
+                    String str;
+                    if (obj == null) {
+                        str = "0";
+                    } else {
+                        str = obj.toString();
+                    }
+                    System.out.println(str);
                     tableData.add(new AdminManageTransitData(new
                             SimpleStringProperty(rs.getString("transit_route")),
                             new SimpleStringProperty(rs.getString
                                     ("transit_type")),
                             Double.parseDouble(rs.getString("transit_price")),
                             Integer.parseInt(rs.getString("site_count")),
-                            Integer.parseInt(rs.getString("transit_count"))));
+                            Integer.parseInt(str)));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -164,7 +173,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -217,7 +226,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -270,7 +279,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -326,7 +335,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -380,7 +389,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -436,7 +445,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -490,7 +499,7 @@ public class AdminManageTransit implements Initializable {
                         "join\n" +
                         "(select transit_type, transit_route, count(site_name) as site_count from connect group by transit_type, transit_route) t2\n" +
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
-                        "join\n" +
+                        "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
                         "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -521,6 +530,7 @@ public class AdminManageTransit implements Initializable {
             e.printStackTrace();
         }
     }
+
     private void filter() {
         tableData = FXCollections.observableArrayList();
         if (!checkCondition()) {
@@ -626,7 +636,51 @@ public class AdminManageTransit implements Initializable {
 
     @FXML
     public void btnActionAdminManageTransitDelete(ActionEvent event) {
+        try {
+        AdminManageTransitData item = (AdminManageTransitData) tableView.getItems()
+                .get(colIndex);
 
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("delete from transit where transit_route=? and " +
+                        "transit_type=?;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, item.getRoute());
+                pst.setString(2, item.getTransportType());
+                int rs = pst.executeUpdate();
+                System.out.println(rs + "rows deleted");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Deletion Confirmation");
+                alert.setContentText("The date successfully Deleted!");
+                alert.showAndWait();
+                filter();
+            } catch (RuntimeException e){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR Dialog");
+                alert.setHeaderText("Radio button ERROR");
+                alert.setContentText("You should check a Radio button!");
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -671,16 +725,23 @@ public class AdminManageTransit implements Initializable {
 
     @FXML
     public void btnActionAdminVisitorManageTransitEditTransit(ActionEvent event) {
+        try {
         AdminManageTransitData item = (AdminManageTransitData) tableView.getItems()
                 .get(colIndex);
         AdminEditTransit.data = item;
 
-        try {
+
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
                     .getResource("../view/Administrator_Edit_Transit.fxml"));
             primaryStage.setScene(new Scene(root));
+        } catch (RuntimeException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR Dialog");
+            alert.setHeaderText("Radio button ERROR");
+            alert.setContentText("You should check a Radio button!");
+            alert.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");

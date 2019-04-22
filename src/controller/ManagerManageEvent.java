@@ -293,6 +293,9 @@ public class ManagerManageEvent implements Initializable {
 
     @FXML
     public void btnActionManagerManageEventViewEdit(ActionEvent event) {
+        ManagerManageEventData item = (ManagerManageEventData) manageEventTable.getItems()
+                .get(colIndex);
+        Session.viewEditEvent = new ViewEditEvent(item.getName(), chosenEventSiteNames.get(colIndex), chosenEventStartDates.get(colIndex));
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();

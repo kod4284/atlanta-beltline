@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,26 +9,69 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.AdminManageTransitData;
+import model.DB;
 import model.TransportType;
+import model.TransportTypeNotAll;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class AdminCreateTransit implements Initializable {
-
-    @FXML ComboBox<TransportType> transportTypeComboBox;
+    @FXML ComboBox<TransportTypeNotAll> transportTypeComboBox;
     @FXML TextField route;
     @FXML TextField price;
     @FXML ListView<String> connectedSites;
+    private ObservableList<String> tableData;
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tableData = FXCollections.observableArrayList();
 
+        TransportTypeNotAll[] transportType = TransportTypeNotAll.class
+                .getEnumConstants();
+        transportTypeComboBox.getItems().addAll(transportType);
+        transportTypeComboBox.getSelectionModel().selectFirst();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select site_name from site;");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    tableData.add(rs.getString( "site_name"));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        connectedSites.setItems(tableData);
+        connectedSites.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     @FXML
@@ -44,15 +89,66 @@ public class AdminCreateTransit implements Initializable {
     }
     @FXML
     public void btnActionAdminVisitorCreateTransitCreate(ActionEvent event) {
-        try {
-            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
-                    .getWindow();
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/Administrator_Manage_Transit.fxml"));
-            primaryStage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Cannot load User_Login.fxml");
+        if (!isUnderTwoSite()) {
+            return;
         }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+                // sql statements
+                //if no row return, go to catch
+                String sql = ("insert into transit values (?,?,?);");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                pst.setString(1, transportTypeComboBox.getValue().toString());
+                pst.setString(2, route.getText());
+                pst.setDouble(3, Double.parseDouble(price.getText()));
+                int resultSet = pst.executeUpdate();
+                System.out.println(resultSet + " Inserted!");
+
+                sql = ("insert into connect values (?, ?, ?)");
+                pst = conn.prepareStatement(sql);
+                for (String str : connectedSites
+                        .getSelectionModel()
+                        .getSelectedItems()) {
+                    pst.setString(1, str);
+                    pst.setString(2, transportTypeComboBox.getValue()
+                            .toString());
+                    pst.setString(3, route.getText());
+                    resultSet = pst.executeUpdate();
+                    System.out.println("Inserted!");
+                }
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Input Confirmation");
+                alert.setContentText("Successfully inserted!");
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    private boolean isUnderTwoSite() {
+        if (connectedSites.getSelectionModel().getSelectedItems().size() < 2) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Site Input Warning");
+            alert.setContentText("You should chose at least two sites!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 }

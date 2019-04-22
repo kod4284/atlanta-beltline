@@ -143,8 +143,8 @@ public class ManagerViewEditEvent implements Initializable {
 
         staffAssigned.setItems(FXCollections.observableArrayList(viewEditEventData.getAllAvailableStaff()));
         System.out.println(viewEditEventData.getDescription());
-        description = new TextArea();
         description.setText(viewEditEventData.getDescription());
+        description.setWrapText(true);
         System.out.println(description.getText());
     }
 

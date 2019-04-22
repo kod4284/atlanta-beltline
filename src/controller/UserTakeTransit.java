@@ -901,15 +901,15 @@ public class UserTakeTransit implements Initializable {
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
             alert.setContentText("The date should follow the format" +
-                    "####-##-##");
+                    "\nex) ####-##-##");
             alert.showAndWait();
             return false;
         } else if(!checkerFunction.laterThanCurrentTime(transiteDate.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
-            alert.setContentText("The date should follow the format" +
-                    "####-##-##");
+            alert.setContentText("You should input the time later than " +
+                    "current date");
             alert.showAndWait();
             return false;
         }
