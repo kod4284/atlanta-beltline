@@ -570,10 +570,10 @@ public class AdminManageUser implements Initializable {
                 int rs = pst.executeUpdate();
                 System.out.println(rs + " rows inserted");
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
-                alert.setHeaderText("Field input Confirmation");
-                alert.setContentText("The date successfully inserted!");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Field input Information");
+                alert.setContentText("The data successfully inserted!");
                 alert.showAndWait();
 
             } catch(SQLIntegrityConstraintViolationException e) {
@@ -630,10 +630,10 @@ public class AdminManageUser implements Initializable {
                 int rs = pst.executeUpdate();
                 System.out.println(rs + " rows updated");
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
-                alert.setHeaderText("Field input Confirmation");
-                alert.setContentText("The date successfully inserted!");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Field input Information");
+                alert.setContentText("The data successfully inserted!");
                 alert.showAndWait();
 
             } catch(SQLIntegrityConstraintViolationException e) {
