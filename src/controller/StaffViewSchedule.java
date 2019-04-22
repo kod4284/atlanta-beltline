@@ -56,6 +56,7 @@ public class StaffViewSchedule implements Initializable {
     }
 
     private void loadDate() {
+
         try {
             if ((!startDate.getText().equals("")
                     && !checkerFunction.verifyDateFormat(startDate.getText()))
@@ -77,50 +78,170 @@ public class StaffViewSchedule implements Initializable {
                     .password);
 
             try {
-                //query
-
-                // sql statements
-
-                //if no row return, go to catch
-                String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
-                        "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
-                        "join\n" +
-                        "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
-                        "from assign_to natural join event\n" +
-                        "group by event.event_name, event.site_name, event.start_date) t2\n" +
-                        "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
-                        "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
-                        "and description like concat('%',?,'%') #Event Description Filter\n" +
-                        "and ?<t1.start_date #Event Start Date Filter\n" +
-                        "and end_date<? #Event End Date Filter\n" +
-                        "order by event_name; \n" +
-                        "#sort by each column\n" +
-                        "-- order by event_name desc\n" +
-                        "-- order by site_name\n" +
-                        "-- order by site_name desc\n" +
-                        "-- order by start_date\n" +
-                        "-- order by start_date desc\n" +
-                        "-- order by end_date\n" +
-                        "-- order by end_date desc\n" +
-                        "-- order by staff_count\n" +
-                        "-- order by staff_count desc\n");
-                PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, eventName.getText());
-                pst.setString(2, descriptionKeyword.getText());
-                pst.setString(3, startDate.getText());
-                pst.setString(4, endDate.getText());
-                ResultSet rs = pst.executeQuery();
-
-                while (rs.next()) {
-                    staffViewScheduleData.add(new StaffViewScheduleData(
-                            new SimpleStringProperty(rs.getString("event_name")),
-                            new SimpleStringProperty(rs.getString("site_name")),
-                            new SimpleStringProperty(rs.getString("start_date")),
-                            new SimpleStringProperty(rs.getString("end_date")),
-                            rs.getInt("staff_count"),
-                            new SimpleStringProperty(rs.getString(
-                                    "description"))
-                    ));
+                // both filled
+                if (!startDate.getText().equals("") && !endDate.getText().equals("")) {
+                    String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "join\n" +
+                            "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
+                            "from assign_to natural join event\n" +
+                            "group by event.event_name, event.site_name, event.start_date) t2\n" +
+                            "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                            "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
+                            "and description like concat('%',?,'%') #Event Description Filter\n" +
+                            "and ?<t1.start_date #Event Start Date Filter\n" +
+                            "and end_date<? #Event End Date Filter\n" +
+                            "order by event_name; \n" +
+                            "#sort by each column\n" +
+                            "-- order by event_name desc\n" +
+                            "-- order by site_name\n" +
+                            "-- order by site_name desc\n" +
+                            "-- order by start_date\n" +
+                            "-- order by start_date desc\n" +
+                            "-- order by end_date\n" +
+                            "-- order by end_date desc\n" +
+                            "-- order by staff_count\n" +
+                            "-- order by staff_count desc\n");
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, eventName.getText());
+                    pst.setString(2, descriptionKeyword.getText());
+                    pst.setString(3, startDate.getText());
+                    pst.setString(4, endDate.getText());
+                    ResultSet rs = pst.executeQuery();
+                    while (rs.next()) {
+                        staffViewScheduleData.add(new StaffViewScheduleData(
+                                new SimpleStringProperty(rs.getString("event_name")),
+                                new SimpleStringProperty(rs.getString("site_name")),
+                                new SimpleStringProperty(rs.getString("start_date")),
+                                new SimpleStringProperty(rs.getString("end_date")),
+                                rs.getInt("staff_count"),
+                                new SimpleStringProperty(rs.getString(
+                                        "description"))
+                        ));
+                    }
+                //start date filled
+                } else if (!startDate.getText().equals("") && endDate.getText().equals("")) {
+                    String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "join\n" +
+                            "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
+                            "from assign_to natural join event\n" +
+                            "group by event.event_name, event.site_name, event.start_date) t2\n" +
+                            "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                            "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
+                            "and description like concat('%',?,'%') #Event Description Filter\n" +
+                            "and ?<t1.start_date #Event Start Date Filter\n" +
+//                            "and end_date<? #Event End Date Filter\n" +
+                            "order by event_name; \n" +
+                            "#sort by each column\n" +
+                            "-- order by event_name desc\n" +
+                            "-- order by site_name\n" +
+                            "-- order by site_name desc\n" +
+                            "-- order by start_date\n" +
+                            "-- order by start_date desc\n" +
+                            "-- order by end_date\n" +
+                            "-- order by end_date desc\n" +
+                            "-- order by staff_count\n" +
+                            "-- order by staff_count desc\n");
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, eventName.getText());
+                    pst.setString(2, descriptionKeyword.getText());
+                    pst.setString(3, startDate.getText());
+//                    pst.setString(4, endDate.getText());
+                    ResultSet rs = pst.executeQuery();
+                    while (rs.next()) {
+                        staffViewScheduleData.add(new StaffViewScheduleData(
+                                new SimpleStringProperty(rs.getString("event_name")),
+                                new SimpleStringProperty(rs.getString("site_name")),
+                                new SimpleStringProperty(rs.getString("start_date")),
+                                new SimpleStringProperty(rs.getString("end_date")),
+                                rs.getInt("staff_count"),
+                                new SimpleStringProperty(rs.getString(
+                                        "description"))
+                        ));
+                    }
+                //end Date Filled
+                } else if (startDate.getText().equals("") && !endDate.getText().equals("")) {
+                    String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "join\n" +
+                            "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
+                            "from assign_to natural join event\n" +
+                            "group by event.event_name, event.site_name, event.start_date) t2\n" +
+                            "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                            "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
+                            "and description like concat('%',?,'%') #Event Description Filter\n" +
+//                            "and ?<t1.start_date #Event Start Date Filter\n" +
+                            "and end_date<? #Event End Date Filter\n" +
+                            "order by event_name; \n" +
+                            "#sort by each column\n" +
+                            "-- order by event_name desc\n" +
+                            "-- order by site_name\n" +
+                            "-- order by site_name desc\n" +
+                            "-- order by start_date\n" +
+                            "-- order by start_date desc\n" +
+                            "-- order by end_date\n" +
+                            "-- order by end_date desc\n" +
+                            "-- order by staff_count\n" +
+                            "-- order by staff_count desc\n");
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, eventName.getText());
+                    pst.setString(2, descriptionKeyword.getText());
+//                    pst.setString(3, startDate.getText());
+                    pst.setString(3, endDate.getText());
+                    ResultSet rs = pst.executeQuery();
+                    while (rs.next()) {
+                        staffViewScheduleData.add(new StaffViewScheduleData(
+                                new SimpleStringProperty(rs.getString("event_name")),
+                                new SimpleStringProperty(rs.getString("site_name")),
+                                new SimpleStringProperty(rs.getString("start_date")),
+                                new SimpleStringProperty(rs.getString("end_date")),
+                                rs.getInt("staff_count"),
+                                new SimpleStringProperty(rs.getString(
+                                        "description"))
+                        ));
+                    }
+                // both empty
+                } else {
+                    String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "join\n" +
+                            "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
+                            "from assign_to natural join event\n" +
+                            "group by event.event_name, event.site_name, event.start_date) t2\n" +
+                            "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
+                            "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
+                            "and description like concat('%',?,'%') #Event Description Filter\n" +
+//                            "and ?<t1.start_date #Event Start Date Filter\n" +
+//                            "and end_date<? #Event End Date Filter\n" +
+                            "order by event_name; \n" +
+                            "#sort by each column\n" +
+                            "-- order by event_name desc\n" +
+                            "-- order by site_name\n" +
+                            "-- order by site_name desc\n" +
+                            "-- order by start_date\n" +
+                            "-- order by start_date desc\n" +
+                            "-- order by end_date\n" +
+                            "-- order by end_date desc\n" +
+                            "-- order by staff_count\n" +
+                            "-- order by staff_count desc\n");
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, eventName.getText());
+                    pst.setString(2, descriptionKeyword.getText());
+//                    pst.setString(3, startDate.getText());
+//                    pst.setString(4, endDate.getText());
+                    ResultSet rs = pst.executeQuery();
+                    while (rs.next()) {
+                        staffViewScheduleData.add(new StaffViewScheduleData(
+                                new SimpleStringProperty(rs.getString("event_name")),
+                                new SimpleStringProperty(rs.getString("site_name")),
+                                new SimpleStringProperty(rs.getString("start_date")),
+                                new SimpleStringProperty(rs.getString("end_date")),
+                                rs.getInt("staff_count"),
+                                new SimpleStringProperty(rs.getString(
+                                        "description"))
+                        ));
+                    }
                 }
 
             } catch (Exception e) {
