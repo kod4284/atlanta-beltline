@@ -105,6 +105,12 @@ public class EmployeeManageProfile implements Initializable {
                 while (rs.next()) {
                     Session.user.getEmail().add(rs.getString("email"));
                 }
+                System.out.println(Session.user.isVisitor());
+                if (Session.user.isVisitor()) {
+                    isVisitor.setSelected(true);
+                } else {
+                    isVisitor.setSelected(false);
+                }
 
                 fillEmails(Session.user.getEmail());
                 System.out.println(Session.user.getEmail().size());

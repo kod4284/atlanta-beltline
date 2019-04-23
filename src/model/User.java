@@ -198,7 +198,7 @@ public class User {
         return this.userType.equals(UserType.USER.toString());
     }
     public boolean isVisitor() {
-        return this.userType.equals(UserType.VISITOR.toString());
+        return this.userType.equals(UserType.VISITOR.toString())|| userType.equals(UserType.EMPLOYEE_VISITOR.toString());
     }
     public boolean isManager() {
         return this.EmployeeType.equals(model.EmployeeType.MANAGER.toString());
