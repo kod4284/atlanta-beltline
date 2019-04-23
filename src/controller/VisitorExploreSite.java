@@ -207,50 +207,36 @@ public class VisitorExploreSite implements Initializable {
             try {
 
                 String sql = ("select eventcount.site_name, event_count, total_visits, my_visits from\n" +
-                        "(select site.site_name, count(*) as event_count\n" +
-                        "from site join event on site.site_name=event.site_name\n" +
+                        "(select site.site_name, if(count(event_name)=0,0,count(*)) as event_count\n" +
+                        "from site left join event on site.site_name=event.site_name\n" +
                         nameFilter +
+                        openEverydayFilter +
                         startDateFilter +
-                        openEverydayFilter+
                         endDateFilter +
                         "group by site.site_name\n" +
                         "order by site_name) as eventcount\n" +
-                        "inner join\n" +
+                        "left outer join\n" +
                         "(select site_name, count(*) as total_visits\n" +
                         "from\n" +
-                        "(select visitor_username, event_name, start_date, visit_event.site_name, " +
-                        "visit_event_date as 'Date' from visit_event\n" +
+                        "(select visitor_username, event_name, start_date, visit_event.site_name, visit_event_date as 'Date' from visit_event\n" +
                         "union\n" +
-                        "select visitor_username, NULL as event_name, " +
-                        "NULL as start_date, visit_site.site_name, visit_site_date as 'Date' " +
-                        "from visit_site) t\n" +
+                        "select visitor_username, NULL as event_name, NULL as start_date, visit_site.site_name, visit_site_date as 'Date' from visit_site) t\n" +
                         "group by site_name\n" +
                         "order by site_name) as totalvisits\n" +
                         "on totalvisits.site_name=eventcount.site_name\n" +
                         "left outer join\n" +
                         "(select site_name, count(*) as my_visits\n" +
                         "from\n" +
-                        "(select event_name, start_date, visit_event.site_name, visit_event_date " +
-                        "as 'Date' from visit_event where visitor_username='"+Session.user.getUsername()+"'\n" +
+                        "(select event_name, start_date, visit_event.site_name, visit_event_date as 'Date' from visit_event where visitor_username='manager2'\n" +
                         "union\n" +
-                        "select NULL as event_name, NULL as start_date, visit_site.site_name, " +
-                        "visit_site_date as 'Date' from visit_site " +
-                        "where visitor_username='"+Session.user.getUsername()+"') t\n" +
+                        "select NULL as event_name, NULL as start_date, visit_site.site_name, visit_site_date as 'Date' from visit_site where visitor_username='manager2') t\n" +
                         "group by site_name\n" +
                         "order by site_name) as myvisits\n" +
                         "on totalvisits.site_name=myvisits.site_name\n" +
                         totalVisitFilter +
                         eventCountFilter +
                         visitCheckBoxFilter +
-                        "order by site_name;\n" +
-                        "#sort by each column\n" +
-                        "-- order by site_name desc\n" +
-                        "-- order by event_count\n" +
-                        "-- order by event_count desc\n" +
-                        "-- order by total_visits\n" +
-                        "-- order by total_visits desc\n" +
-                        "-- order by my_visits\n" +
-                        "-- order by my_visits desc\n");
+                        "order by site_name;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 
@@ -261,7 +247,7 @@ public class VisitorExploreSite implements Initializable {
                             Integer.valueOf(rs.getInt("total_visits")),
                             Integer.valueOf(rs.getInt("my_visits"))));
                 }
-
+                System.out.println(sql);
             } catch (Exception e) {
                 e.printStackTrace();
 
