@@ -104,6 +104,16 @@ public class VisitorExploreEvent implements Initializable {
 
         exploreEventData = FXCollections.observableArrayList();
 
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(totalVisitsRangeMin.getText(), totalVisitsRangeMax.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(ticketPriceMin.getText(),ticketPriceMax.getText())) {
+            return;
+        }
+
         String nameFilter = "where event.event_name like concat('%%') #Event Name Filter\n";;
         String descripFilter = "";
         String siteNameFilter = "";

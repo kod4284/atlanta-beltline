@@ -89,6 +89,10 @@ public class VisitorVisitHistory implements Initializable {
     }
 
     private void loadTableData() {
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+            return;
+        }
+
         String eventFilter = "";
         String siteFilter = "";
         String dateFilter = "where Date between '2018-01-01' and '2020-01-01' #filter the date\n";

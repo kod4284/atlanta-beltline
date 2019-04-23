@@ -108,6 +108,16 @@ public class VisitorExploreSite implements Initializable {
 
     private void LoadTableData() {
         visitorExploreSiteData = FXCollections.observableArrayList();
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(totalVisitsRangeMin.getText(),totalVisitsRangeMax.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(eventCountRangeMin.getText(),eventCountRangeMax.getText())) {
+            return;
+        }
+
         String nameFilter = "";
         String openEverydayFilter = "";
         String startDateFilter;

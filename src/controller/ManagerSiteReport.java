@@ -72,6 +72,9 @@ public class ManagerSiteReport implements Initializable {
         if (!allDataValid()) {
             return;
         }
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+            return;
+        }
         siteReportData = FXCollections.observableArrayList();
         if(init) {
             try {
