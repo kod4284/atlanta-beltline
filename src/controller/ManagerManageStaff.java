@@ -14,10 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.DB;
-import model.ManagerManageStaffData;
-import model.Session;
-import model.TransportType;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -83,6 +80,19 @@ public class ManagerManageStaff implements Initializable {
 
     @FXML
     public void btnActionManagerManageStaffFilter(ActionEvent event) {
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyDateFormat(startDate.getText())
+                || !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date follows the format:\n" +
+                    "ex) 1997-01-30!");
+            alert.showAndWait();
+            return;
+        }
         staffData = FXCollections.observableArrayList();
         staffDataTable.setItems(staffData);
 

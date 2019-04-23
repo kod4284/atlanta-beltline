@@ -1,16 +1,54 @@
 package controller;
 
+
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import model.DB;
 import model.Session;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
 
-public class ManagerVisitorFunc {
+public class ManagerVisitorFunc implements Initializable {
+    private boolean hasSites;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.hasSites = checkIfSiteResponsible();
+    }
+
+    private boolean checkIfSiteResponsible() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            String checkManagerSql = "select manager_username from site;";
+            PreparedStatement pst = conn.prepareStatement(checkManagerSql);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("manager_username").trim().equals(Session.user.getUsername())) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public void btnActionManageProfile (Event event) {
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
@@ -24,6 +62,14 @@ public class ManagerVisitorFunc {
         }
     }
     public void btnActionViewStaff (Event event) {
+        if (!this.hasSites) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Permission Required");
+            alert.setContentText("You must be responsible for at least one site to access this page.");
+            alert.showAndWait();
+            return;
+        }
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
@@ -73,6 +119,14 @@ public class ManagerVisitorFunc {
         }
     }
     public void btnActionManageEvent (Event event) {
+        if (!this.hasSites) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Permission Required");
+            alert.setContentText("You must be responsible for at least one site to access this page.");
+            alert.showAndWait();
+            return;
+        }
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
@@ -85,6 +139,14 @@ public class ManagerVisitorFunc {
         }
     }
     public void btnActionViewSiteReport (Event event) {
+        if (!this.hasSites) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Permission Required");
+            alert.setContentText("You must be responsible for at least one site to access this page.");
+            alert.showAndWait();
+            return;
+        }
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
