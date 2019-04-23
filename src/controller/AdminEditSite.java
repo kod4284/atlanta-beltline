@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import model.DB;
 import model.ManagerUsernameForCombo;
+import model.checkerFunction;
 
 import java.io.IOException;
 import java.net.URL;
@@ -116,6 +117,22 @@ public class AdminEditSite implements Initializable {
     }
     @FXML
     public void btnActionAdminEditSiteUpdate(ActionEvent event) {
+        if (name.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Empty Field Error");
+            alert.setContentText("You should input name of site!");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.verifyZip(zipcode.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Zipcode digits Error");
+            alert.setContentText("The zipcode should be 5 digits!");
+            alert.showAndWait();
+            return;
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
