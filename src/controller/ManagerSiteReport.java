@@ -68,6 +68,18 @@ public class ManagerSiteReport implements Initializable {
         if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
             return;
         }
+        if (!checkerFunction.verifyRange(eventCountRangeStart.getText(), eventCountRangeEnd.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(staffCountRangeStart.getText(), staffCountRangeEnd.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(totalVisitsRangeStart.getText(), totalVisitsRangeEnd.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(totalRevenueRangeStart.getText(), totalRevenueRangeEnd.getText())) {
+            return;
+        }
         if (!checkerFunction.verifyDateFormat(startDate.getText())
                 || !checkerFunction.verifyDateFormat(endDate.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);

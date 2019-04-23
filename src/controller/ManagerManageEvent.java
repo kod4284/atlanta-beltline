@@ -61,6 +61,7 @@ public class ManagerManageEvent implements Initializable {
 
     @FXML
     public void btnActionManagerMangeEventFilter(ActionEvent event) {
+
         loadTableData();
         flag = false;
     }
@@ -89,6 +90,23 @@ public class ManagerManageEvent implements Initializable {
             alert.setHeaderText("Field input Warning");
             alert.setContentText("Make sure the start date is not later than the end date.");
             alert.showAndWait();
+            return;
+        }
+        if (startDate.getText().trim().compareTo(endDate.getText().trim()) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Make sure the start date is not later than the end date.");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.verifyRange(durationRangeMin.getText(), durationRangeMax.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(totalVisitsRangeMin.getText(), totalVisitsRangeMax.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(totalRevenueRangeMin.getText(), totalRevenueRangeMax.getText())) {
             return;
         }
 

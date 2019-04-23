@@ -57,8 +57,8 @@ public class ManagerCreateEvent implements Initializable {
                     "where staff_username not in (select staff_username where ?<event.start_date or end_date<?));";
 
             PreparedStatement pst = conn.prepareStatement(temp);
-            pst.setString(1, startDate.getText().trim());
-            pst.setString(2, endDate.getText().trim());
+            pst.setString(1, endDate.getText().trim());
+            pst.setString(2, startDate.getText().trim());
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -89,6 +89,9 @@ public class ManagerCreateEvent implements Initializable {
 
     @FXML
     public void btnActionManagerFilterStaff(ActionEvent event) {
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+            return;
+        }
         if (startDate.getText().trim().isEmpty() || endDate.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
@@ -200,12 +203,20 @@ public class ManagerCreateEvent implements Initializable {
         if (nameIn.isEmpty() || priceIn.isEmpty() ||
                 capacityIn.isEmpty() || minStaffRequiredIn.isEmpty() ||
                 sD.isEmpty() || eD.isEmpty() ||
-                descriptionIn.isEmpty() || !isStaffChosen()) {
+                descriptionIn.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
             alert.setContentText("Please provide all " +
                     "necessary data.");
+            alert.showAndWait();
+            return false;
+        }
+        if (!isStaffChosen()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please choose " + minimumStaffRequired.getText().trim() + " or more staffs.");
             alert.showAndWait();
             return false;
         }
