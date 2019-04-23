@@ -93,6 +93,8 @@ public class UserLogin implements Initializable {
 
 
                 tempUser = new User(username, password, status, userType);
+                System.out.println(tempUser.getUserType());
+                System.out.println(tempUser.isVisitor());
                 String hashedPW = SHA256.encrypt(password_field.getText());
                 if (!tempUser.getPassword().equals(hashedPW)) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);

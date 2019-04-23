@@ -52,6 +52,20 @@ public class StaffViewSchedule implements Initializable {
 
     @FXML
     public void btnActionManagerViewScheduleFilter(ActionEvent event) {
+        if (!checkerFunction.verifyDateFormat(startDate.getText())
+                || !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Should follow the date format! " +
+                    "\n ex) 1997-01-30");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+            return;
+        }
+
         loadDate();
     }
 
