@@ -31,6 +31,7 @@ public class AdminEditTransit implements Initializable {
     private ObservableList<String> tableData;
     private ObservableList<String> selectedTableData;
     public static AdminManageTransitData data;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableData = FXCollections.observableArrayList();
@@ -38,6 +39,7 @@ public class AdminEditTransit implements Initializable {
         route.setText(data.getRoute());
         price.setText(String.valueOf(data.getPrice()));
         transportType.setText(data.getTransportType());
+        connectedSites.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -79,12 +81,12 @@ public class AdminEditTransit implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for (String str:
-             selectedTableData) {
-            connectedSites.getSelectionModel().select(str);
-        }
         connectedSites.setItems(tableData);
-        connectedSites.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        for (String str:
+                selectedTableData) {
+            connectedSites.getSelectionModel().select(str);
+
+        }
 
     }
 
