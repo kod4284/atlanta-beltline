@@ -92,6 +92,9 @@ public class AdminEditTransit implements Initializable {
 
     @FXML
     public void btnActionAdminVisitorEditTransitUpdate(ActionEvent event) {
+        if (!isUnderTwoSite()) {
+            return;
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -171,5 +174,16 @@ public class AdminEditTransit implements Initializable {
             System.out.println("Cannot load User_Login.fxml");
         }
     }
-
+    private boolean isUnderTwoSite() {
+        if (connectedSites.getSelectionModel().getSelectedItems().size() < 2) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Site Input Warning");
+            alert.setContentText("You should choose at least two sites!" +
+                    "\n Tip: Use control or command key to select multiple value");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
 }

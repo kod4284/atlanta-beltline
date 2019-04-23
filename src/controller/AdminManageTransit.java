@@ -19,10 +19,7 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -42,10 +39,11 @@ public class AdminManageTransit implements Initializable {
     ToggleGroup group;
     private int colIndex;
     private ObservableList<AdminManageTransitData> tableData;
-
+    boolean flag;
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
         fillComboBox();
+        flag = false;
     }
 
     private void fillComboBox() {
@@ -344,13 +342,20 @@ public class AdminManageTransit implements Initializable {
                 pst.setString(3, route.getText());
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
+                    Object obj = rs.getObject("transit_count");
+                    int cnt = 0;
+                    if (obj == null) {
+                        cnt = 0;
+                    } else {
+                        cnt = Integer.parseInt(String.valueOf(obj));
+                    }
                     tableData.add(new AdminManageTransitData(new
                             SimpleStringProperty(rs.getString("transit_route")),
                             new SimpleStringProperty(rs.getString
                                     ("transit_type")),
                             Double.parseDouble(rs.getString("transit_price")),
                             Integer.parseInt(rs.getString("site_count")),
-                            Integer.parseInt(rs.getString("transit_count"))));
+                            cnt));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -565,6 +570,7 @@ public class AdminManageTransit implements Initializable {
             } else {
                 DATA_DATA_DATA();
             }
+            flag = false;
         }
 
         routeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>
@@ -589,7 +595,7 @@ public class AdminManageTransit implements Initializable {
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -636,6 +642,14 @@ public class AdminManageTransit implements Initializable {
 
     @FXML
     public void btnActionAdminManageTransitDelete(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
         AdminManageTransitData item = (AdminManageTransitData) tableView.getItems()
                 .get(colIndex);
@@ -711,6 +725,7 @@ public class AdminManageTransit implements Initializable {
     }
     @FXML
     public void btnActionAdminVisitorManageTransitCreateTransit(ActionEvent event) {
+
         try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
@@ -725,6 +740,14 @@ public class AdminManageTransit implements Initializable {
 
     @FXML
     public void btnActionAdminVisitorManageTransitEditTransit(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
         AdminManageTransitData item = (AdminManageTransitData) tableView.getItems()
                 .get(colIndex);

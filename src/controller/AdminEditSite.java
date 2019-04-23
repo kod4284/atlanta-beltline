@@ -148,12 +148,14 @@ public class AdminEditSite implements Initializable {
                 String sql = ("update site set site_name=?, \n" +
                         "site_zipcode=?, site_address=?, manager_username=?,\n" +
                         "open_everyday=?\n" +
-                        "where site_name = ?\n");
+                        "where site_name = ?;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, name.getText());
                 pst.setInt(2,Integer.parseInt(zipcode.getText()));
                 pst.setString(3, address.getText());
-                pst.setString(4, username);
+                pst.setString(4, manager.getValue().getUsername().toString());
+                System.out.println(siteName+ "->" + name.getText());
+                System.out.println("Manager user name" + manager.getValue().getUsername().toString());
                 if (openEveryday.isSelected()) {
                     pst.setString(5, "Yes");
                 } else {
@@ -165,8 +167,8 @@ public class AdminEditSite implements Initializable {
                 int rs = pst.executeUpdate();
                 System.out.println(rs + "rows updated");
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
                 alert.setHeaderText("Update success!");
                 alert.setContentText("The information is Updated " +
                         "successfully!");

@@ -47,9 +47,10 @@ public class AdminCreateSite implements Initializable {
 
                 ArrayList<ManagerForNum19> managers = new ArrayList<>();
                 String sql = ("select concat(firstname, ' ', lastname) as Name, manager.username from manager join user on manager.username=user.username \n" +
-                        "where manager.username not in (select manager_username from site) and user.status=’Approved’\n");
+                        "where manager.username not in (select manager_username from site) and user.status='Approved';");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
+
                 while (rs.next()) {
                     managers.add(new ManagerForNum19(rs.getString("Name"),rs
                             .getString("username")));
