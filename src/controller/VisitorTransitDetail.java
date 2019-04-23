@@ -256,6 +256,7 @@ public class VisitorTransitDetail implements Initializable {
     @FXML
     public void btnActionTransTypeComboBox(ActionEvent event) {
         try {
+            flag = false;
             transitTable.getItems().clear();
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -331,13 +332,13 @@ public class VisitorTransitDetail implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
+                                flag = true;
                             }
                         }
                     });
