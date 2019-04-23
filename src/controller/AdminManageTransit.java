@@ -541,6 +541,9 @@ public class AdminManageTransit implements Initializable {
         if (!checkCondition()) {
             return;
         }
+        if (!checkerFunction.verifyPriceRange(priceRangeMin.getText(),priceRangeMax.getText())) {
+            return;
+        }
         if (!checkerFunction.verifyStartEndDate(priceRangeMin.getText(), priceRangeMax.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
