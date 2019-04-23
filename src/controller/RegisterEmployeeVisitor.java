@@ -147,7 +147,11 @@ public class RegisterEmployeeVisitor implements Initializable {
                 int rs = pst.executeUpdate();
                 System.out.println(rs + "email added ");
             }
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Registration input Information");
+            alert.setContentText("Employee Visitor registration success!");
+            alert.showAndWait();
 
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
