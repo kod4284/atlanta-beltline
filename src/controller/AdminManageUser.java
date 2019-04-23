@@ -81,7 +81,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "#where t1.username='user1' #Username filter\n" +
                         "#and user_type='User' #Type filter\n" +
-                        "#and status='Pending' #Status filter");
+                        "#and status='Pending' #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -130,7 +131,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "#where t1.username='user1' #Username filter\n" +
                         "where user_type=? #Type filter\n" +
-                        "#and status='Pending' #Status filter");
+                        "#and status='Pending' #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, type.getValue().toString());
                 ResultSet rs = pst.executeQuery();
@@ -180,7 +182,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "#where t1.username='user1' #Username filter\n" +
                         "#and user_type=? #Type filter\n" +
-                        "where status=? #Status filter");
+                        "where status=? #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, status.getValue().toString());
                 ResultSet rs = pst.executeQuery();
@@ -230,7 +233,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "#where t1.username='user1' #Username filter\n" +
                         "where user_type=? #Type filter\n" +
-                        "and status=? #Status filter");
+                        "and status=? #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, type.getValue().toString());
                 pst.setString(2, status.getValue().toString());
@@ -281,7 +285,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "where t1.username=? #Username filter\n" +
                         "#and user_type='User' #Type filter\n" +
-                        "#and status='Pending' #Status filter");
+                        "#and status='Pending' #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, username.getText());
                 ResultSet rs = pst.executeQuery();
@@ -331,7 +336,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "where t1.username=? #Username filter\n" +
                         "and user_type=? #Type filter\n" +
-                        "#and status='Pending' #Status filter");
+                        "#and status='Pending' #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, username.getText());
                 pst.setString(2, type.getValue().toString());
@@ -382,7 +388,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "where t1.username=? #Username filter\n" +
                         "#and user_type=? #Type filter\n" +
-                        "and status=? #Status filter");
+                        "and status=? #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, username.getText());
                 pst.setString(2, status.getValue().toString());
@@ -433,7 +440,8 @@ public class AdminManageUser implements Initializable {
                         "on t1.username=t2.username\n" +
                         "where t1.username=? #Username filter\n" +
                         "and user_type=? #Type filter\n" +
-                        "and status=? #Status filter");
+                        "and status=? #Status filter\n" +
+                        "order by t1.username asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, username.getText());
                 pst.setString(2, type.getValue().toString());

@@ -115,7 +115,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -173,7 +174,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 ResultSet rs = pst.executeQuery();
@@ -226,7 +228,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, transportTypeComboBox.getValue().toString());
                 ResultSet rs = pst.executeQuery();
@@ -267,11 +270,9 @@ public class AdminManageTransit implements Initializable {
                 String sql = ("select distinct t1.transit_route, t1.transit_type, transit_price, site_count, transit_count from \n" +
                         "(select transit_route, transit_type, transit_price\n" +
                         "from connect natural join transit\n" +
-                        "where site_name=?  " +
-                        "Contain Site filter\n" +
+                        "where site_name=?  #Contain Site filter\n" +
                         "and transit_type=?  #Transport Type filter\n" +
-                        "#and transit_price between 0 and 9999 #Price Range " +
-                        "filter\n" +
+                        "#and transit_price between 0 and 9999 #Price Range filter\n" +
                         "#and transit_route='Blue' #Route filter\n" +
                         ") t1\n" +
                         "join\n" +
@@ -279,7 +280,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 pst.setString(2, transportTypeComboBox.getValue().toString());
@@ -335,7 +337,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setDouble(1, Double.parseDouble(priceRangeMin.getText()));
                 pst.setDouble(2, Double.parseDouble(priceRangeMax.getText()));
@@ -396,7 +399,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 pst.setDouble(2, Double.parseDouble(priceRangeMin.getText()));
@@ -452,7 +456,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, transportTypeComboBox.getValue().toString());
                 pst.setDouble(2, Double.parseDouble(priceRangeMin.getText()));
@@ -506,7 +511,8 @@ public class AdminManageTransit implements Initializable {
                         "on t1.transit_type=t2.transit_type and t1.transit_route=t2.transit_route\n" +
                         "left outer join\n" +
                         "(select transit_type, transit_route, count(username) as transit_count from take_transit group by transit_type, transit_route) t3\n" +
-                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route");
+                        "on t2.transit_type=t3.transit_type and t2.transit_route=t3.transit_route\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 pst.setString(2, transportTypeComboBox.getValue().toString());

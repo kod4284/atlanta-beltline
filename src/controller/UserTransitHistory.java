@@ -112,7 +112,8 @@ public class UserTransitHistory implements Initializable {
                 String sql = ("select distinct transit_date, transit_route, transit_type, transit_price \n" +
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? and " +
-                        "transit_date between ? and ?;");
+                        "transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, startDate.getText());
@@ -164,7 +165,8 @@ public class UserTransitHistory implements Initializable {
                 //if no row return, go to catch
                 String sql = ("select distinct transit_date, transit_route, transit_type, transit_price from transit natural join take_transit natural join connect\n" +
                         "where username=? and site_name=?\n" +
-                        "and transit_date between ? and ?\n");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, containSite.getValue());
@@ -218,7 +220,8 @@ public class UserTransitHistory implements Initializable {
                 String sql = ("select distinct transit_date, transit_route, transit_type, transit_price \n" +
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? and transit_type=? " +
-                        "and transit_date between ? and ?;");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, transportType.getValue().toString());
@@ -272,7 +275,8 @@ public class UserTransitHistory implements Initializable {
                 String sql = ("select distinct transit_date, transit_route, transit_type, transit_price \n" +
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? and transit_type=? and site_name=?" +
-                        "and transit_date between ? and ?;");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, transportType.getValue().toString());
@@ -327,7 +331,8 @@ public class UserTransitHistory implements Initializable {
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? " +
                         "and transit_route=?\n" +
-                        "and transit_date between ? and ?;");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, route.getText());
@@ -382,7 +387,8 @@ public class UserTransitHistory implements Initializable {
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? and site_name=? and " +
                         "transit_route=?\n" +
-                        "and transit_date between ? and ?;");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, containSite.getValue());
@@ -438,7 +444,8 @@ public class UserTransitHistory implements Initializable {
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? and transit_type=? " +
                         "and transit_route=?\n" +
-                        "and transit_date between ? and ?;");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, transportType.getValue().toString());
@@ -494,7 +501,8 @@ public class UserTransitHistory implements Initializable {
                         "from transit natural join take_transit natural join connect\n" +
                         "where username=? and transit_type=? and site_name=?" +
                         "and transit_route=?\n" +
-                        "and transit_date between ? and ?;");
+                        "and transit_date between ? and ?\n" +
+                        "order by transit_date asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 pst.setString(2, transportType.getValue().toString());
