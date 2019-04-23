@@ -42,6 +42,7 @@ public class EmployeeManageProfile implements Initializable {
     @FXML TableColumn<Email, String> emailCol;
     private ObservableList<Email> emailData;
     private List<String> emailsFromDB;
+    private String usertype;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,8 +56,7 @@ public class EmployeeManageProfile implements Initializable {
             try {
                 // sql statements
                 //query1
-                String sql = ("select firstname, lastname, username from user" +
-                        " where username=?;");
+                String sql = ("select firstname, lastname, username, user_type from user where username=?;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, Session.user.getUsername());
                 ResultSet rs = pst.executeQuery();
@@ -64,6 +64,7 @@ public class EmployeeManageProfile implements Initializable {
 
                 Session.user.setFirstName(rs.getString("firstname"));
                 Session.user.setLastName(rs.getString("lastname"));
+                Session.user.setUserType(rs.getString("user_type"));
                 //query2
                 if (Session.user.isManager()) {
                     sql = ("select site_name from site where " +
@@ -365,6 +366,7 @@ public class EmployeeManageProfile implements Initializable {
                     rs = pst.executeUpdate();
                     System.out.println("email: " + rs + "rows inserted");
                 }
+                Session.user.setUserType(tempType);
             } catch (Exception e) {
                 e.printStackTrace();
 
