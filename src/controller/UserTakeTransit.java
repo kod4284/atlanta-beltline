@@ -69,7 +69,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -155,7 +156,8 @@ public class UserTakeTransit implements Initializable {
                             "(select transit_route, transit_type, count(*) as site_number\n" +
                             "from connect natural join transit\n" +
                             "group by transit_route, transit_type) t2\n" +
-                            "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                            "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                            "order by transit_route asc;");
                     PreparedStatement pst = conn.prepareStatement(sql);
                     pst.setString(1, containSite.getValue());
                     ResultSet rs = pst.executeQuery();
@@ -241,7 +243,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, transportType.getValue().toString());
                 ResultSet rs = pst.executeQuery();
@@ -328,7 +331,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 pst.setString(2, transportType.getValue().toString());
@@ -416,7 +420,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setDouble(1, Double.parseDouble(priceRangeStart.getText()));
                 pst.setDouble(2, Double.parseDouble(priceRangeEnd.getText()));
@@ -505,7 +510,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, transportType.getValue().toString());
                 pst.setDouble(2, Double.parseDouble(priceRangeStart.getText()));
@@ -598,7 +604,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 pst.setDouble(2, Double.parseDouble(priceRangeStart.getText()));
@@ -690,7 +697,8 @@ public class UserTakeTransit implements Initializable {
                         "(select transit_route, transit_type, count(*) as site_number\n" +
                         "from connect natural join transit\n" +
                         "group by transit_route, transit_type) t2\n" +
-                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n");
+                        "on t1.transit_route=t2.transit_route and t1.transit_type=t2.transit_type\n" +
+                        "order by transit_route asc;\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1, containSite.getValue().toString());
                 pst.setString(2, transportType.getValue().toString());
