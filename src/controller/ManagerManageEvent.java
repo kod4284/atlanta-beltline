@@ -69,7 +69,7 @@ public class ManagerManageEvent implements Initializable {
         String startDateFilter = "";
         String endDateFilter = "";
         String durationFilter = "";
-        String totalFilter = "";
+        String totalFilter = "where total_visits between 0 and 99999 #Total Visits Range filter\n";
         String revFilter = "";
 
         if ((!startDate.getText().isEmpty() && !checkerFunction.verifyDateFormat(startDate.getText()))

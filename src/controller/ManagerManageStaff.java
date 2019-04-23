@@ -30,23 +30,15 @@ import java.util.ResourceBundle;
 
 public class ManagerManageStaff implements Initializable {
 
-    @FXML
-    ComboBox<String> sites;
-    @FXML
-    TextField firstName;
-    @FXML
-    TextField lastName;
-    @FXML
-    TextField startDate;
-    @FXML
-    TextField endDate;
+    @FXML ComboBox<String> sites;
+    @FXML TextField firstName;
+    @FXML TextField lastName;
+    @FXML TextField startDate;
+    @FXML TextField endDate;
 
-    @FXML
-    TableView staffDataTable;
-    @FXML
-    TableColumn<ManagerManageStaffData, String> staffNameCol;
-    @FXML
-    TableColumn<ManagerManageStaffData, String> eventShiftsCol;
+    @FXML TableView staffDataTable;
+    @FXML TableColumn<ManagerManageStaffData, String> staffNameCol;
+    @FXML TableColumn<ManagerManageStaffData, String> eventShiftsCol;
 
     ObservableList<ManagerManageStaffData> staffData;
 

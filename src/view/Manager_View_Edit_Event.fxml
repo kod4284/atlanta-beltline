@@ -308,11 +308,11 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="eventDetailsTable" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="181.0" text="Date" />
-                <TableColumn prefWidth="153.0" text="Daily Visits" />
-                  <TableColumn prefWidth="141.0" text="Daily Revenue" />
+                <TableColumn fx:id="dateCol" prefWidth="181.0" text="Date" />
+                <TableColumn fx:id="dailyVisitsCol" prefWidth="153.0" text="Daily Visits" />
+                  <TableColumn fx:id="dailyRevenueCol" prefWidth="141.0" text="Daily Revenue" />
               </columns>
             </TableView>
          </children>
