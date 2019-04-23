@@ -546,6 +546,9 @@ public class UserTransitHistory implements Initializable {
         if (!checkFields()) {
             return;
         }
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+            return;
+        }
         if (!checkerFunction.verifyDateFormat(startDate.getText())
                 || !checkerFunction.verifyDateFormat(endDate.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);

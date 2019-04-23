@@ -101,28 +101,28 @@ public class ManagerManageEvent implements Initializable {
             try {
                 int [] dataChecker = new int[10];
                 if (!name.getText().equals("")) {
-                    nameFilter = "and event.event_name like concat('%',"+ name.getText().trim() +",'%') #Name filter\n";
+                    nameFilter = "and event.event_name like concat('%','"+ name.getText().trim() +"','%') #Name filter\n";
                 }
                 if (!descriptionKeyword.getText().trim().equals("")) {
-                    descripFilter = "and description like concat('%',"+ descriptionKeyword.getText().trim() +",'%') #Description Keyword filter\n";
+                    descripFilter = "and description like concat('%', '"+ descriptionKeyword.getText().trim() +"','%') #Description Keyword filter\n";
                 }
                 if (!startDate.getText().trim().equals("")) {
-                    startDateFilter = "and "+ startDate.getText().trim() +"<event.start_date #Start Date filter\n";
+                    startDateFilter = "and '"+ startDate.getText().trim() +"'<event.start_date #Start Date filter\n";
                 }
                 if (!endDate.getText().trim().equals("")) {
-                    endDateFilter = "and end_date<"+ endDate.getText().trim() +" #End Date filter\n";
+                    endDateFilter = "and end_date< '"+ endDate.getText().trim() +"' #End Date filter\n";
                 }
                 //duration both filled
                 if (!durationRangeMin.getText().equals("") && !durationRangeMax.getText().trim().equals("")) {
-                    durationFilter = "and end_date-event.start_date between "+ durationRangeMin.getText().trim()+
+                    durationFilter = "and end_date-event.start_date + 1 between "+ durationRangeMin.getText().trim()+
                             " and "+ durationRangeMax.getText().trim() +" #Duration Range filter\n";
                 // duration min filled
                 } else if (!durationRangeMin.getText().equals("") && durationRangeMax.getText().trim().equals("")) {
-                    durationFilter = "and end_date-event.start_date between "+ durationRangeMin.getText().trim()+
+                    durationFilter = "and end_date-event.start_date + 1 between "+ durationRangeMin.getText().trim()+
                             " and 9999 #Duration Range filter\n";
                 // duration max filled
                 } else if (durationRangeMin.getText().equals("") && !durationRangeMax.getText().trim().equals("")) {
-                    durationFilter = "and end_date-event.start_date between 0 and "+ durationRangeMax.getText().trim() +
+                    durationFilter = "and end_date-event.start_date + 1 between 0 and "+ durationRangeMax.getText().trim() +
                             " #Duration Range filter\n";
                 }
                 //total visit range both filled
@@ -155,10 +155,10 @@ public class ManagerManageEvent implements Initializable {
 
                 String sql = ("select name, t1.start_date, t1.site_name, staff_count, duration, total_visits, total_revenue from\n" +
                         "(select event.event_name as name, count(staff_username) as staff_count, " +
-                        "end_date-event.start_date as duration, event.start_date, event.site_name\n" +
+                        "end_date-event.start_date + 1 as duration, event.start_date, event.site_name\n" +
                         "from event natural join assign_to\n" +
                         "where event.site_name in (select site_name from site" +
-                        " where manager_username='"+ Session.user.getUsername() +"')\n" +
+                        " where manager_username= '"+ Session.user.getUsername() +"')\n" +
 //                        "and event.event_name like '%Tour%' #Name filter\n" +
                         nameFilter +
 //                        "and description like '%description%' #Description Keyword filter\n" +
@@ -231,6 +231,7 @@ public class ManagerManageEvent implements Initializable {
                     ));
                 }
             } catch (SQLSyntaxErrorException e) {
+                e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
                 alert.setHeaderText("No Output");
