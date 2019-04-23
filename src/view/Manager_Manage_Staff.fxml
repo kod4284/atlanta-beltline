@@ -66,7 +66,7 @@
                         <Insets left="160.0" right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <ComboBox fx:id="site" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="sites" prefHeight="31.0" prefWidth="145.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="1" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />
@@ -167,10 +167,10 @@
                   <Insets bottom="10.0" left="200.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <TableView prefHeight="161.0" prefWidth="316.0">
+            <TableView fx:id="staffDataTable" prefHeight="161.0" prefWidth="316.0">
               <columns>
-                <TableColumn prefWidth="158.0" text="Staff Name" />
-                <TableColumn prefWidth="157.0" text="# Event Shifts" />
+                <TableColumn fx:id="staffNameCol" prefWidth="158.0" text="Staff Name" />
+                <TableColumn fx:id="eventShiftsCol" prefWidth="157.0" text="# Event Shifts" />
               </columns>
                <VBox.margin>
                   <Insets left="80.0" right="80.0" />
