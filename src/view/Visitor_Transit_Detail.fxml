@@ -66,7 +66,7 @@
                      </GridPane.margin>
                   </Label>
                   <Label fx:id="site" text="SITENAME" GridPane.columnIndex="1" />
-                  <ComboBox fx:id="transportTypeComboBox" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" />
+                  <ComboBox fx:id="transportTypeComboBox" onAction="#btnActionTransTypeComboBox" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-border-color: #bebebe;" GridPane.columnIndex="3" />
                </children>
                <VBox.margin>
                   <Insets top="20.0" />

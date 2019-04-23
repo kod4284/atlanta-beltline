@@ -122,12 +122,12 @@ public class VisitorExploreEvent implements Initializable {
             soldoutCheckBoxFilter = "and ticket_remaining>0 #if include sold out event not checked #Ticket Remaining Positivity Filter\n";
         }
         if (!name.getText().trim().equals("")) {
-            nameFilter = "where event.event_name like concat('%',"+
-                    name.getText().trim() + ",'%') #Event Name Filter\n";
+            nameFilter = "where event.event_name like concat('%','"+
+                    name.getText().trim() + "','%') #Event Name Filter\n";
         }
-        if (!name.getText().trim().equals("")) {
-            descripFilter = "and description like concat('%',"+
-                    descriptionKeyword.getText().trim()+",'%') #Description Filter\n";
+        if (!descriptionKeyword.getText().trim().equals("")) {
+            descripFilter = "and description like concat('%','"+
+                    descriptionKeyword.getText().trim()+"','%') #Description Filter\n";
         }
         if (!siteName.getValue().equals("-- ALL --")) {
             System.out.println(siteName.getValue().trim());
@@ -231,7 +231,7 @@ public class VisitorExploreEvent implements Initializable {
                         "-- order by my_visits desc\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
-
+                System.out.println(sql);
                 while (rs.next()) {
                     exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
                             new SimpleStringProperty(rs.getString("site_name")),
