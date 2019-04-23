@@ -52,6 +52,7 @@ public class ManagerSiteReport implements Initializable {
     @FXML TableColumn<ManagerSiteReportData, String> totalRevenueCol;
     private TableRow tableRow;
     private int colIndex;
+    boolean flag;
 
     ToggleGroup group;
     private ObservableList<ManagerSiteReportData> siteReportData;
@@ -59,11 +60,13 @@ public class ManagerSiteReport implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
+        flag = false;
     }
 
     @FXML
     public void btnActionFilter (ActionEvent event) {
         loadTableData(true);
+        flag = false;
     }
     private void loadTableData(boolean init) {
         if (!allDataValid()) {
@@ -158,13 +161,13 @@ public class ManagerSiteReport implements Initializable {
                         radioButton.setToggleGroup(group);
                         // Add Listeners if any
                         setGraphic(radioButton);
-                        radioButton.setSelected(true);
                         radioButton.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent arg0) {
                                 if(radioButton.isSelected()){
                                     tableRow = getTableRow();
                                     colIndex = getIndex();
+                                    flag = true;
                                 }
                             }
                         });
@@ -185,6 +188,14 @@ public class ManagerSiteReport implements Initializable {
 
     @FXML
     public void btnActionManagerSiteReportDailyDetail (ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         ManagerSiteReportData item = (ManagerSiteReportData) siteReportTable.getItems()
             .get(colIndex);
         Session.dailyDetail = new DailyDetail(item.getDate(), Session.user.getUsername());

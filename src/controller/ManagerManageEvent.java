@@ -49,19 +49,20 @@ public class ManagerManageEvent implements Initializable {
     @FXML TableColumn<ManagerManageEventData, String> totalRevenueCol;
     private TableRow tableRow;
     private int colIndex;
-
+    boolean flag;
     ToggleGroup group;
     private ObservableList<ManagerManageEventData> manageEventData;
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
-
+        flag = false;
     }
 
     @FXML
     public void btnActionManagerMangeEventFilter(ActionEvent event) {
         loadTableData();
+        flag = false;
     }
     private void loadTableData() {
         String nameFilter = "";
@@ -266,13 +267,13 @@ public class ManagerManageEvent implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent arg0) {
                             if(radioButton.isSelected()){
                                 tableRow = getTableRow();
                                 colIndex = getIndex();
+                                flag = true;
                             }
                         }
                     });
@@ -291,6 +292,14 @@ public class ManagerManageEvent implements Initializable {
 
     @FXML
     public void btnActionManagerMangeEventDelete(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -325,10 +334,19 @@ public class ManagerManageEvent implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        loadTableData();
     }
 
     @FXML
     public void btnActionManagerManageEventViewEdit(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
             ManagerManageEventData item = (ManagerManageEventData) manageEventTable.getItems().get(colIndex);
             Session.viewEditEvent = new ViewEditEvent(item.getName(), item.getSiteName(), item.getStartDate());
