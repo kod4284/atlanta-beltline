@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="600.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StaffEventDetail">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="600.0" style="-fx-border-color: #4472c4; -fx-border-width: 3; -fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StaffEventDetail">
     <top>
         <Label contentDisplay="BOTTOM" text="Event Detail" BorderPane.alignment="CENTER">
             <font>
@@ -235,7 +235,7 @@
                         <Insets bottom="170.0" left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <TextArea fx:id="description" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>

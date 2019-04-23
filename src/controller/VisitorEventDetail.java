@@ -124,9 +124,9 @@ public class VisitorEventDetail implements Initializable {
             int rs = pst.executeUpdate();
                 System.out.println(rs + "  inserted");
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
-                alert.setHeaderText("Field input Confirmation");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Field input Information");
                 alert.setContentText("The data is successfully inserted");
                 alert.showAndWait();
 

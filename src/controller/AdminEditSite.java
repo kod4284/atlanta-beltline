@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import model.DB;
 import model.ManagerUsernameForCombo;
+import model.checkerFunction;
 
 import java.io.IOException;
 import java.net.URL;
@@ -116,6 +117,22 @@ public class AdminEditSite implements Initializable {
     }
     @FXML
     public void btnActionAdminEditSiteUpdate(ActionEvent event) {
+        if (name.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Empty Field Error");
+            alert.setContentText("You should input name of site!");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.verifyZip(zipcode.getText())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Zipcode digits Error");
+            alert.setContentText("The zipcode should be 5 digits!");
+            alert.showAndWait();
+            return;
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -128,21 +145,22 @@ public class AdminEditSite implements Initializable {
                 // sql statements
                 ArrayList<String> managers = new ArrayList<>();
                 //if no row return, go to catch
-                String sql = ("delete from site where site_name=? and manager_username=?;\n" +
-                        "insert into site values (?, ?, ?, ?, ?);");
+                String sql = ("update site set site_name=?, \n" +
+                        "site_zipcode=?, site_address=?, manager_username=?,\n" +
+                        "open_everyday=?\n" +
+                        "where site_name = ?\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, siteName);
-                pst.setString(2, username);
-
-                pst.setString(3, name.getText());
-                pst.setString(4, address.getText());
-                pst.setInt(5,Integer.parseInt(zipcode.getText()));
+                pst.setString(1, name.getText());
+                pst.setInt(2,Integer.parseInt(zipcode.getText()));
+                pst.setString(3, address.getText());
+                pst.setString(4, username);
                 if (openEveryday.isSelected()) {
-                    pst.setString(6, "Yes");
+                    pst.setString(5, "Yes");
                 } else {
-                    pst.setString(6, "No");
+                    pst.setString(5, "No");
                 }
-                pst.setString(7, manager.getValue().toString());
+                pst.setString(6, siteName);
+
 
                 int rs = pst.executeUpdate();
                 System.out.println(rs + "rows updated");

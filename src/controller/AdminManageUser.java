@@ -543,14 +543,6 @@ public class AdminManageUser implements Initializable {
         AdminManageUserData item = (AdminManageUserData) tableView.getItems()
                 .get(colIndex);
         System.out.println(item.getStatus().equals(UserStatus.DECLINED.toString()));
-        if(item.getStatus().equals(UserStatus.DECLINED.toString())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Dialog");
-            alert.setHeaderText("Update Error");
-            alert.setContentText("You cannot approve declined account!");
-            alert.showAndWait();
-            return;
-        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
