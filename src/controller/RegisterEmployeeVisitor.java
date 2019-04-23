@@ -65,6 +65,15 @@ public class RegisterEmployeeVisitor implements Initializable {
         if (!isFieldsEmpty()) {
             return;
         }
+        if (!checkerFunction.validatePhone(phone.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Phone input Warning");
+            alert.setContentText("The format of phone number is invalid!" +
+                    "\nShould be followed format: 123-123-1234");
+            alert.showAndWait();
+            return;
+        }
         if (!checkUsernameExists()) {
             return;
         }
