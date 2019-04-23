@@ -327,9 +327,11 @@ public class VisitorExploreSite implements Initializable {
                     ResultSet rs = pst.executeQuery();
 
                     while (rs.next()) {
-                        detailSiteName = rs.getString("site_name");
-                        detailOpenEveryday = rs.getString("open_everyday");
-                        detailSiteAddress = rs.getString("site_address");
+                        Session.siteDetail = new SiteDetail(
+                                rs.getString("site_name"),
+                                rs.getString("open_everyday"),
+                                rs.getString("site_address")
+                        );
                     }
 
                 } catch (Exception e) {
@@ -344,8 +346,6 @@ public class VisitorExploreSite implements Initializable {
                 e.printStackTrace();
             }
 
-            Session.siteDetail = new SiteDetail(detailSiteName,
-                    detailOpenEveryday, detailSiteAddress);
 
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
@@ -367,13 +367,14 @@ public class VisitorExploreSite implements Initializable {
         try {
             VisitorExploreSiteData item =
                     (VisitorExploreSiteData) exploreSiteTable.getItems().get(colIndex);
+            Session.siteDetail = new SiteDetail(item.getSiteName());
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
                     .getResource("../view/Visitor_Transit_Detail.fxml"));
             primaryStage.setScene(new Scene(root));
+
             /*
-            Session.siteDetail = new SiteDetail(item.getSiteName());
             if (item.getMyVisits() != 0) {
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                         .getWindow();
@@ -389,12 +390,12 @@ public class VisitorExploreSite implements Initializable {
             }
             */
         } catch (Exception e) {
-            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
             alert.setContentText("Please select an item");
             alert.showAndWait();
+            e.printStackTrace();
         }
     }
 
