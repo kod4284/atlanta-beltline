@@ -99,18 +99,14 @@ public class VisitorTransitDetail implements Initializable {
                 ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
-                    detailSiteNumber = rs.getInt("site_number");
-                    detailTransitPrice = rs.getDouble("transit_price");
-                    detailTransitRoute = rs.getString("transit_route");
-                    detailTransitType = rs.getString("transit_type");
-
-                }
-                transitDataList.add(new UserTakeTransitData(
-                            new SimpleStringProperty(detailTransitRoute),
-                            new SimpleStringProperty(detailTransitType),
-                            detailTransitPrice,
-                            detailSiteNumber
+                    transitDataList.add(new UserTakeTransitData(
+                            new SimpleStringProperty(rs.getString("transit_route")),
+                            new SimpleStringProperty(rs.getString("transit_type")),
+                            rs.getDouble("transit_price"),
+                            rs.getInt("site_number")
                     ));
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -153,9 +149,6 @@ public class VisitorTransitDetail implements Initializable {
                     });
                 }
             }
-            //private RadioButton radioButton = new RadioButton();
-
-
         });
         transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
                 ("transportType"));
@@ -194,9 +187,8 @@ public class VisitorTransitDetail implements Initializable {
                 pst.setString(3, item.getRoute());
                 pst.setString(4, transitDate.getText());
                 int rs = pst.executeUpdate();
-                System.out.println(rs + " rows inserted");
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Confirmation Dialog");
                 alert.setHeaderText("Field input Confirmation");
                 alert.setContentText("The date successfully inserted!");
@@ -229,7 +221,15 @@ public class VisitorTransitDetail implements Initializable {
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
             alert.setContentText("The date should follow the format" +
-                    "####-##-##");
+                    "\nex) ####-##-##");
+            alert.showAndWait();
+            return false;
+        } else if(!checkerFunction.laterThanCurrentTime(transitDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("You should input the time later than " +
+                    "current date");
             alert.showAndWait();
             return false;
         }
@@ -239,6 +239,8 @@ public class VisitorTransitDetail implements Initializable {
     @FXML
     public void btnActionTransTypeComboBox(ActionEvent event) {
         try {
+            transitTable.getItems().clear();
+
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
             Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
@@ -277,18 +279,13 @@ public class VisitorTransitDetail implements Initializable {
                 ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
-                    detailSiteNumber = rs.getInt("site_number");
-                    detailTransitPrice = rs.getDouble("transit_price");
-                    detailTransitRoute = rs.getString("transit_route");
-                    detailTransitType = rs.getString("transit_type");
-
+                    transitDataList.add(new UserTakeTransitData(
+                            new SimpleStringProperty(rs.getString("transit_route")),
+                            new SimpleStringProperty(rs.getString("transit_type")),
+                            rs.getDouble("transit_price"),
+                            rs.getInt("site_number")
+                    ));
                 }
-                transitDataList.add(new UserTakeTransitData(
-                        new SimpleStringProperty(detailTransitRoute),
-                        new SimpleStringProperty(detailTransitType),
-                        detailTransitPrice,
-                        detailSiteNumber
-                ));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -324,16 +321,11 @@ public class VisitorTransitDetail implements Initializable {
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
                             }
-
                         }
                     });
                 }
             }
-            //private RadioButton radioButton = new RadioButton();
-
-
         });
         transportTypeCol.setCellValueFactory(new PropertyValueFactory<>
                 ("transportType"));
