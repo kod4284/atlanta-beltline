@@ -760,6 +760,9 @@ public class UserTakeTransit implements Initializable {
         transitTable.setItems(transitData);
     }
     public void btnActionFilter(ActionEvent event) {
+        if (!checkerFunction.verifyStartEndDate(priceRangeStart.getText(),priceRangeEnd.getText())) {
+            return;
+        }
         transitData = FXCollections.observableArrayList();
         if (priceRangeStart.getText().trim().equals("") && priceRangeEnd.getText()
                 .trim().equals("")) {
