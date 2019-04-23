@@ -24,6 +24,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AdminManageSite implements Initializable {
@@ -37,10 +38,12 @@ public class AdminManageSite implements Initializable {
     ToggleGroup group;
     private int colIndex;
     private ObservableList<AdminManageSiteData> tableData;
+    boolean flag;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
         fillComboBox();
+        flag = false;
     }
 
     private void fillComboBox() {
@@ -686,7 +689,7 @@ public class AdminManageSite implements Initializable {
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -703,6 +706,7 @@ public class AdminManageSite implements Initializable {
                 ("openEveryday"));
 
         tableView.setItems(tableData);
+        flag = false;
     }
     @FXML
     public void btnActionAdminManageSiteFilter(ActionEvent event) {
@@ -711,6 +715,14 @@ public class AdminManageSite implements Initializable {
 
     @FXML
     public void btnActionAdminManageSiteDelete(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         AdminManageSiteData item = (AdminManageSiteData) tableView.getItems()
                 .get(colIndex);
         try {
@@ -774,6 +786,44 @@ public class AdminManageSite implements Initializable {
     @FXML
     public void btnActionAdminManageUserCreate(ActionEvent event) {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // create a connection to the database
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            try {
+                //query
+
+                // sql statements
+
+                //if no row return, go to catch
+                String sql = ("select count(*) as cnt from manager join user on manager.username=user.username \n" +
+                        "where manager.username not in (select manager_username from site)and user.status='Approved';");
+                PreparedStatement pst = conn.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                rs.next();
+
+
+                if (rs.getInt("cnt") == 0) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("No available Manager Warning");
+                    alert.setContentText("Cannot create site!\nNo available Manager!");
+                    alert.showAndWait();
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
                     .getWindow();
             Parent root = FXMLLoader.load(getClass()
@@ -787,6 +837,14 @@ public class AdminManageSite implements Initializable {
 
     @FXML
     public void btnActionAdminManageUserEdit(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         AdminManageSiteData item = (AdminManageSiteData) tableView.getItems()
                 .get(colIndex);
         AdminEditSite.siteName = item.getName();

@@ -33,6 +33,7 @@ public class AdminManageUser implements Initializable {
     @FXML TableView tableView;
     @FXML ToggleGroup group;
     private int colIndex;
+    boolean flag;
     private ObservableList<AdminManageUserData> userData;
 
 
@@ -41,6 +42,7 @@ public class AdminManageUser implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         fillComboBox();
         group = new ToggleGroup();
+        flag = false;
     }
 
     private void fillComboBox() {
@@ -50,6 +52,7 @@ public class AdminManageUser implements Initializable {
         UserTypeForFilter[] userTypes = UserTypeForFilter.class.getEnumConstants();
         type.getItems().addAll(userTypes);
         type.getSelectionModel().selectFirst();
+
     }
     private void Empty_ALL_ALL() {
 
@@ -518,7 +521,7 @@ public class AdminManageUser implements Initializable {
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -537,9 +540,18 @@ public class AdminManageUser implements Initializable {
                 ("status"));
 
         tableView.setItems(userData);
+        flag = false;
     }
     @FXML
     public void btnActionAdminManageUserApprove(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         AdminManageUserData item = (AdminManageUserData) tableView.getItems()
                 .get(colIndex);
         System.out.println(item.getStatus().equals(UserStatus.DECLINED.toString()));
@@ -592,6 +604,14 @@ public class AdminManageUser implements Initializable {
 
     @FXML
     public void btnActionAdminManageUserDecline(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         AdminManageUserData item = (AdminManageUserData) tableView.getItems()
                 .get(colIndex);
         System.out.println(item.getStatus().equals(UserStatus.APPROVED.toString()));

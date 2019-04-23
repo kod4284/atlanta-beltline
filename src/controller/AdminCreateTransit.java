@@ -18,10 +18,7 @@ import model.TransportTypeNotAll;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AdminCreateTransit implements Initializable {
@@ -127,6 +124,14 @@ public class AdminCreateTransit implements Initializable {
                 alert.setHeaderText("Input information");
                 alert.setContentText("Successfully inserted!");
                 alert.showAndWait();
+            } catch (SQLIntegrityConstraintViolationException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR Dialog");
+                alert.setHeaderText("Duplicate ERROR");
+                alert.setContentText("There is a duplicated data in Database!" +
+                        "\nTry to input different route or transport type");
+                alert.showAndWait();
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
 
