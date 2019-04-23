@@ -538,6 +538,21 @@ public class UserTransitHistory implements Initializable {
         if (!checkFields()) {
             return;
         }
+        if (!checkerFunction.verifyDateFormat(startDate.getText())
+                || !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The Date format is wrong!" +
+                    "\n ex) 1997-01-20");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+            return;
+        }
+
+
         historyData = FXCollections.observableArrayList();
         System.out.println(transportType.getValue().toString());
         System.out.println(TransportType.ALL);

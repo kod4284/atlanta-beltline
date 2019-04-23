@@ -31,6 +31,17 @@ public class checkerFunction {
         }
         return true;
     }
+    public static boolean verifyStartEndDate(String startDate, String endDate) {
+        if (startDate.compareTo(endDate) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date end date should be later than start date!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
     public static boolean verifyBetweenDate(String startDate, String endDate,
                                             String input) {
         if (input.compareTo(startDate) >= 0 && input.compareTo(endDate) <= 0 ) {
