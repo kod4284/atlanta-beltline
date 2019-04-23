@@ -122,9 +122,9 @@ public class AdminCreateTransit implements Initializable {
                     resultSet = pst.executeUpdate();
                     System.out.println("Inserted!");
                 }
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
-                alert.setHeaderText("Input Confirmation");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Input information");
                 alert.setContentText("Successfully inserted!");
                 alert.showAndWait();
             } catch (Exception e) {
@@ -145,7 +145,8 @@ public class AdminCreateTransit implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Site Input Warning");
-            alert.setContentText("You should chose at least two sites!");
+            alert.setContentText("You should choose at least two sites!" +
+                    "\n Tip: Use control or command key to select multiple value");
             alert.showAndWait();
             return false;
         }

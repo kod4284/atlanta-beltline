@@ -175,7 +175,7 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label contentDisplay="BOTTOM" prefHeight="15.0" prefWidth="121.0" text="Total Revenue Range" GridPane.columnIndex="4">
+                  <Label contentDisplay="BOTTOM" prefHeight="15.0" prefWidth="121.0" text="Ticket Price Range" GridPane.columnIndex="4">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -196,12 +196,12 @@
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="totalRevenueRangeMin" GridPane.columnIndex="5">
+                  <TextField fx:id="ticketPriceMin" GridPane.columnIndex="5">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="totalRevenueRangeMax" GridPane.columnIndex="7">
+                  <TextField fx:id="ticketPriceMax" GridPane.columnIndex="7">
                      <GridPane.margin>
                         <Insets right="25.0" top="5.0" />
                      </GridPane.margin>

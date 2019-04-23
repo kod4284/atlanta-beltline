@@ -131,8 +131,8 @@ public class AdminCreateSite implements Initializable {
                 pst.setString(5, manager.getValue().getUsername());
                 int rs = pst.executeUpdate();
                 System.out.println(rs + "rows inserted!");
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
                 alert.setHeaderText("Insert Confirmation");
                 alert.setContentText("Create successfully!");
                 alert.showAndWait();
