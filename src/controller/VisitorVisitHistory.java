@@ -89,6 +89,16 @@ public class VisitorVisitHistory implements Initializable {
     }
 
     private void loadTableData() {
+        if (!checkerFunction.verifyDateFormat(startDate.getText()) ||
+                !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
+            alert.showAndWait();
+            return;
+        }
         if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
             return;
         }

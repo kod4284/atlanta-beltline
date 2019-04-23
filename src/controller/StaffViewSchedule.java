@@ -110,8 +110,8 @@ public class StaffViewSchedule implements Initializable {
                             "on t1.event_name=t2.event_name and t1.site_name=t2.site_name and t1.start_date=t2.start_date\n" +
                             "where t1.event_name like concat('%',?,'%') #Event Name Filter\n" +
                             "and description like concat('%',?,'%') #Event Description Filter\n" +
-                            "and ?<t1.start_date #Event Start Date Filter\n" +
-                            "and end_date<? #Event End Date Filter\n" +
+                            "and ?<=t1.start_date #Event Start Date Filter\n" +
+                            "and end_date<=? #Event End Date Filter\n" +
                             "order by event_name; \n" +
                             "#sort by each column\n" +
                             "-- order by event_name desc\n" +
