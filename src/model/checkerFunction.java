@@ -42,6 +42,29 @@ public class checkerFunction {
         }
         return true;
     }
+    public static boolean verifyPriceRange(String min, String max) {
+        if (min.compareTo(max) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The price range min is bigger than max!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+    public static boolean verifyRange(String min, String max) {
+        if (min.compareTo(max) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The second input must be bigger than the first input!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+
     public static boolean verifyBetweenDate(String startDate, String endDate,
                                             String input) {
         if (input.compareTo(startDate) >= 0 && input.compareTo(endDate) <= 0 ) {

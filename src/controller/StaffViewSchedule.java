@@ -84,6 +84,9 @@ public class StaffViewSchedule implements Initializable {
                 alert.showAndWait();
                 return;
             }
+            if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+                return;
+            }
             staffViewScheduleData = FXCollections.observableArrayList();
 
             Class.forName("com.mysql.cj.jdbc.Driver");

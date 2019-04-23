@@ -57,6 +57,7 @@ public class VisitorTransitDetail implements Initializable {
         this.transportTypeComboBox.getItems().add(TransportType.MARTA);
         this.transportTypeComboBox.getItems().add(TransportType.BUS);
         this.transportTypeComboBox.getItems().add(TransportType.BIKE);
+        this.transportTypeComboBox.getItems().add(TransportType.OTHER);
         this.transportTypeComboBox.getSelectionModel().selectFirst();
 
 

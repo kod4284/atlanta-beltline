@@ -116,7 +116,8 @@ public class AdminManageSite implements Initializable {
                         "#where site_name='Atlanta Beltline Center' #Site " +
                         "filter\n" +
                         "#and username='manager3' #Manager filter\n" +
-                        "#and open_everyday='No' #Open Everyday filter");
+                        "#and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -157,7 +158,8 @@ public class AdminManageSite implements Initializable {
                         "#where site_name='Atlanta Beltline Center' #Site " +
                         "filter\n" +
                         "where username=? #Manager filter\n" +
-                        "#and open_everyday='No' #Open Everyday filter");
+                        "#and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,manager.getValue().getUsername());
                 ResultSet rs = pst.executeQuery();
@@ -199,7 +201,8 @@ public class AdminManageSite implements Initializable {
                         "where site_name=? #Site " +
                         "filter\n" +
                         "#where username=? #Manager filter\n" +
-                        "#and open_everyday='No' #Open Everyday filter");
+                        "#and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,site.getValue());
                 ResultSet rs = pst.executeQuery();
@@ -241,7 +244,8 @@ public class AdminManageSite implements Initializable {
                         "where site_name=? #Site " +
                         "filter\n" +
                         "and username=? #Manager filter\n" +
-                        "#and open_everyday='No' #Open Everyday filter");
+                        "#and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,site.getValue());
                 pst.setString(2,manager.getValue().getUsername());
@@ -286,7 +290,8 @@ public class AdminManageSite implements Initializable {
                         "#where site_name=? #Site " +
                         "filter\n" +
                         "#and username=? #Manager filter\n" +
-                        "where open_everyday='Yes' #Open Everyday filter");
+                        "where open_everyday='Yes' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -327,7 +332,8 @@ public class AdminManageSite implements Initializable {
                         "#where site_name='Atlanta Beltline Center' #Site " +
                         "filter\n" +
                         "where username=? #Manager filter\n" +
-                        "and open_everyday='Yes' #Open Everyday filter");
+                        "and open_everyday='Yes' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,manager.getValue().getUsername());
                 ResultSet rs = pst.executeQuery();
@@ -369,7 +375,8 @@ public class AdminManageSite implements Initializable {
                         "where site_name=? #Site " +
                         "filter\n" +
                         "#where username=? #Manager filter\n" +
-                        "and open_everyday='Yes' #Open Everyday filter");
+                        "and open_everyday='Yes' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,site.getValue());
                 ResultSet rs = pst.executeQuery();
@@ -411,7 +418,8 @@ public class AdminManageSite implements Initializable {
                         "where site_name=? #Site " +
                         "filter\n" +
                         "and username=? #Manager filter\n" +
-                        "and open_everyday='Yes' #Open Everyday filter");
+                        "and open_everyday='Yes' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,site.getValue());
                 pst.setString(2,manager.getValue().getUsername());
@@ -457,7 +465,8 @@ public class AdminManageSite implements Initializable {
                         "#where site_name=? #Site " +
                         "filter\n" +
                         "#and username=? #Manager filter\n" +
-                        "where open_everyday='No' #Open Everyday filter");
+                        "where open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -498,7 +507,8 @@ public class AdminManageSite implements Initializable {
                         "#where site_name='Atlanta Beltline Center' #Site " +
                         "filter\n" +
                         "where username=? #Manager filter\n" +
-                        "and open_everyday='No' #Open Everyday filter");
+                        "and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,manager.getValue().getUsername());
                 ResultSet rs = pst.executeQuery();
@@ -540,7 +550,8 @@ public class AdminManageSite implements Initializable {
                         "where site_name=? #Site " +
                         "filter\n" +
                         "#where username=? #Manager filter\n" +
-                        "and open_everyday='No' #Open Everyday filter");
+                        "and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,site.getValue());
                 ResultSet rs = pst.executeQuery();
@@ -582,7 +593,8 @@ public class AdminManageSite implements Initializable {
                         "where site_name=? #Site " +
                         "filter\n" +
                         "and username=? #Manager filter\n" +
-                        "and open_everyday='No' #Open Everyday filter");
+                        "and open_everyday='No' #Open Everyday filter\n" +
+                        "order by site_name asc;");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 pst.setString(1,site.getValue());
                 pst.setString(2,manager.getValue().getUsername());
