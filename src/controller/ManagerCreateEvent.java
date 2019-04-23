@@ -96,6 +96,9 @@ public class ManagerCreateEvent implements Initializable {
 
     @FXML
     public void btnActionManagerFilterStaff(ActionEvent event) {
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(),endDate.getText())) {
+            return;
+        }
         if (startDate.getText().trim().isEmpty() || endDate.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
