@@ -310,7 +310,6 @@ public class ManagerViewEditEvent implements Initializable {
 
             try {
                 //Get chosen staffs
-
                 assert(assignedStaffName.size() == assignedStaffUsername.size());
                 List<String> chosenStaffName = staffAssigned.getSelectionModel().getSelectedItems();
 
@@ -324,11 +323,18 @@ public class ManagerViewEditEvent implements Initializable {
                 }
 
                 ObservableList<Integer> chosenStaffIndices = staffAssigned.getSelectionModel().getSelectedIndices();
+                if (chosenStaffIndices.size() < Integer.parseInt(minimumStaffRequired.getText().trim())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Field input Warning");
+                    alert.setContentText("We need at least " + minimumStaffRequired.getText().trim() + " or more staffs.");
+                    alert.showAndWait();
+                    return;
+                }
                 List<String> chosenStaffUsername = new ArrayList<>();
                 for (Integer x : chosenStaffIndices) {
                     chosenStaffUsername.add(availStaffUsername.get(x));
                 }
-                //assignedStaffUsername = tempUsernames;
 
                 String eN = Session.viewEditEvent.getEventName().trim();
                 String sD = Session.viewEditEvent.getStartDate().trim();
