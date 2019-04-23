@@ -97,7 +97,31 @@ public class VisitorEventDetail implements Initializable {
 
     @FXML
     public void btnActionVisitorEventDetailLogVisit(ActionEvent event) {
-        if (!checkVisitDate()) {
+        if (visitDate.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please, Enter the date");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.verifyDateFormat(visitDate.getText().trim())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
+            alert.showAndWait();
+        return;
+        }
+        if (!checkerFunction.verifyBetweenDate(startDateString, endDateString
+                , visitDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should be between start date and " +
+                    "end date");
+            alert.showAndWait();
             return;
         }
         try {
@@ -122,8 +146,7 @@ public class VisitorEventDetail implements Initializable {
             pst.setString(4, Session.eventDetail.getSiteName());
             pst.setString(5, visitDate.getText());
             int rs = pst.executeUpdate();
-                System.out.println(rs + "  inserted");
-
+                ticketRemaining.setText(Integer.valueOf(Session.eventDetail.getTicketRemaining() - 1).toString());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information Dialog");
                 alert.setHeaderText("Field input Information");
@@ -149,28 +172,6 @@ public class VisitorEventDetail implements Initializable {
         }
     }
 
-    private boolean checkVisitDate() {
-        if (!checkerFunction.verifyDateFormat(visitDate.getText())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Field input Warning");
-            alert.setContentText("The date should follow the format" +
-                    "####-##-##");
-            alert.showAndWait();
-            return false;
-        }
-        if (!checkerFunction.verifyBetweenDate(startDateString, endDateString
-                , visitDate.getText())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning Dialog");
-            alert.setHeaderText("Field input Warning");
-            alert.setContentText("The date should be between start date and " +
-                    "end date");
-            alert.showAndWait();
-            return false;
-        }
-        return true;
-    }
 
     @FXML
     public void btnActionVisitorEventDetailBack(ActionEvent event) {
