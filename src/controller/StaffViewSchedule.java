@@ -123,7 +123,8 @@ public class StaffViewSchedule implements Initializable {
                 //start date filled
                 } else if (!startDate.getText().equals("") && endDate.getText().equals("")) {
                     String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
-                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event " +
+                            "where staff_username='"+ Session.user.getUsername() +"') t1\n" +
                             "join\n" +
                             "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
                             "from assign_to natural join event\n" +
@@ -164,7 +165,8 @@ public class StaffViewSchedule implements Initializable {
                 //end Date Filled
                 } else if (startDate.getText().equals("") && !endDate.getText().equals("")) {
                     String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
-                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event " +
+                            "where staff_username='"+ Session.user.getUsername() +"') t1\n" +
                             "join\n" +
                             "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
                             "from assign_to natural join event\n" +
@@ -205,7 +207,8 @@ public class StaffViewSchedule implements Initializable {
                 // both empty
                 } else {
                     String sql = ("select t1.event_name, t1.site_name, t1.start_date, end_date, staff_count, description from\n" +
-                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event where staff_username='michael.smith') t1\n" +
+                            "(select event_name, site_name, start_date, end_date, description from assign_to natural join event " +
+                            "where staff_username='"+ Session.user.getUsername() +"') t1\n" +
                             "join\n" +
                             "(select event.event_name, event.site_name, event.start_date, count(staff_username) as staff_count \n" +
                             "from assign_to natural join event\n" +
