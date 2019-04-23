@@ -213,7 +213,10 @@ public class ManagerViewEditEvent implements Initializable {
 
     @FXML
     public void btnActionManagerViewEditEventFilter(ActionEvent event) {
-        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+        if (!checkerFunction.verifyRange(dailyVisitsRangeMin.getText(),dailyVisitsRangeMax.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyRange(dailyRevenueRangeMin.getText(),dailyRevenueRangeMax.getText())) {
             return;
         }
         if (!checkerFunction.verifyDateFormat(startDate.getText())
