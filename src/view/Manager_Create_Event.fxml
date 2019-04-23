@@ -226,11 +226,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ScrollPane prefHeight="99.0" prefWidth="354.0" GridPane.columnIndex="1">
-                     <content>
-                        <ListView fx:id="staffAssigned" prefHeight="106.0" prefWidth="337.0" />
-                     </content>
-                  </ScrollPane>
+                  <ListView fx:id="staffAssigned" prefHeight="106.0" prefWidth="337.0" GridPane.columnIndex="1" />
                   <Label contentDisplay="BOTTOM" text="Staff Assigned" wrapText="true">
                      <font>
                         <Font name="Arial" size="15.0" />

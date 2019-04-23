@@ -45,35 +45,28 @@ public class ManagerCreateEvent implements Initializable {
         staffAssigned.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
     private void loadFreeStaffs() {
+        staffAssigned.getItems().clear();
+        staffAvailableName.clear();
+        staffAvailableUsername.clear();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
                     .password);
-            String availableStaff = "select username from staff where username not in\n" +
+            String temp = "select username, concat(firstname, ' ', lastname) as Name from staff natural join user where username not in\n" +
                     "(select distinct staff_username from event right join assign_to on event.event_name=assign_to.event_name and event.site_name=assign_to.site_name and event.start_date=assign_to.start_date\n" +
-                    "where staff_username not in (select staff_username where ? < event.start_date or end_date < ?))\n";
-            PreparedStatement pst = conn.prepareStatement(availableStaff);
-            pst.setString(1, startDate.toString().trim());
-            pst.setString(2, endDate.toString().trim());
+                    "where staff_username not in (select staff_username where ?<event.start_date or end_date<?));";
+
+            PreparedStatement pst = conn.prepareStatement(temp);
+            pst.setString(1, startDate.getText().trim());
+            pst.setString(2, endDate.getText().trim());
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
                 staffAvailableUsername.add(rs.getString("username"));
+                staffAvailableName.add(rs.getString("Name"));
             }
 
-            for (String username : staffAvailableUsername) {
-                String getNames = "select concat (firstname, ' ', lastname) as staff from user where " +
-                        "username = ?;";
-                PreparedStatement pst2 = conn.prepareStatement(getNames);
-                pst2.setString(1, username);
-                ResultSet rs2 = pst2.executeQuery();
-                while (rs2.next()) {
-                    staffAvailableName.add(rs2.getString("staff"));
-                }
-            }
-
-
-            staffAssigned.getItems().addAll(staffAvailableName);
+            staffAssigned.getItems().setAll(staffAvailableName);
 
         } catch (Exception e) {
             e.printStackTrace();
