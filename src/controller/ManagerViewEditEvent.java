@@ -162,6 +162,7 @@ public class ManagerViewEditEvent implements Initializable {
         System.out.println(viewEditEventData.getDescription());
         description.setText(viewEditEventData.getDescription());
         description.setWrapText(true);
+        description.setEditable(false);
         System.out.println(description.getText());
     }
 
