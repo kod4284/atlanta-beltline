@@ -136,15 +136,27 @@ public class VisitorExploreEvent implements Initializable {
         }
         if (!startDate.getText().trim().equals("")) {
             if (!checkerFunction.verifyDateFormat(startDate.getText().trim())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Field input Warning");
+                alert.setContentText("The date should follow the format" +
+                        "####-##-##");
+                alert.showAndWait();
                 return;
             }
-            startDateFilter = "and "+ startDate.getText() +"<=event.start_date #Event Start Date Filter\n";
+            startDateFilter = "and '"+ startDate.getText() +"'<=event.start_date #Event Start Date Filter\n";
         }
         if (!endDate.getText().trim().equals("")) {
             if (!checkerFunction.verifyDateFormat(endDate.getText().trim())) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Field input Warning");
+                alert.setContentText("The date should follow the format" +
+                        "####-##-##");
+                alert.showAndWait();
                 return;
             }
-            endDateFilter = "and event.end_date<="+endDate.getText().trim()+" #Event End Date Filter\n";
+            endDateFilter = "and event.end_date<='"+endDate.getText().trim()+"' #Event End Date Filter\n";
         }
         if (!totalVisitsRangeMin.getText().trim().equals("") &&
                 !totalVisitsRangeMax.getText().trim().equals("")) {
@@ -231,7 +243,6 @@ public class VisitorExploreEvent implements Initializable {
                         "-- order by my_visits desc\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
-                System.out.println(sql);
                 while (rs.next()) {
                     exploreEventData.add(new VisitorExploreEventData(new SimpleStringProperty(rs.getString("event_name")),
                             new SimpleStringProperty(rs.getString("site_name")),

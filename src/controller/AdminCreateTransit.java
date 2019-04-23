@@ -11,17 +11,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.AdminManageTransitData;
-import model.DB;
-import model.TransportType;
-import model.TransportTypeNotAll;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AdminCreateTransit implements Initializable {
@@ -92,6 +86,22 @@ public class AdminCreateTransit implements Initializable {
         if (!isUnderTwoSite()) {
             return;
         }
+        if (route.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Site Input Warning");
+            alert.setContentText("You should fill out route field!");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.isStringAsInteger(price.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Site Input Warning");
+            alert.setContentText("Price Field cannot be String value!");
+            alert.showAndWait();
+            return;
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -127,6 +137,14 @@ public class AdminCreateTransit implements Initializable {
                 alert.setHeaderText("Input information");
                 alert.setContentText("Successfully inserted!");
                 alert.showAndWait();
+            } catch (SQLIntegrityConstraintViolationException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR Dialog");
+                alert.setHeaderText("Duplicate ERROR");
+                alert.setContentText("There is a duplicated data in Database!" +
+                        "\nTry to input different route or transport type");
+                alert.showAndWait();
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
 
