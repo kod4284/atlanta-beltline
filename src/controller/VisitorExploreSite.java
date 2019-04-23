@@ -125,8 +125,8 @@ public class VisitorExploreSite implements Initializable {
         String openEverydayFilter = "";
         String startDateFilter;
         String endDateFilter = "";
-        String totalVisitFilter = "where total_visits between 0 and 99999 #Total Visits Range filter\n";;
-        String eventCountFilter = "";
+        String totalVisitFilter = "";
+        String eventCountFilter = "where event_count between 0 and 99999 #Event Count Range filter\n";
         String visitCheckBoxFilter = "";
 
         if (!name.getValue().trim().equals("-- ALL --")) {
@@ -147,10 +147,10 @@ public class VisitorExploreSite implements Initializable {
                 alert.showAndWait();
                 return;
             }
-            startDateFilter = "where "+startDate.getText().trim()
+            startDateFilter = "and "+startDate.getText().trim()
                     +"<start_date #Start Date Filter\n";
         } else {
-            startDateFilter = "where '2015-01-01'<start_date #Start Date Filter\n";
+            startDateFilter = "and '2015-01-01'<start_date #Start Date Filter\n";
         }
         if (!endDate.getText().trim().equals("")) {
             if (!checkerFunction.verifyDateFormat(endDate.getText().trim())) {
@@ -181,16 +181,16 @@ public class VisitorExploreSite implements Initializable {
         }
         if (!eventCountRangeMin.getText().trim().equals("") &&
                 !eventCountRangeMax.getText().trim().equals("")) {
-            eventCountFilter = "and event_count between "+
+            eventCountFilter = "where event_count between "+
                     eventCountRangeMin.getText().trim()+" and "+
                     eventCountRangeMax.getText().trim()+" #Event Count Range filter\n";
         } else if (eventCountRangeMin.getText().trim().equals("") &&
                 !eventCountRangeMax.getText().trim().equals("")) {
-            eventCountFilter = "and event_count between 0 and "+
+            eventCountFilter = "where event_count between 0 and "+
                     eventCountRangeMax.getText().trim()+" #Event Count Range filter\n";
         } else if (!eventCountRangeMin.getText().trim().equals("") &&
                 eventCountRangeMax.getText().trim().equals("")) {
-            eventCountFilter = "and event_count between "+
+            eventCountFilter = "where event_count between "+
                     eventCountRangeMin.getText().trim()+" and 99999 #Event Count Range filter\n";
         }
         if (!includeVisited.isSelected()) {
@@ -206,7 +206,7 @@ public class VisitorExploreSite implements Initializable {
 
             try {
 
-                String sql = ("select eventcount.site_name, event_count, total_visits, my_visits from\n" +
+                String sql = ("select eventcount.site_name, event_count, coalesce(total_visits,0) as total_visits, coalesce(my_visits,0) as my_visits from\n" +
                         "(select site.site_name, if(count(event_name)=0,0,count(*)) as event_count\n" +
                         "from site left join event on site.site_name=event.site_name\n" +
                         nameFilter +
@@ -233,8 +233,8 @@ public class VisitorExploreSite implements Initializable {
                         "group by site_name\n" +
                         "order by site_name) as myvisits\n" +
                         "on totalvisits.site_name=myvisits.site_name\n" +
-                        totalVisitFilter +
                         eventCountFilter +
+                        totalVisitFilter +
                         visitCheckBoxFilter +
                         "order by site_name;");
                 PreparedStatement pst = conn.prepareStatement(sql);
