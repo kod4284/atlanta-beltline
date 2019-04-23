@@ -43,9 +43,24 @@ public class VisitorSiteDetail implements Initializable {
 
     @FXML
     public void btnActionVisitorSiteDetailLogVisit(ActionEvent event) {
-        if (!checkVisitDate()) {
+        if (visitDate.getText().trim().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please, Enter the date");
+            alert.showAndWait();
             return;
         }
+        if (!checkerFunction.verifyDateFormat(visitDate.getText().trim())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
+            alert.showAndWait();
+            return;
+        }
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -64,9 +79,9 @@ public class VisitorSiteDetail implements Initializable {
             pst.setString(2, Session.siteDetail.getSiteName());
             pst.setString(3, visitDate.getText());
             int rs = pst.executeUpdate();
-            System.out.println(rs + "  inserted");
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Confirmation Dialog");
             alert.setHeaderText("Field input Confirmation");
             alert.setContentText("The data is successfully inserted");

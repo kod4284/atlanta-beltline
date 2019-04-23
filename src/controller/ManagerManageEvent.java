@@ -80,29 +80,25 @@ public class ManagerManageEvent implements Initializable {
             alert.setContentText("The date should follow the format" +
                     "####-##-##");
             alert.showAndWait();
+            return;
+        }
+        if (startDate.getText().trim().compareTo(endDate.getText().trim()) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Make sure the start date is not later than the end date.");
+            alert.showAndWait();
+            return;
         }
 
         manageEventData = FXCollections.observableArrayList();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            // create a connection to the database
             Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
                     .password);
 
             try {
-                //query
-
-                // sql statements
-                ArrayList<String> sites = new ArrayList<>();
-                //if no row return, go to catch
-                //dataChecker:
-                //Initialized to seven 0's. If certain TextFields are filled out,
-                // then 0 on which the index of TextField is located at is triggered to become 1.
-                // This is used to fill up sql with appropriate values.
-                // Order: Name, Description, StartDate, EndDate, DurationRange, TotalVisitsRange, TotalRevenueRange.
-                // E.g. if the user had filled out Name, Start Date, and Total Visits Range,
-                // then dataChecker ends up = [1, 0, 1, 0, 0, 1, 0].
                 int [] dataChecker = new int[10];
                 if (!name.getText().equals("")) {
                     nameFilter = "and event.event_name like concat('%',"+ name.getText().trim() +",'%') #Name filter\n";
@@ -301,19 +297,6 @@ public class ManagerManageEvent implements Initializable {
                     .password);
 
             try {
-                //query
-
-                // sql statements
-                ArrayList<String> sites = new ArrayList<>();
-                //if no row return, go to catch
-                //dataChecker:
-                //Initialized to seven 0's. If certain TextFields are filled out,
-                // then 0 on which the index of TextField is located at is triggered to become 1.
-                // This is used to fill up sql with appropriate values.
-                // Order: Name, Description, StartDate, EndDate, DurationRange, TotalVisitsRange, TotalRevenueRange.
-                // E.g. if the user had filled out Name, Start Date, and Total Visits Range,
-                // then dataChecker ends up = [1, 0, 1, 0, 0, 1, 0].
-
                 ManagerManageEventData item = (ManagerManageEventData) manageEventTable.getItems()
                         .get(colIndex);
 
