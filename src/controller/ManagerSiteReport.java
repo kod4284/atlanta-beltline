@@ -253,6 +253,14 @@ public class ManagerSiteReport implements Initializable {
             alert.showAndWait();
             return false;
         }
+        if (startDate.getText().trim().compareTo(endDate.getText().trim()) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The starting date should be before or equal to the end date.");
+            alert.showAndWait();
+            return false;
+        }
         return true;
     }
 
