@@ -138,6 +138,16 @@ public class checkerFunction {
             return true;
         }
     }
+    public static boolean isStringAsInteger(String str) {
+        try {
+            Double num = Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            System.out.println(str + " is not a number");
+            return false;
+        }
+        System.out.println(str + " is a number");
+        return true;
+    }
     public static String formatPhone(String phone) {
         return phone.replaceFirst("(\\d{3})(\\d{3})(\\d+)","$1-$2-$3");
     }

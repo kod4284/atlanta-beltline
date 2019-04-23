@@ -367,7 +367,12 @@ public class VisitorExploreSite implements Initializable {
         try {
             VisitorExploreSiteData item =
                     (VisitorExploreSiteData) exploreSiteTable.getItems().get(colIndex);
-
+            Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
+                    .getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/Visitor_Transit_Detail.fxml"));
+            primaryStage.setScene(new Scene(root));
+            /*
             Session.siteDetail = new SiteDetail(item.getSiteName());
             if (item.getMyVisits() != 0) {
                 Stage primaryStage = (Stage) ((Node) event.getSource()).getScene()
@@ -382,6 +387,7 @@ public class VisitorExploreSite implements Initializable {
                 alert.setContentText("You can see the detail only you have visited");
                 alert.showAndWait();
             }
+            */
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING);
