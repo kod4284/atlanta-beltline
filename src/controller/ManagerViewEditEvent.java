@@ -17,10 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import jdk.jfr.Event;
-import model.DB;
-import model.ManagerManageEventData;
-import model.ManagerViewEditEventData;
-import model.Session;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +45,13 @@ public class ManagerViewEditEvent implements Initializable {
     @FXML TextField dailyRevenueRangeMin;
     @FXML TextField dailyRevenueRangeMax;
 
+    @FXML TableView eventDetailsTable;
+    @FXML TableColumn<ManagerViewEditEventTableData, String> dateCol;
+    @FXML TableColumn<ManagerViewEditEventTableData, String> dailyVisitsCol;
+    @FXML TableColumn<ManagerViewEditEventTableData, String> dailyRevenueCol;
+
+    private ObservableList<ManagerViewEditEventTableData> viewEditData;
+
     private ManagerViewEditEventData viewEditEventData;
     private List<String> availStaffName;
     private List<String> availStaffUsername;
@@ -57,6 +61,7 @@ public class ManagerViewEditEvent implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         staffAssigned.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        viewEditData = FXCollections.observableArrayList();
         loadData();
     }
     private void loadData() {
@@ -164,10 +169,134 @@ public class ManagerViewEditEvent implements Initializable {
         description.setWrapText(true);
         description.setEditable(false);
         System.out.println(description.getText());
+
+        //Fill up Event Details Table
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            String eN = Session.viewEditEvent.getEventName().trim();
+            String sD = Session.viewEditEvent.getStartDate().trim();
+            String sN = Session.viewEditEvent.getSiteName().trim();
+
+            String eventTableSql ="select visit_event_date as date, count(*) as daily_visits, count(*)*event_price as daily_revenue\n" +
+                    "from visit_event natural join event \n" +
+                    "where event_name= ? and start_date=? and site_name=?\n" +
+                    "group by visit_event_date\n" +
+                    "order by date;\n";
+
+            PreparedStatement pst = conn.prepareStatement(eventTableSql);
+            pst.setString(1, eN);
+            pst.setString(2, sD);
+            pst.setString(3, sN);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                viewEditData.add(new ManagerViewEditEventTableData(
+                        new SimpleStringProperty(rs.getString("date")),
+                        new SimpleStringProperty(rs.getString("daily_visits")),
+                        new SimpleStringProperty(rs.getString("daily_revenue"))));
+            }
+
+            dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+            dailyVisitsCol.setCellValueFactory(new PropertyValueFactory<>("dailyVisits"));
+            dailyRevenueCol.setCellValueFactory(new PropertyValueFactory<>
+                    ("dailyRevenue"));
+
+            eventDetailsTable.setItems(viewEditData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void btnActionManagerViewEditEventFilter(ActionEvent event) {
+        String dailyVisitsMin = dailyVisitsRangeMin.getText().trim();
+        String dailyVisitsMax = dailyVisitsRangeMax.getText().trim();
+        String dailyRevenueMin = dailyRevenueRangeMin.getText().trim();
+        String dailyRevenueMax = dailyRevenueRangeMax.getText().trim();
+
+        String eN = Session.viewEditEvent.getEventName().trim();
+        String sD = Session.viewEditEvent.getStartDate().trim();
+        String sN = Session.viewEditEvent.getSiteName().trim();
+
+        if ((dailyVisitsMin.isEmpty() && !dailyVisitsMax.isEmpty()) ||
+            (!dailyVisitsMin.isEmpty() && dailyVisitsMax.isEmpty())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Information Needed");
+            alert.setContentText("Please fill in both dates.");
+            alert.showAndWait();
+            return;
+        }
+        if ((dailyRevenueMin.isEmpty() && !dailyRevenueMax.isEmpty()) ||
+                (!dailyRevenueMin.isEmpty() && dailyRevenueMax.isEmpty())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Information Needed");
+            alert.setContentText("Please fill in both revenues.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
+                    .password);
+
+            String filterSql = "select visit_event_date as date, count(*) as daily_visits, " +
+                    "count(*)*event_price as daily_revenue\n" +
+                    "from visit_event natural join event \n" +
+                    "where event_name= ? and start_date= ? and site_name= ?\n" +
+                    "group by visit_event_date\n" +
+                        "order by date;\n";
+
+            System.out.println(filterSql);
+
+            PreparedStatement pst = conn.prepareStatement(filterSql);
+            pst.setString(1, eN);
+            pst.setString(2, sD);
+            pst.setString(3, sN);
+            ResultSet rs = pst.executeQuery();
+
+            viewEditData = FXCollections.observableArrayList();
+            while (rs.next()) {
+                if (!dailyVisitsMin.isEmpty() && !dailyVisitsMax.isEmpty()) {
+                    System.out.println("Found: " +Integer.parseInt(rs.getString("daily_visits")));
+                    System.out.println("Cmp to: " + Integer.parseInt(dailyVisitsMin));
+                    if (Integer.parseInt(rs.getString("daily_visits")) <
+                            Integer.parseInt(dailyVisitsMin) ||
+                        Integer.parseInt(rs.getString("daily_visits")) >
+                            Integer.parseInt(dailyVisitsMax)) {
+                        continue;
+                    }
+                }
+                if (!dailyRevenueMin.isEmpty() && !dailyRevenueMax.isEmpty()) {
+                    if (Double.parseDouble(rs.getString("daily_revenue")) <
+                            Double.parseDouble(dailyRevenueMin) ||
+                            Double.parseDouble(rs.getString("daily_revenue")) >
+                                    Integer.parseInt(dailyRevenueMax)) {
+                        continue;
+                    }
+                }
+                viewEditData.add(new ManagerViewEditEventTableData(
+                        new SimpleStringProperty(rs.getString("date")),
+                        new SimpleStringProperty(rs.getString("daily_visits")),
+                        new SimpleStringProperty(rs.getString("daily_revenue"))));
+            }
+
+            dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+            dailyVisitsCol.setCellValueFactory(new PropertyValueFactory<>("dailyVisits"));
+            dailyRevenueCol.setCellValueFactory(new PropertyValueFactory<>
+                    ("dailyRevenue"));
+
+            eventDetailsTable.setItems(viewEditData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
