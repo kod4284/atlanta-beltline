@@ -65,6 +65,19 @@ public class ManagerSiteReport implements Initializable {
 
     @FXML
     public void btnActionFilter (ActionEvent event) {
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyDateFormat(startDate.getText())
+                || !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date follows the format:\n" +
+                    "ex) 1997-01-30!");
+            alert.showAndWait();
+            return;
+        }
         loadTableData(true);
         flag = false;
     }

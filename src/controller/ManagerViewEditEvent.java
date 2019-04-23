@@ -213,6 +213,19 @@ public class ManagerViewEditEvent implements Initializable {
 
     @FXML
     public void btnActionManagerViewEditEventFilter(ActionEvent event) {
+        if (!checkerFunction.verifyStartEndDate(startDate.getText(), endDate.getText())) {
+            return;
+        }
+        if (!checkerFunction.verifyDateFormat(startDate.getText())
+                || !checkerFunction.verifyDateFormat(endDate.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date follows the format:\n" +
+                    "ex) 1997-01-30!");
+            alert.showAndWait();
+            return;
+        }
         String dailyVisitsMin = dailyVisitsRangeMin.getText().trim();
         String dailyVisitsMax = dailyVisitsRangeMax.getText().trim();
         String dailyRevenueMin = dailyRevenueRangeMin.getText().trim();
