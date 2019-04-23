@@ -43,27 +43,35 @@ public class ManagerCreateEvent implements Initializable {
         staffAvailableName = new ArrayList<>();
         staffAvailableUsername = new ArrayList<>();
         staffAssigned.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        loadFreeStaffs();
     }
     private void loadFreeStaffs() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
                     .password);
-            String availableStaff = "select concat(firstname, ' ', lastname) as available_staff, t1.username as username from\n" +
-                    "(select staff_username as username from event natural join assign_to where '2019-02-02'<start_date or end_date<'2019-02-01'\n" +
-                    "union\n" +
-                    "select username from staff where username not in (select staff_username from assign_to)) t1\n" +
-                    "join\n" +
-                    "(select username, firstname, lastname from user) t2\n" +
-                    "on t1.username=t2.username;\n";
+            String availableStaff = "select username from staff where username not in\n" +
+                    "(select distinct staff_username from event right join assign_to on event.event_name=assign_to.event_name and event.site_name=assign_to.site_name and event.start_date=assign_to.start_date\n" +
+                    "where staff_username not in (select staff_username where ? < event.start_date or end_date < ?))\n";
             PreparedStatement pst = conn.prepareStatement(availableStaff);
+            pst.setString(1, startDate.toString().trim());
+            pst.setString(2, endDate.toString().trim());
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                staffAvailableName.add(rs.getString("available_staff"));
                 staffAvailableUsername.add(rs.getString("username"));
             }
+
+            for (String username : staffAvailableUsername) {
+                String getNames = "select concat (firstname, ' ', lastname) as staff from user where " +
+                        "username = ?;";
+                PreparedStatement pst2 = conn.prepareStatement(getNames);
+                pst2.setString(1, username);
+                ResultSet rs2 = pst2.executeQuery();
+                while (rs2.next()) {
+                    staffAvailableName.add(rs2.getString("staff"));
+                }
+            }
+
 
             staffAssigned.getItems().addAll(staffAvailableName);
 
@@ -83,6 +91,42 @@ public class ManagerCreateEvent implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load User_Login.fxml");
+        }
+    }
+
+    @FXML
+    public void btnActionManagerFilterStaff(ActionEvent event) {
+        if (startDate.getText().trim().isEmpty() || endDate.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Please provide dates before requesting for available staffs.");
+            alert.showAndWait();
+            return;
+        }
+        if (startDate.getText().trim().compareTo(endDate.getText().trim()) > 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The starting date must be before or equal to the end date.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (!checkerFunction.verifyDateFormat(startDate.getText().trim()) ||
+                !checkerFunction.verifyDateFormat(endDate.getText().trim())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("The date should follow the format" +
+                    "####-##-##");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            loadFreeStaffs();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
