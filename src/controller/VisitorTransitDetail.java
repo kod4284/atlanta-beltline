@@ -45,11 +45,13 @@ public class VisitorTransitDetail implements Initializable {
     private int colIndex;
 
     ToggleGroup group;
+    boolean flag;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        flag = false;
         group = new ToggleGroup();
         transitDataList = FXCollections.observableArrayList();
         site.setText(Session.siteDetail.getSiteName());
@@ -136,14 +138,13 @@ public class VisitorTransitDetail implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
 
                         @Override
                         public void handle(ActionEvent arg0) {
                             if (radioButton.isSelected()) {
                                 colIndex = getIndex();
-
+                                flag = true;
                             }
 
                         }
@@ -163,6 +164,14 @@ public class VisitorTransitDetail implements Initializable {
 
     @FXML
     public void btnActionVisitorTransitDetailLogTransit(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         if (!checkTransitDate()) {
             return;
         }
@@ -217,7 +226,14 @@ public class VisitorTransitDetail implements Initializable {
     }
 
     private boolean checkTransitDate() {
-        if (!checkerFunction.verifyDateFormat(transitDate.getText())) {
+        if (transitDate.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Field input Warning");
+            alert.setContentText("Fill out Date Field!");
+            alert.showAndWait();
+            return false;
+        } else if (!checkerFunction.verifyDateFormat(transitDate.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");

@@ -50,6 +50,7 @@ public class VisitorExploreSite implements Initializable {
     String detailSiteName;
     String detailOpenEveryday;
     String detailSiteAddress;
+    boolean flag;
 
     ToggleGroup group;
     private ObservableList<VisitorExploreSiteData> visitorExploreSiteData;
@@ -58,6 +59,7 @@ public class VisitorExploreSite implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
         loadNameAndOpenEveryday();
+        flag = false;
     }
 
     private void loadNameAndOpenEveryday() {
@@ -104,6 +106,7 @@ public class VisitorExploreSite implements Initializable {
     @FXML
     public void btnActionVisitorExploreSiteFilter(ActionEvent event) {
         LoadTableData();
+        flag = false;
     }
 
     private void LoadTableData() {
@@ -288,13 +291,13 @@ public class VisitorExploreSite implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent arg0) {
                             if(radioButton.isSelected()){
                                 tableRow = getTableRow();
                                 colIndex = getIndex();
+                                flag = true;
                             }
                         }
                     });
@@ -314,6 +317,14 @@ public class VisitorExploreSite implements Initializable {
 
     @FXML
     public void btnActionVisitorExploreSiteDetail(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
             VisitorExploreSiteData item =
                     (VisitorExploreSiteData) exploreSiteTable.getItems().get(colIndex);
@@ -375,6 +386,14 @@ public class VisitorExploreSite implements Initializable {
 
     @FXML
     public void btnActionVisitorExploreSiteTransitDetail(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
             VisitorExploreSiteData item =
                     (VisitorExploreSiteData) exploreSiteTable.getItems().get(colIndex);

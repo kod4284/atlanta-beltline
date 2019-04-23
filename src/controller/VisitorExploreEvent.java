@@ -50,7 +50,7 @@ public class VisitorExploreEvent implements Initializable {
     @FXML TableColumn<VisitorExploreEventData, String> myVisitsCol;
     private TableRow tableRow;
     private int colIndex;
-
+    boolean flag;
     ToggleGroup group;
     private ObservableList<VisitorExploreEventData> exploreEventData;
 
@@ -58,6 +58,7 @@ public class VisitorExploreEvent implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         group = new ToggleGroup();
         loadSitesAndFillComboBox();
+        flag = false;
     }
 
     private void loadSitesAndFillComboBox() {
@@ -99,6 +100,7 @@ public class VisitorExploreEvent implements Initializable {
     @FXML
     public void btnActionVisitorExploreEventFilter(ActionEvent event) {
         LoadTableData();
+        flag = false;
     }
     private void LoadTableData() {
 
@@ -291,13 +293,13 @@ public class VisitorExploreEvent implements Initializable {
                     radioButton.setToggleGroup(group);
                     // Add Listeners if any
                     setGraphic(radioButton);
-                    radioButton.setSelected(true);
                     radioButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent arg0) {
                             if(radioButton.isSelected()){
                                 tableRow = getTableRow();
                                 colIndex = getIndex();
+                                flag = true;
                             }
                         }
                     });
@@ -320,6 +322,14 @@ public class VisitorExploreEvent implements Initializable {
 
     @FXML
     public void btnActionVisitorExploreEventDetail(ActionEvent event) {
+        if (flag == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Radio button selection Warning");
+            alert.setContentText("You should select a item on the list!");
+            alert.showAndWait();
+            return;
+        }
         try {
             VisitorExploreEventData item =
                     (VisitorExploreEventData) visitorExploreEventTable.getItems().get(colIndex);
