@@ -383,6 +383,7 @@ public class VisitorExploreSite implements Initializable {
                 alert.showAndWait();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
