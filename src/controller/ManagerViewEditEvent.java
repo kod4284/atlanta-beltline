@@ -50,8 +50,9 @@ public class ManagerViewEditEvent implements Initializable {
 
     private ManagerViewEditEventData viewEditEventData;
     private List<String> availStaffName;
+    private List<String> availStaffUsername;
     private List<String> assignedStaffName;
-
+    private List<String> assignedStaffUsername;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,30 +62,15 @@ public class ManagerViewEditEvent implements Initializable {
     private void loadData() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            // create a connection to the database
             Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
                     .password);
 
             try {
-                //query
-
-                // sql statements
-                ArrayList<String> sites = new ArrayList<>();
-                //if no row return, go to catch
-                //dataChecker:
-                //Initialized to seven 0's. If certain TextFields are filled out,
-                // then 0 on which the index of TextField is located at is triggered to become 1.
-                // This is used to fill up sql with appropriate values.
-                // Order: Name, Description, StartDate, EndDate, DurationRange, TotalVisitsRange, TotalRevenueRange.
-                // E.g. if the user had filled out Name, Start Date, and Total Visits Range,
-                // then dataChecker ends up = [1, 0, 1, 0, 0, 1, 0].
-
                 String eN = Session.viewEditEvent.getEventName().trim();
                 String sD = Session.viewEditEvent.getStartDate().trim();
                 String sN = Session.viewEditEvent.getSiteName().trim();
 
-                System.out.println(Session.viewEditEvent);
-
+                //Get event status
                 String eventSql = "select event_name, event_price, start_date, end_date, min_staff_required, capacity, description from event \n" +
                         "where event_name=? and start_date=? and site_name=?;\n";
 
@@ -94,6 +80,7 @@ public class ManagerViewEditEvent implements Initializable {
                 pst.setString(3, sN);
                 ResultSet rs = pst.executeQuery();
 
+                //Get all staff both assigned to this event and those that are not assigned to any events
                 String staffSql = "select concat(firstname, ' ', lastname) as 'all_available_staff', t1.username from\n" +
                         "(select staff_username as username from assign_to where event_name=? and start_date=? and site_name=?\n" +
                         "union\n" +
@@ -108,16 +95,18 @@ public class ManagerViewEditEvent implements Initializable {
                 ResultSet rs2 = pst2.executeQuery();
 
                 availStaffName = new ArrayList<>();
-                List<String> availStaffUsername = new ArrayList<>();
+                availStaffUsername = new ArrayList<>();
                 while (rs2.next()) {
                     availStaffName.add(rs2.getString("all_available_staff"));
                     availStaffUsername.add(rs2.getString("t1.username"));
                 }
 
+                //Get only the staff assigned to this event
                 String assignedAlreadyStaff = "select concat(firstname, ' ', lastname) as " +
                         "'already_assigned_staff', username from assign_to join user " +
                         "on assign_to.staff_username=user.username \n" +
                         "where event_name=? and start_date=? and site_name=?;\n";
+
                 PreparedStatement pst3 = conn.prepareStatement(assignedAlreadyStaff);
                 pst3.setString(1, eN);
                 pst3.setString(2, sD);
@@ -125,12 +114,11 @@ public class ManagerViewEditEvent implements Initializable {
                 ResultSet rs3 = pst3.executeQuery();
 
                 assignedStaffName = new ArrayList<>();
-                List<String> assignedStaffUsername = new ArrayList<>();
+                assignedStaffUsername = new ArrayList<>();
                 while (rs3.next()) {
                     assignedStaffName.add(rs3.getString("already_assigned_staff"));
                     assignedStaffUsername.add(rs3.getString("username"));
                 }
-
 
                 if (rs.next()) {
                     viewEditEventData = new ManagerViewEditEventData(
@@ -183,44 +171,63 @@ public class ManagerViewEditEvent implements Initializable {
 
     @FXML
     public void btnActionManagerMangeEventUpdate(ActionEvent event) {
-        try {
 
-            System.out.println("DELETED");
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
             Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
                     .password);
 
             try {
-                //availStaffName
-                //assignedStaffName
-                assignedStaffName = staffAssigned.getSelectionModel().getSelectedItems();
+                //Get chosen staffs
+
+                assert(assignedStaffName.size() == assignedStaffUsername.size());
+                List<String> chosenStaffName = staffAssigned.getSelectionModel().getSelectedItems();
+
+                if (chosenStaffName.size() == 0) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Dialog");
+                    alert.setHeaderText("Field input Warning");
+                    alert.setContentText("One staff must remain responsible for the event.");
+                    alert.showAndWait();
+                    return;
+                }
+
+                ObservableList<Integer> chosenStaffIndices = staffAssigned.getSelectionModel().getSelectedIndices();
+                List<String> chosenStaffUsername = new ArrayList<>();
+                for (Integer x : chosenStaffIndices) {
+                    chosenStaffUsername.add(availStaffUsername.get(x));
+                }
+                //assignedStaffUsername = tempUsernames;
 
                 String eN = Session.viewEditEvent.getEventName().trim();
                 String sD = Session.viewEditEvent.getStartDate().trim();
                 String sN = Session.viewEditEvent.getSiteName().trim();
 
-                String deleteAll = "delete from assign_to where event_name=? " +
-                        "and start_date= ? and site_name=?;";
+                //Delete all staffs from this event
+                String deleteAll = "delete from assign_to where event_name=? and " +
+                        "start_date = ? and site_name = ?;";
                 PreparedStatement pst1 = conn.prepareStatement(deleteAll);
                 pst1.setString(1, eN);
                 pst1.setString(2, sD);
                 pst1.setString(3, sN);
                 pst1.executeUpdate();
 
-                for (int x = 0; x < assignedStaffName.size(); x++) {
+                //Insert chosen staff usernames back to assigned_to
+                for (String username : chosenStaffUsername) {
                     String putAllBackIn = "insert into assign_to values " +
-                            "(?, ?, ?, ?), " +
-                            "('michael.smith', 'Bus Tour', '2019-02-01', 'Inman Park');";
+                            "(?, ?, ?, ?);";
                     PreparedStatement pst2 = conn.prepareStatement(putAllBackIn);
-                    pst2.setString(1, assignedStaffName.get(x));
+                    pst2.setString(1, username);
                     pst2.setString(2, eN);
                     pst2.setString(3, sD);
                     pst2.setString(4, sN);
+                    pst2.executeUpdate();
                 }
 
+                //Get all staffs assigned to this event and staffs that are free
                 String staffSql = "select concat(firstname, ' ', lastname) as 'all_available_staff', t1.username from\n" +
-                        "(select staff_username as username from assign_to where event_name=? and start_date=? and site_name=?\n" +
+                        "(select staff_username as username from assign_to where event_name = ? and start_date = ? and site_name = ?\n" +
                         "union\n" +
                         "select username from staff where username not in (select staff_username from assign_to)) t1\n" +
                         "join\n" +
@@ -230,7 +237,25 @@ public class ManagerViewEditEvent implements Initializable {
                 pst3.setString(1, eN);
                 pst3.setString(2, sD);
                 pst3.setString(3, sN);
-                ResultSet rs2 = pst3.executeQuery();
+                ResultSet rs3 = pst3.executeQuery();
+
+                availStaffName = new ArrayList<>();
+                availStaffUsername = new ArrayList<>();
+
+                while (rs3.next()) {
+                    availStaffName.add(rs3.getString("all_available_staff"));
+                    availStaffUsername.add(rs3.getString("t1.username"));
+                }
+
+                staffAssigned.setItems(FXCollections.observableList(availStaffName));
+                for (int x = 0; x < staffAssigned.getItems().size(); x++) {
+                    if (chosenStaffName.contains(staffAssigned.getItems().get(x))){
+                        staffAssigned.getSelectionModel().select(x);
+                    }
+                }
+
+                assignedStaffUsername = chosenStaffUsername;
+                assignedStaffName = chosenStaffName;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -238,12 +263,7 @@ public class ManagerViewEditEvent implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        staffAssigned.setItems(FXCollections.observableList(availStaffName));
-        for (int x = 0; x < staffAssigned.getItems().size(); x++) {
-            if (assignedStaffName.contains(staffAssigned.getItems().get(x))){
-                staffAssigned.getSelectionModel().select(x);
-            }
-        }
+
     }
 
     public void btnActionBack(ActionEvent event){
