@@ -47,7 +47,7 @@ public class AdminCreateSite implements Initializable {
 
                 ArrayList<ManagerForNum19> managers = new ArrayList<>();
                 String sql = ("select concat(firstname, ' ', lastname) as Name, manager.username from manager join user on manager.username=user.username \n" +
-                        "where manager.username not in (select manager_username from site)\n");
+                        "where manager.username not in (select manager_username from site) and user.status=’Approved’\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -85,7 +85,14 @@ public class AdminCreateSite implements Initializable {
 
     @FXML
     public void btnActionAdminCreateSiteCreate(ActionEvent event) {
-
+        if (name.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Empty Field Error");
+            alert.setContentText("You should input name of site!");
+            alert.showAndWait();
+            return;
+        }
         if (!checkerFunction.verifyZip(zipcode.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Dialog");
