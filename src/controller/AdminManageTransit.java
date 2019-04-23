@@ -541,6 +541,14 @@ public class AdminManageTransit implements Initializable {
         if (!checkCondition()) {
             return;
         }
+        if (!checkerFunction.verifyStartEndDate(priceRangeMin.getText(), priceRangeMax.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Input Warning");
+            alert.setContentText("Starting price should be smaller than end price!");
+            alert.showAndWait();
+            return;
+        }
         if (route.getText().trim().equals("") && priceRangeMin.getText().trim
                 ().equals("") && priceRangeMax.getText().trim().equals("")) {
             if (transportTypeComboBox.getValue().toString().equals("-- ALL " +

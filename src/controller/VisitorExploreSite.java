@@ -354,6 +354,7 @@ public class VisitorExploreSite implements Initializable {
             primaryStage.setScene(new Scene(root));
 
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");
@@ -389,6 +390,7 @@ public class VisitorExploreSite implements Initializable {
             }
             */
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning Dialog");
             alert.setHeaderText("Field input Warning");

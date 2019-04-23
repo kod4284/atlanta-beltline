@@ -11,10 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.AdminManageTransitData;
-import model.DB;
-import model.TransportType;
-import model.TransportTypeNotAll;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -87,6 +84,22 @@ public class AdminCreateTransit implements Initializable {
     @FXML
     public void btnActionAdminVisitorCreateTransitCreate(ActionEvent event) {
         if (!isUnderTwoSite()) {
+            return;
+        }
+        if (route.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Site Input Warning");
+            alert.setContentText("You should fill out route field!");
+            alert.showAndWait();
+            return;
+        }
+        if (!checkerFunction.isStringAsInteger(price.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("Site Input Warning");
+            alert.setContentText("Price Field cannot be String value!");
+            alert.showAndWait();
             return;
         }
         try {
