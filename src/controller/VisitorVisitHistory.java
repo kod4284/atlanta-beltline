@@ -89,17 +89,31 @@ public class VisitorVisitHistory implements Initializable {
     }
 
     private void loadTableData() {
+        String eventFilter = "";
+        String siteFilter = "";
+        String dateFilter = "where Date between '2018-01-01' and '2020-01-01' #filter the date\n";
 
-         visitorVisitHistoryData = FXCollections.observableArrayList();
+        visitorVisitHistoryData = FXCollections.observableArrayList();
 
-        if (site.getValue().toString().equals("-- ALL --")) {
-            sqlAllSite();
-        } else {
-            sqlNotAllSite();
+        if (!startDate.getText().equals("") && !endDate.getText().equals("")) {
+            dateFilter = "where Date between '"+startDate.getText().trim()
+                    +"' and '"+endDate.getText().trim()+"' #filter the date\n";
+        } else if (startDate.getText().equals("") && !endDate.getText().equals("")) {
+            dateFilter = "where Date between '2000-01-01' and '"
+                    +endDate.getText().trim()+"' #filter the date\n";
+        } else if (!startDate.getText().equals("") && endDate.getText().equals("")) {
+            dateFilter = "where Date between '"+startDate.getText().trim()
+                    +"' and '2020-01-01' #filter the date\n";
         }
-    }
+        if (!site.getValue().trim().equals("-- ALL --")) {
+            siteFilter = "and Site='"+site.getValue().trim()
+                    +"' #filter visitor1’s visit site\n";
+        }
+        if (!event.getText().trim().equals("")) {
+            eventFilter = "and Event like concat('%','"+
+                    event.getText().trim() +"','%') #filter visitor1’s visit event\n";
+        }
 
-    private void sqlNotAllSite() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // create a connection to the database
@@ -107,28 +121,22 @@ public class VisitorVisitHistory implements Initializable {
                     .password);
 
             try {
-                //query
-
-                // sql statements
-
-                //if no row return, go to catch
                 String sql = ("select * from\n" +
-                        "(select visit_event_date as Date, event.event_name " +
-                        "as Event, event.site_name as Site, event.start_date, event.event_price " +
-                        "as 'Price'\n" +
+                        "(select visit_event_date as Date, " +
+                        "event.event_name as Event, event.site_name " +
+                        "as Site, event.start_date, event.event_price as 'Price'\n" +
                         "from visit_event join event \n" +
                         "on event.event_name=visit_event.event_name " +
                         "and event.site_name=visit_event.site_name " +
                         "and event.start_date=visit_event.start_date\n" +
-                        "where visitor_username='visitor1'\n" +
+                        "where visitor_username='"+Session.user.getUsername()+"'\n" +
                         "union\n" +
-                        "select visit_site_date as Date, " +
-                        "NULL as Event, site_name as Site, " +
-                        "NULL as start_date, 0 as 'Price' from visit_site " +
-                        "where visitor_username='visitor1') t\n" +
-                        "where Site=? #filter visitor1’s visit site\n" +
-                        "and Event like concat('%',?,'%') #filter visitor1’s visit event\n" +
-                        "and Date between ? and ? #filter the date\n" +
+                        "select visit_site_date as Date, NULL as Event, site_name " +
+                        "as Site, NULL as start_date, 0 as 'Price' from visit_site " +
+                        "where visitor_username='"+Session.user.getUsername()+"') t\n" +
+                        dateFilter +
+                        siteFilter +
+                        eventFilter +
                         "order by Date;\n" +
                         "#sort by each column\n" +
                         "-- order by Date desc\n" +
@@ -139,89 +147,6 @@ public class VisitorVisitHistory implements Initializable {
                         "-- order by Price\n" +
                         "-- order by Price desc\n");
                 PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, site.getValue().toString().trim());
-                pst.setString(2, event.getText());
-                pst.setString(3, startDate.getText());
-                pst.setString(4, endDate.getText());
-                ResultSet rs = pst.executeQuery();
-
-                while (rs.next()) {
-                    visitorVisitHistoryData.add(new VisitorVisitHistoryData(
-                            new SimpleStringProperty(rs.getString("Date")),
-                            new SimpleStringProperty(rs.getString("Event")),
-                            new SimpleStringProperty(rs.getString("Site")),
-                            Integer.valueOf(rs.getInt("Price"))));
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            } finally {
-                if (conn != null) {
-                    conn.close();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        dateCol.setCellValueFactory(new PropertyValueFactory<>(
-                "date"));
-        eventCol.setCellValueFactory(new PropertyValueFactory<>(
-                "event"));
-        siteCol.setCellValueFactory(new PropertyValueFactory<>(
-                "site"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>(
-                "price"));
-
-        visitHistoryTable.setItems(visitorVisitHistoryData);
-
-    }
-
-    private void sqlAllSite() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            // create a connection to the database
-            Connection conn = DriverManager.getConnection(DB.url, DB.user, DB
-                    .password);
-
-            try {
-                //query
-
-                // sql statements
-
-                //if no row return, go to catch
-                String sql = ("select * from\n" +
-                        "(select visit_event_date as Date, event.event_name " +
-                        "as Event, event.site_name as Site, event.start_date, event.event_price " +
-                        "as 'Price'\n" +
-                        "from visit_event join event \n" +
-                        "on event.event_name=visit_event.event_name " +
-                        "and event.site_name=visit_event.site_name " +
-                        "and event.start_date=visit_event.start_date\n" +
-                        "where visitor_username='visitor1'\n" +
-                        "union\n" +
-                        "select visit_site_date as Date, " +
-                        "NULL as Event, site_name as Site, " +
-                        "NULL as start_date, 0 as 'Price' from visit_site " +
-                        "where visitor_username='visitor1') t\n" +
-//                        "where Site=? #filter visitor1’s visit site\n" +
-                        "where Event like concat('%',?,'%') #filter visitor1’s visit event\n" +
-                        "and Date between ? and ? #filter the date\n" +
-                        "order by Date;\n" +
-                        "#sort by each column\n" +
-                        "-- order by Date desc\n" +
-                        "-- order by Event\n" +
-                        "-- order by Event desc\n" +
-                        "-- order by Site\n" +
-                        "-- order by Site desc\n" +
-                        "-- order by Price\n" +
-                        "-- order by Price desc\n");
-                PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, event.getText());
-                pst.setString(2, startDate.getText());
-                pst.setString(3, endDate.getText());
                 ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
