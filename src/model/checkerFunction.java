@@ -38,28 +38,38 @@ public class checkerFunction {
         }
         return false;
     }
-    public static boolean verifyDateFormat(String dateToValidate){
-
-        if(dateToValidate == null){
-            return false;
+    public static boolean verifyDateFormat(String strDate)
+    {
+        /* Check if date is 'null' */
+        if (strDate.trim().equals(""))
+        {
+            return true;
         }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setLenient(false);
-
-        try {
-
-            //if not valid, it will throw ParseException
-            Date date = sdf.parse(dateToValidate);
-            System.out.println(date);
-
-        } catch (ParseException e) {
-
-            //e.printStackTrace();
-            return false;
+        /* Date is not 'null' */
+        else
+        {
+            /*
+             * Set preferred date format,
+             * For example MM-dd-yyyy, MM.dd.yyyy,dd.MM.yyyy etc.*/
+            SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd");
+            sdfrmt.setLenient(false);
+            /* Create Date object
+             * parse the string into date
+             */
+            try
+            {
+                Date javaDate = sdfrmt.parse(strDate);
+                System.out.println(strDate+" is valid date format");
+            }
+            /* Date format is invalid */
+            catch (ParseException e)
+            {
+                System.out.println(strDate+" is Invalid Date format");
+                return false;
+            }
+            /* Return true if date format is valid */
+            return true;
         }
-
-        return true;
     }
 
     public static boolean verifyNumeric(String price) {
