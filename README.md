@@ -97,4 +97,6 @@ To setting environment in IntelliJ: [Setting](https://stackoverflow.com/question
 
 Authors
 -------
- Team Eleven (Daewoong Ko, Woongrae Cho, Hee Jun Park, Jaemo Koo, Heeseon Kim)
+ Team Eleven :
+ Daewoong Ko (Frontend developer), Woongrae Cho (Frontend developer), Jaemo Koo (Frontend developer)
+ Hee Jun Park (SQL developer), Heeseon Kim (SQL developer)
