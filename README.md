@@ -95,6 +95,11 @@ Additional information
 ----------------------
 To setting environment in IntelliJ: [Setting](https://stackoverflow.com/questions/52682195/how-to-get-javafx-and-java-11-working-in-intellij-idea)
 
+To setting VM-option in Intellij(Windows only):
+```
+--module-path "C:\Users\heesu\Desktop\atlanta-beltline\openjfx-11.0.2_windows-x64_bin-sdk\javafx-sdk-11.0.2\lib" --add-modules=javafx.controls,javafx.fxml
+```
+
 Authors
 -------
  Team Eleven :
