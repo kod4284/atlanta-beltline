@@ -857,6 +857,7 @@ public class AdminManageSite implements Initializable {
             alert.showAndWait();
             return;
         }
+        // add time
         AdminManageSiteData item = (AdminManageSiteData) tableView.getItems()
                 .get(colIndex);
         AdminEditSite.siteName = item.getName();
